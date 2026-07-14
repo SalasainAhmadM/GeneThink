@@ -20,6 +20,13 @@ export interface Question {
     dragAnswers?: string[];      // drag only — expected cell values
 }
 
+// ── Answer key record — filled in as the user answers, revealed on Results ──
+export interface AnswerRecord {
+    question: Question;
+    userAnswer: string | string[] | null;
+    correct: boolean;
+}
+
 export interface Level {
     id: number;
     title: string;

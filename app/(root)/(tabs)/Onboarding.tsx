@@ -20,7 +20,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const SLIDES = [
     {
         key: "welcome",
-        title: "Welcome to GeneQuest!",
+        title: "Welcome to GeneThink!",
         body: "The ultimate Grade 8 Genetics adventure. Learn Mendel's Laws, Punnett Squares, and become a genetics expert!",
     },
     {

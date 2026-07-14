@@ -143,7 +143,7 @@ export default function LoadingScreen() {
         <Animated.View className="items-center mt-5"
           style={{ opacity: logoFade, transform: [{ translateY: logoSlide }] }}
         >
-          <Text className="font-fredoka-bold text-white text-6xl tracking-wide">GeneQuest</Text>
+          <Text className="font-fredoka-bold text-white text-6xl tracking-wide">GeneThink</Text>
           <Text className="font-nunito-semibold text-white/60 text-sm">by Charelle</Text>
 
           <View className="mt-3 bg-glass-white rounded-pill px-5 py-1.5 border border-white/20">

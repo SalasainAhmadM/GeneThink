@@ -2,7 +2,7 @@
  * components/Lessons/DragQuestion.tsx
  * Real drag-and-drop Punnett Square.
  * Chips use PanResponder — drag onto any cell to auto-fill.
- * Wrong check → red cells, no retry, correct answers shown.
+ * Correctness is not revealed here — the answer key shows after the level ends.
  */
 
 import { Question } from '@/constants/lessons';
@@ -139,10 +139,9 @@ interface Props {
     quizNumberLabel: string;
     showHint: boolean;
     question: Question;
-    onAnswered: (correct: boolean) => void;
+    onAnswered: (correct: boolean, userAnswer?: string[]) => void;
     accentColor: string;
     isLast: boolean;
-    onNext: () => void;
 }
 
 export default function DragQuestion({
@@ -152,15 +151,13 @@ export default function DragQuestion({
     onAnswered,
     accentColor,
     isLast,
-    onNext,
 }: Props) {
     const pA = question.parentA ?? [];
     const pB = question.parentB ?? [];
     const expected = question.dragAnswers ?? [];
 
     const [cells, setCells] = useState(['', '', '', '']);
-    const [checked, setChecked] = useState(false);
-    const [correct, setCorrect] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
 
     const cellRefs = useRef<Array<View | null>>([]);
@@ -180,7 +177,7 @@ export default function DragQuestion({
 
     // Called when a chip is released anywhere on screen
     const handleDrop = (moveX: number, moveY: number, draggedValue: string) => {
-        if (checked) return;
+        if (submitting) return;
 
         cellRefs.current.forEach((ref, idx) => {
             ref?.measureInWindow((cx, cy, cw, ch) => {
@@ -203,17 +200,14 @@ export default function DragQuestion({
     const allFilled = cells.every((c) => c !== '');
 
     const check = () => {
-        if (!allFilled) return;
+        if (!allFilled || submitting) return;
+        setSubmitting(true);
         const ok = expected.every((ans, i) => cells[i] === ans);
-        setChecked(true);
-        setCorrect(ok);
-        onAnswered(ok);
+        onAnswered(ok, cells);
     };
 
     const reset = () => {
         setCells(['', '', '', '']);
-        setChecked(false);
-        setCorrect(false);
     };
 
     const diffLabel =
@@ -222,12 +216,6 @@ export default function DragQuestion({
             : question.difficulty === 'medium'
                 ? 'Explorer 🔥'
                 : 'Scientist 🔬';
-
-    const correctPairs = [0, 1, 2, 3].map((idx) => {
-        const row = Math.floor(idx / 2);
-        const col = idx % 2;
-        return `${pB[row]}×${pA[col]} = ${expected[idx]}`;
-    });
 
     return (
         <View className="gap-4 pb-8">
@@ -290,7 +278,7 @@ export default function DragQuestion({
                             key={i}
                             allele={a}
                             onDrop={handleDrop}
-                            disabled={checked}
+                            disabled={submitting}
                             onActiveChange={setIsDragging}
                         />
                     ))}
@@ -337,23 +325,10 @@ export default function DragQuestion({
                         {[0, 1].map((col) => {
                             const idx = row * 2 + col;
                             const val = cells[idx];
-                            const isRight = val === expected[idx];
 
-                            let bg = '#F8F9FA';
-                            let border = '#E0E0E0';
-                            let textCol = '#333';
-                            let dashed = true;
-
-                            if (val && !checked) {
-                                bg = accentColor + '18';
-                                border = accentColor;
-                                dashed = false;
-                            } else if (checked && val) {
-                                bg = isRight ? '#E8F5E9' : '#FFEBEE';
-                                border = isRight ? '#4CAF50' : '#F44336';
-                                textCol = isRight ? '#2E7D32' : '#C62828';
-                                dashed = false;
-                            }
+                            const bg = val ? accentColor + '18' : '#F8F9FA';
+                            const border = val ? accentColor : '#E0E0E0';
+                            const dashed = !val;
 
                             return (
                                 <TouchableOpacity
@@ -367,7 +342,7 @@ export default function DragQuestion({
                                         borderStyle: dashed ? 'dashed' : 'solid',
                                     }}
                                     onPress={() => {
-                                        if (checked || !val) return;
+                                        if (submitting || !val) return;
                                         setCells((prev) => {
                                             const next = [...prev];
                                             next[idx] = '';
@@ -379,7 +354,7 @@ export default function DragQuestion({
                                     {val ? (
                                         <Text
                                             className="font-fredoka-bold text-lg"
-                                            style={{ color: textCol }}
+                                            style={{ color: '#333' }}
                                         >
                                             {val}
                                         </Text>
@@ -399,92 +374,26 @@ export default function DragQuestion({
                 </Text>
             </View>
 
-            {/* Reset + Check */}
-            {!checked && (
-                <View className="flex-row gap-3">
-                    <Button
-                        label="Reset"
-                        btnType="ghost"
-                        size="md"
-                        className="flex-1"
-                        onPress={reset}
-                    />
-                    <Button
-                        label="Check ✓"
-                        btnType="primary"
-                        size="md"
-                        fredokaBold
-                        disabled={!allFilled}
-                        onPress={check}
-                        className="flex-[2]"
-                    />
-                </View>
-            )}
-
-            {/* Feedback panel */}
-            {checked && (
-                <View className="gap-3">
-                    <View
-                        className="rounded-2xl p-4 gap-2 border-2"
-                        style={{
-                            backgroundColor: correct ? '#E8F5E9' : '#FFF8E1',
-                            borderColor: correct ? '#4CAF50' : '#FFB300',
-                        }}
-                    >
-                        <Text
-                            className="font-fredoka-bold text-lg"
-                            style={{ color: correct ? '#2E7D32' : '#E65100' }}
-                        >
-                            {correct ? '🎉 Perfect Punnett Square!' : '💡 Not quite!'}
-                        </Text>
-
-                        <Text className="font-nunito text-ink-400 text-sm leading-5">
-                            {question.explanation ?? (correct
-                                ? 'Great work! You correctly predicted the offspring genotypes.'
-                                : 'The correct combinations were:'
-                            )}
-                        </Text>
-
-                        {!correct && (
-                            <View className="mt-1 gap-1">
-                                <View className="flex-row flex-wrap gap-x-4 gap-y-1">
-                                    {correctPairs.map((pair, i) => (
-                                        <Text
-                                            key={i}
-                                            className="font-nunito-bold text-xs"
-                                            style={{ color: '#1565C0' }}
-                                        >
-                                            {pair}
-                                        </Text>
-                                    ))}
-                                </View>
-                            </View>
-                        )}
-                    </View>
-
-                    {correct && (
-                        <Button
-                            label={isLast ? 'Finish Level ✓' : 'Next Question'}
-                            btnType="secondary"
-                            size="lg"
-                            width="full"
-                            fredokaBold
-                            onPress={onNext}
-                        />
-                    )}
-
-                    {!correct && (
-                        <Button
-                            label="Next Question"
-                            btnType="danger"
-                            size="lg"
-                            width="full"
-                            fredokaBold
-                            onPress={onNext}
-                        />
-                    )}
-                </View>
-            )}
+            {/* Reset + Submit — advances without revealing correctness */}
+            <View className="flex-row gap-3">
+                <Button
+                    label="Reset"
+                    btnType="ghost"
+                    size="md"
+                    className="flex-1"
+                    disabled={submitting}
+                    onPress={reset}
+                />
+                <Button
+                    label={isLast ? 'Finish Level ✓' : 'Submit Answer'}
+                    btnType="primary"
+                    size="md"
+                    fredokaBold
+                    disabled={!allFilled || submitting}
+                    onPress={check}
+                    className="flex-[2]"
+                />
+            </View>
         </View>
     );
 }

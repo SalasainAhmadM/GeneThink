@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "MendelianGeneQuest",
-    "slug": "mendelian-gene-quest",
+    "name": "GeneThink",
+    "slug": "genethink",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.jpg",
@@ -18,7 +18,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "softwareKeyboardLayoutMode": "pan"
+      "softwareKeyboardLayoutMode": "pan",
+      "package": "com.salasainahmadmsteam.genethink"
     },
     "web": {
       "output": "static",
@@ -58,6 +59,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "8f678674-d13e-4933-b657-c9d3c735a6e4"
+      }
+    },
+    "owner": "salasainahmadms-team"
   }
 }

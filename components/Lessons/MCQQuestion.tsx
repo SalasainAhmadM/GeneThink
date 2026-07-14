@@ -1,44 +1,31 @@
 import { Question } from '@/constants/lessons';
 import { cn } from '@/lib/utils';
-import React, { useRef, useState } from 'react';
-import { Animated, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Text, View } from 'react-native';
 import Button from '../ui/Button';
 
-export default function MCQQuestion({ quizNumberLabel, showHint, question, onAnswered, accentColor, isLast, onNext }: { quizNumberLabel: string; showHint: boolean; question: Question; onAnswered: (correct: boolean) => void; accentColor: string; isLast: boolean; onNext: () => void; }) {
+export default function MCQQuestion({ quizNumberLabel, showHint, question, onAnswered, accentColor, isLast }: { quizNumberLabel: string; showHint: boolean; question: Question; onAnswered: (correct: boolean, userAnswer?: string) => void; accentColor: string; isLast: boolean; }) {
     const [selected, setSelected] = useState<string | null>(null);
-    const shakeAnim = useRef(new Animated.Value(0)).current;
+    const [submitting, setSubmitting] = useState(false);
     const LABELS = ["A", "B", "C", "D"];
 
-    const shake = () => {
-        Animated.sequence([
-            Animated.timing(shakeAnim, { toValue: 8, duration: 60, useNativeDriver: true }),
-            Animated.timing(shakeAnim, { toValue: -8, duration: 60, useNativeDriver: true }),
-            Animated.timing(shakeAnim, { toValue: 6, duration: 60, useNativeDriver: true }),
-            Animated.timing(shakeAnim, { toValue: 0, duration: 60, useNativeDriver: true })
-        ]).start();
+    const pick = (id: string) => {
+        if (submitting) return;
+        setSelected(id);
     };
 
-    const isAnswered = selected !== null;
-    const isCorrect = selected === question.answer;
-
-    const pick = (id: string) => {
-        if (isAnswered) return;
-        setSelected(id);
-        const correct = id === question.answer;
-        if (!correct) shake();
-        onAnswered(correct);
+    const submit = () => {
+        if (!selected || submitting) return;
+        setSubmitting(true);
+        onAnswered(selected === question.answer, selected);
     };
 
     const diffLabel = question.difficulty === 'easy' ? 'Beginner 🌱' :
         question.difficulty === 'medium' ? 'Explorer 🔥' :
             'Scientist 🔬';
 
-
-    console.log('question: ', question);
-
-
     return (
-        <Animated.View className='flex-1 gap-4' style={{ transform: [{ translateX: shakeAnim }], flex: 1, gap: '16px' }} >
+        <View className='flex-1 gap-4' >
             {/* Difficulty + type row */}
             <View className='flex-row gap-2 items-center'>
                 <View className='rounded-pill px-3 py-2' style={{ backgroundColor: accentColor + "33" }}>
@@ -68,34 +55,20 @@ export default function MCQQuestion({ quizNumberLabel, showHint, question, onAns
             <View className='gap-3'>
                 {question.choices?.map((choice, i) => {
                     const isSelected = selected === choice.id;
-                    const isCorrect = choice.id === question.answer;
 
-                    let bg = "bg-white";
-                    let border = "border border-[#e8e8e8]";
-                    let badgeBg = "bg-[#f0f0f0]";
-                    let badgeText = "text-ink-200";
-                    let textColor = 'text-ink-600';
-
-                    if (selected) {
-                        if (isCorrect) {
-                            bg = "bg-[#e8f5e9]"; border = "border-2 border-primary-300";
-                            badgeBg = "bg-primary-300"; badgeText = "text-white"; textColor = 'text-primary-500';
-                        } else if (isSelected) {
-                            bg = "bg-[#ffebee]"; border = "border-2 border-danger";
-                            badgeBg = "bg-danger"; badgeText = "text-white"; textColor = 'text-danger';
-                        }
-                    }
-
-                    // const badgeLabel = selected && ((isSelected && isCorrect) || question.answer === choice.id) ? "✓" : isSelected && selected && !isCorrect ? "✗" : LABELS[i];
-                    const badgeLabel = selected && isSelected && isCorrect ? "✓" : isSelected && selected && !isCorrect ? "✗" : LABELS[i];
+                    const bg = isSelected ? "bg-[#e3f2fd]" : "bg-white";
+                    const border = isSelected ? "border-2 border-science-300" : "border border-[#e8e8e8]";
+                    const badgeBg = isSelected ? "bg-science-300" : "bg-[#f0f0f0]";
+                    const badgeText = isSelected ? "text-white" : "text-ink-200";
+                    const textColor = isSelected ? 'text-science-500' : 'text-ink-600';
 
                     return (
                         <Button key={choice.id} btnType='container' onPress={() => pick(choice.id)}
-                            disabled={isAnswered} className='rounded-xl'
+                            disabled={submitting} className='rounded-xl'
                         >
                             <View className={cn("flex-row items-center gap-3 rounded-xl px-4 py-3.5", bg, border)}>
                                 <View className={cn('size-8 rounded-full items-center justify-center', badgeBg)}>
-                                    <Text className={cn('font-fredoka-bold text-sm', badgeText)} >{badgeLabel}</Text>
+                                    <Text className={cn('font-fredoka-bold text-sm', badgeText)} >{LABELS[i]}</Text>
                                 </View>
 
                                 <Text className={cn('font-nunito-bold text-base flex-1', textColor)}>{choice.text}</Text>
@@ -105,22 +78,12 @@ export default function MCQQuestion({ quizNumberLabel, showHint, question, onAns
                 })}
             </View>
 
-            {/* ── Feedback panel — shown after answering ────────────── */}
-            {isAnswered && (
-                <View className='gap-3 mt-auto'>
-                    <View className={cn('rounded-2xl p-4 gap-3 border-2', isCorrect ? 'bg-[#e8f5e9]' : 'bg-[#fff8e1]')} style={{ borderColor: isCorrect ? '#4CAF50' : '#FFB300' }} >
-                        {/* Title */}
-                        <Text className='font-fredoka-bold text-lg' style={{ color: isCorrect ? '#2e7d32' : '#e65100' }} >{isCorrect ? '🎉 Excellent!' : '💡 Learn from this!'}</Text>
-
-                        {/* Explanation */}
-                        <Text className='font-nunito text-ink-400 text-sm leading-5'>
-                            {question.explanation ?? (isCorrect ? 'Great work!' : 'Review the highlighted correct answer above.')}</Text>
-                    </View>
-
-                    {/* Next / Try Again button */}
-                    <Button onPress={onNext} label={isCorrect ? isLast ? 'Finish Level ✓' : 'Next Question' : 'Got it'} btnType={isCorrect ? 'secondary' : 'danger'} size='lg' width='full' fredokaBold />
+            {/* ── Submit — advances without revealing correctness ──── */}
+            {selected && (
+                <View className='mt-auto'>
+                    <Button onPress={submit} label={isLast ? 'Finish Level ✓' : 'Submit Answer'} btnType='secondary' size='lg' width='full' fredokaBold disabled={submitting} />
                 </View>
             )}
-        </Animated.View>
+        </View>
     );
 }

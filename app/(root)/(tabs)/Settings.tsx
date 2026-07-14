@@ -164,7 +164,7 @@ export default function SettingsScreen() {
                     />
                 </View>
                 {/* Footer */}
-                <Text className='font-nunito-semibold text-ink-100 text-xs text-center mt-2 mb-8'>GeneQuest v1.0 · by Cherelle · G8 Biology</Text>
+                <Text className='font-nunito-semibold text-ink-100 text-xs text-center mt-2 mb-8'>GeneThink v1.0 · by Cherelle · G8 Biology</Text>
             </ScrollView>
         </View>
     );

@@ -4,7 +4,7 @@ import MCQQuestion from '@/components/Lessons/MCQQuestion';
 import ResultsScreen from '@/components/Lessons/ResultsScreen';
 import TimerRing from '@/components/Lessons/TimerRing';
 import Button from '@/components/ui/Button';
-import { HEARTS_PER_LEVEL, LESSONS, Question, sampleLevelQuestions } from '@/constants/lessons';
+import { AnswerRecord, HEARTS_PER_LEVEL, LESSONS, Question, sampleLevelQuestions } from '@/constants/lessons';
 import { Progress, StarsMap } from '@/constants/prorgess';
 import { STORAGE_KEYS } from '@/constants/settings';
 import { cn } from '@/lib/utils';
@@ -61,6 +61,7 @@ export default function LevelScreen() {
     const [phase, setPhase] = useState<"quiz" | "results">("quiz");
     const [passed, setPassed] = useState(false);
     const [correctCount, setCorrectCount] = useState(0);
+    const [answerLog, setAnswerLog] = useState<AnswerRecord[]>([]);
 
     // Timer paused when user has answered (waiting for Next press)
     const [timerPaused, setTimerPaused] = useState(false);
@@ -79,6 +80,7 @@ export default function LevelScreen() {
         setPhase("quiz");
         setTimerPaused(false);
         setCorrectCount(0);
+        setAnswerLog([]);
     };
 
     useEffect(() => { initLevel(); }, [id, levelId]);
@@ -113,17 +115,6 @@ export default function LevelScreen() {
         }
     }, [timeLeft]);
 
-    // Out of hearts mid-question (handleAnswered already decremented)
-    useEffect(() => {
-        if (hearts <= 0 && phase === 'quiz') {
-            // Let the feedback panel show briefly then go to results
-            setTimeout(() => {
-                setPassed(false);
-                setPhase('results');
-            }, 1000);
-        }
-    }, [hearts]);
-
     // #region Functions
     const clearTimer = () => {
         if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
@@ -131,21 +122,26 @@ export default function LevelScreen() {
 
     const goHome = () => router.replace('/Home' as any);
 
-    const handleAnswered = async (correct: boolean, fromTimer = false) => {
+    // Records the answer and immediately advances (or finishes the level) —
+    // uses freshly-computed counts rather than stale state, since both happen
+    // in one synchronous step now that correctness isn't revealed per-question.
+    const submitAnswer = (correct: boolean, userAnswer?: string | string[]) => {
         setShowHint(false);
-        setTimerPaused(true);
-        if (correct) setCorrectCount(correctCount + 1); else setHearts(hearts - 1);
-    };
+        setAnswerLog((prev) => [...prev, { question: currentQuestion, userAnswer: userAnswer ?? null, correct }]);
 
-    const handleNext = () => {
+        const newCorrectCount = correct ? correctCount + 1 : correctCount;
+        const newHearts = correct ? hearts : hearts - 1;
+        setCorrectCount(newCorrectCount);
+        setHearts(newHearts);
+
         const nextIndex = qIndex + 1;
 
-        if (nextIndex >= questions.length) {
-            const didPass = (correctCount / questions.length) >= 0.6;
+        if (nextIndex >= questions.length || newHearts <= 0) {
+            const didPass = newHearts > 0 && (newCorrectCount / questions.length) >= 0.6;
 
             // Calculate stars here so we can save them
-            const heartsUsed = HEARTS_PER_LEVEL - hearts;
-            const accuracy = correctCount / questions.length;
+            const heartsUsed = HEARTS_PER_LEVEL - newHearts;
+            const accuracy = newCorrectCount / questions.length;
             const levelMaxTime = levelIndex === 0 ? 80 : levelIndex === 1 ? 60 : 40;
             const timeRatio = timeUsed / levelMaxTime;
             const starCount = !didPass ? 0
@@ -207,8 +203,8 @@ export default function LevelScreen() {
 
     // Results screen
     if (phase === "results") return (
-        <ResultsScreen passed={passed} lesson={lesson} correctCount={correctCount} totalCount={questions.length} timeUsed={timeUsed} levelIndex={levelIndex} totalLevels={lesson.levels.length} heartsLeft={hearts}
-            //  onRetry={initLevel} onNext={goNext} 
+        <ResultsScreen passed={passed} lesson={lesson} correctCount={correctCount} totalCount={questions.length} timeUsed={timeUsed} levelIndex={levelIndex} totalLevels={lesson.levels.length} heartsLeft={hearts} answerLog={answerLog}
+            //  onRetry={initLevel} onNext={goNext}
             onResultAction={onResultAction} />
     );
 
@@ -243,16 +239,15 @@ export default function LevelScreen() {
             {/* <SafeAreaView className='flex-1'> */}
             <ScrollView contentContainerClassName='flex-1 p-4 pb-8' showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" >
                 {currentQuestion.type === 'mcq' ? (
-                    <MCQQuestion key={currentQuestion.id} showHint={showHint} question={currentQuestion} onAnswered={handleAnswered} accentColor={lesson.accentColor} isLast={isLastQuestion} onNext={handleNext} quizNumberLabel={`${qIndex + 1} / ${questions.length}`} />
+                    <MCQQuestion key={currentQuestion.id} showHint={showHint} question={currentQuestion} onAnswered={submitAnswer} accentColor={lesson.accentColor} isLast={isLastQuestion} quizNumberLabel={`${qIndex + 1} / ${questions.length}`} />
                 ) : (
                     <DragQuestion
                         key={currentQuestion.id}
                         showHint={showHint}
                         question={currentQuestion}
-                        onAnswered={handleAnswered}
+                        onAnswered={submitAnswer}
                         accentColor={lesson.accentColor}
                         isLast={isLastQuestion}
-                        onNext={handleNext}
                         quizNumberLabel={`${qIndex + 1} / ${questions.length}`}
                     />
                 )}
