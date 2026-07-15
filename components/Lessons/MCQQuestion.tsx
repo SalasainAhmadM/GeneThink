@@ -3,10 +3,14 @@ import { cn } from '@/lib/utils';
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import Button from '../ui/Button';
+import AnswerFeedback from './AnswerFeedback';
+
+const FEEDBACK_DELAY = 1000;
 
 export default function MCQQuestion({ quizNumberLabel, showHint, question, onAnswered, accentColor, isLast }: { quizNumberLabel: string; showHint: boolean; question: Question; onAnswered: (correct: boolean, userAnswer?: string) => void; accentColor: string; isLast: boolean; }) {
     const [selected, setSelected] = useState<string | null>(null);
     const [submitting, setSubmitting] = useState(false);
+    const [feedback, setFeedback] = useState<boolean | null>(null);
     const LABELS = ["A", "B", "C", "D"];
 
     const pick = (id: string) => {
@@ -17,7 +21,9 @@ export default function MCQQuestion({ quizNumberLabel, showHint, question, onAns
     const submit = () => {
         if (!selected || submitting) return;
         setSubmitting(true);
-        onAnswered(selected === question.answer, selected);
+        const correct = selected === question.answer;
+        setFeedback(correct);
+        setTimeout(() => onAnswered(correct, selected), FEEDBACK_DELAY);
     };
 
     const diffLabel = question.difficulty === 'easy' ? 'Beginner 🌱' :
@@ -56,9 +62,9 @@ export default function MCQQuestion({ quizNumberLabel, showHint, question, onAns
                 {question.choices?.map((choice, i) => {
                     const isSelected = selected === choice.id;
 
-                    const bg = isSelected ? "bg-[#e3f2fd]" : "bg-white";
-                    const border = isSelected ? "border-2 border-science-300" : "border border-[#e8e8e8]";
-                    const badgeBg = isSelected ? "bg-science-300" : "bg-[#f0f0f0]";
+                    const bg = feedback !== null && isSelected ? (feedback ? "bg-[#e8f5e9]" : "bg-[#ffebee]") : isSelected ? "bg-[#e3f2fd]" : "bg-white";
+                    const border = feedback !== null && isSelected ? (feedback ? "border-2 border-primary-300" : "border-2 border-danger2") : isSelected ? "border-2 border-science-300" : "border border-[#e8e8e8]";
+                    const badgeBg = feedback !== null && isSelected ? (feedback ? "bg-primary-300" : "bg-danger") : isSelected ? "bg-science-300" : "bg-[#f0f0f0]";
                     const badgeText = isSelected ? "text-white" : "text-ink-200";
                     const textColor = isSelected ? 'text-science-500' : 'text-ink-600';
 
@@ -78,8 +84,11 @@ export default function MCQQuestion({ quizNumberLabel, showHint, question, onAns
                 })}
             </View>
 
-            {/* ── Submit — advances without revealing correctness ──── */}
-            {selected && (
+            {/* ── Feedback — shown briefly after submitting, before advancing ── */}
+            {feedback !== null && <AnswerFeedback correct={feedback} />}
+
+            {/* ── Submit ─────────────────────────────────────────── */}
+            {selected && feedback === null && (
                 <View className='mt-auto'>
                     <Button onPress={submit} label={isLast ? 'Finish Level ✓' : 'Submit Answer'} btnType='secondary' size='lg' width='full' fredokaBold disabled={submitting} />
                 </View>

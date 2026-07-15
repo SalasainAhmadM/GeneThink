@@ -2,7 +2,7 @@
  * components/Lessons/DragQuestion.tsx
  * Real drag-and-drop Punnett Square.
  * Chips use PanResponder — drag onto any cell to auto-fill.
- * Correctness is not revealed here — the answer key shows after the level ends.
+ * Shows a brief correct/incorrect notification before advancing.
  */
 
 import { Question } from '@/constants/lessons';
@@ -15,6 +15,9 @@ import {
     View,
 } from 'react-native';
 import Button from '../ui/Button';
+import AnswerFeedback from './AnswerFeedback';
+
+const FEEDBACK_DELAY = 1000;
 
 // ── Allele combinator ─────────────────────────────────────────
 const COMBOS: Record<string, string> = {
@@ -159,6 +162,7 @@ export default function DragQuestion({
     const [cells, setCells] = useState(['', '', '', '']);
     const [submitting, setSubmitting] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
+    const [feedback, setFeedback] = useState<boolean | null>(null);
 
     const cellRefs = useRef<Array<View | null>>([]);
 
@@ -203,7 +207,8 @@ export default function DragQuestion({
         if (!allFilled || submitting) return;
         setSubmitting(true);
         const ok = expected.every((ans, i) => cells[i] === ans);
-        onAnswered(ok, cells);
+        setFeedback(ok);
+        setTimeout(() => onAnswered(ok, cells), FEEDBACK_DELAY);
     };
 
     const reset = () => {
@@ -325,9 +330,11 @@ export default function DragQuestion({
                         {[0, 1].map((col) => {
                             const idx = row * 2 + col;
                             const val = cells[idx];
+                            const cellCorrect = feedback !== null && val === expected[idx];
+                            const cellWrong = feedback !== null && val !== expected[idx];
 
-                            const bg = val ? accentColor + '18' : '#F8F9FA';
-                            const border = val ? accentColor : '#E0E0E0';
+                            const bg = cellCorrect ? '#e8f5e9' : cellWrong ? '#ffebee' : val ? accentColor + '18' : '#F8F9FA';
+                            const border = cellCorrect ? '#4CAF50' : cellWrong ? '#F44336' : val ? accentColor : '#E0E0E0';
                             const dashed = !val;
 
                             return (
@@ -374,26 +381,31 @@ export default function DragQuestion({
                 </Text>
             </View>
 
-            {/* Reset + Submit — advances without revealing correctness */}
-            <View className="flex-row gap-3">
-                <Button
-                    label="Reset"
-                    btnType="ghost"
-                    size="md"
-                    className="flex-1"
-                    disabled={submitting}
-                    onPress={reset}
-                />
-                <Button
-                    label={isLast ? 'Finish Level ✓' : 'Submit Answer'}
-                    btnType="primary"
-                    size="md"
-                    fredokaBold
-                    disabled={!allFilled || submitting}
-                    onPress={check}
-                    className="flex-[2]"
-                />
-            </View>
+            {/* ── Feedback — shown briefly after submitting, before advancing ── */}
+            {feedback !== null && <AnswerFeedback correct={feedback} />}
+
+            {/* Reset + Submit */}
+            {feedback === null && (
+                <View className="flex-row gap-3">
+                    <Button
+                        label="Reset"
+                        btnType="ghost"
+                        size="md"
+                        className="flex-1"
+                        disabled={submitting}
+                        onPress={reset}
+                    />
+                    <Button
+                        label={isLast ? 'Finish Level ✓' : 'Submit Answer'}
+                        btnType="primary"
+                        size="md"
+                        fredokaBold
+                        disabled={!allFilled || submitting}
+                        onPress={check}
+                        className="flex-[2]"
+                    />
+                </View>
+            )}
         </View>
     );
 }
