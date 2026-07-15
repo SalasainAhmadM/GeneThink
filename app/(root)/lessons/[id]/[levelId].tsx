@@ -6,7 +6,7 @@ import TimerRing from '@/components/Lessons/TimerRing';
 import Button from '@/components/ui/Button';
 import { AnswerRecord, HEARTS_PER_LEVEL, LESSONS, Question, sampleLevelQuestions } from '@/constants/lessons';
 import { Progress, StarsMap } from '@/constants/prorgess';
-import { STORAGE_KEYS } from '@/constants/settings';
+import { DEFAULT_SETTINGS, Settings, STORAGE_KEYS } from '@/constants/settings';
 import { cn } from '@/lib/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -51,6 +51,7 @@ export default function LevelScreen() {
     const levelIndex = lesson?.levels.findIndex(l => String(l.id) === levelId) ?? -1;
     const level = lesson?.levels[levelIndex];
 
+    const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
     const [showBackModal, setShowBackModal] = useState(false);
     const [showHint, setShowHint] = useState(false);
     const [hearts, setHearts] = useState<number>(HEARTS_PER_LEVEL);
@@ -85,6 +86,12 @@ export default function LevelScreen() {
 
     useEffect(() => { initLevel(); }, [id, levelId]);
 
+    useEffect(() => {
+        AsyncStorage.getItem(STORAGE_KEYS.settings).then((raw) => {
+            if (raw) setSettings({ ...DEFAULT_SETTINGS, ...JSON.parse(raw) });
+        });
+    }, []);
+
     const currentQuestion = questions[qIndex];
     // const currentQuestion = questions.find(q => q.type === 'drag');
     // console.log('questions: ', questions);
@@ -94,7 +101,7 @@ export default function LevelScreen() {
     // ── Timer ──────────────────────────────────────────────────────
     useEffect(() => {
         if (phase !== 'quiz') { clearTimer(); return; }
-        if (timerPaused || timeLeft <= 0) return;
+        if (timerPaused || (settings.timer && timeLeft <= 0)) return;
 
         timerRef.current = setInterval(() => {
             setTimeUsed((t) => t + 1);
@@ -102,11 +109,11 @@ export default function LevelScreen() {
         }, 1000);
 
         return clearTimer;
-    }, [phase, timerPaused, qIndex]);
+    }, [phase, timerPaused, qIndex, settings.timer]);
 
-    // ── Time up → fail the level ──────────────────────────────────
+    // ── Time up → fail the level (only when the timer is enabled) ──
     useEffect(() => {
-        if (timeLeft <= 0 && phase === 'quiz') {
+        if (settings.timer && timeLeft <= 0 && phase === 'quiz') {
             clearTimer();
             setPassed(false);
             setTimeout(() => {
@@ -229,7 +236,7 @@ export default function LevelScreen() {
                         <View className='flex-row items-center justify-between'>
                             <Hearts current={hearts} max={HEARTS_PER_LEVEL} />
 
-                            <TimerRing timeLeft={timeLeft} maxTime={MAX_TIME} />
+                            {settings.timer && <TimerRing timeLeft={timeLeft} maxTime={MAX_TIME} />}
                         </View>
                     </View>
                 </SafeAreaView>

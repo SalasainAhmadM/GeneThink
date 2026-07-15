@@ -15,7 +15,7 @@ const TOGGLES: {
     key: keyof Settings;
 }[] = [
         { icon: "🔊", title: "Sound Effects", subtitle: "Ding on correct answers", key: "sound" },
-        { icon: "⏱", title: "Show Timer", subtitle: "Display countdown during quiz", key: "timer" },
+        { icon: "⏱", title: "Show Timer", subtitle: "Countdown & time limit during quiz", key: "timer" },
         { icon: "💡", title: "Auto-show Hints", subtitle: "Hint button always visible", key: "hints" },
         { icon: "✨", title: "Animations", subtitle: "Enable UI animations", key: "animations" },
         { icon: "🔒", title: "Control access to app sections", subtitle: "Require a PIN to open Settings", key: "restrictAccess" },
