@@ -1,3 +1,6 @@
+// App is locked out after this date (device clock, since the app is fully offline)
+export const APP_EXPIRATION_DATE = '2026-12-31T23:59:59';
+
 export const STORAGE_KEYS = {
     playerName: "gq_player_name",
     progress: "gq_progress", // JSON: { [lesssonId] : boolean[] }
