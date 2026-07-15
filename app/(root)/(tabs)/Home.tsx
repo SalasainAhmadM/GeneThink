@@ -7,7 +7,7 @@ import LessonTab from '@/components/Home/LessonTab';
 import ProgressTab from '@/components/Home/ProgressTab';
 import Button from '@/components/ui/Button';
 import { getTotalDone, getTotalLevels, Progress } from '@/constants/prorgess';
-import { STORAGE_KEYS } from '@/constants/settings';
+import { DEFAULT_EXPLORED, STORAGE_KEYS } from '@/constants/settings';
 import { cn } from '@/lib/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -52,6 +52,17 @@ export default function HomeScreen() {
     }, []);
 
     useEffect(() => { loadData(); }, []);
+
+    // Record that this tab has been explored at least once
+    useEffect(() => {
+        (async () => {
+            const raw = await AsyncStorage.getItem(STORAGE_KEYS.explored);
+            const explored = raw ? { ...DEFAULT_EXPLORED, ...JSON.parse(raw) } : DEFAULT_EXPLORED;
+            if (!explored[activeTab]) {
+                await AsyncStorage.setItem(STORAGE_KEYS.explored, JSON.stringify({ ...explored, [activeTab]: true }));
+            }
+        })();
+    }, [activeTab]);
 
     const totalDone = getTotalDone(progress);
     const totalLevels = getTotalLevels();

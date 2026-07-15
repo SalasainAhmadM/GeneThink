@@ -6,7 +6,21 @@ export const STORAGE_KEYS = {
     progress: "gq_progress", // JSON: { [lesssonId] : boolean[] }
     settings: "gq_settings", // JSON:  Settings object
     stars: 'gq_stars',
-    pin: 'gq_pin' // 4-digit PIN, only present once access control has been set up
+    pin: 'gq_pin', // 4-digit PIN, only present once access control has been set up
+    explored: 'gq_explored' // JSON: ExploredSections
+};
+
+// ── Exploration tracking — which Home tabs has the student opened ──
+export interface ExploredSections {
+    lessons: boolean;
+    progress: boolean;
+    guide: boolean;
+}
+
+export const DEFAULT_EXPLORED: ExploredSections = {
+    lessons: false,
+    progress: false,
+    guide: false
 };
 
 // ── Settings ──

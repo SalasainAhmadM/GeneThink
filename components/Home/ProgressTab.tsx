@@ -1,12 +1,35 @@
 import { Lesson, LESSONS } from '@/constants/lessons';
 import { getLevelsDone, isLevelPassed, isLevelUnlocked, Progress, StarsMap } from '@/constants/prorgess';
-import { STORAGE_KEYS } from '@/constants/settings';
+import { DEFAULT_EXPLORED, ExploredSections, STORAGE_KEYS } from '@/constants/settings';
 import { cn } from '@/lib/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import ProgressBar from '../ProgressBar';
 import Chevron from '../icons/Chevron';
+
+const EXPLORED_SECTIONS: { key: keyof ExploredSections; label: string; icon: string; }[] = [
+    { key: 'lessons', label: 'Lessons', icon: '🏠' },
+    { key: 'progress', label: 'Progress', icon: '📊' },
+    { key: 'guide', label: 'Guide', icon: '📖' },
+];
+
+// ── Exploration checklist card ─────────────────────────────────
+const ExploredCard = ({ explored }: { explored: ExploredSections; }) => (
+    <View className='bg-bg-card rounded-2xl p-4 gap-2.5' style={{ shadowColor: "#000", shadowOpacity: 0.06, shadowRadius: 8, elevation: 3 }}>
+        <Text className='font-fredoka-bold text-ink-300 text-sm'>App Explored</Text>
+
+        <View className='flex-row gap-2'>
+            {EXPLORED_SECTIONS.map((s) => (
+                <View key={s.key} className={cn('flex-1 items-center rounded-xl py-2.5 gap-1 border', explored[s.key] ? 'bg-primary-50 border-primary-300' : 'bg-[#f5f5f5] border-[#e0e0e0]')}>
+                    <Text className='text-lg'>{s.icon}</Text>
+                    <Text className={cn('font-nunito-semibold text-xs', explored[s.key] ? 'text-primary-500' : 'text-ink-100')}>{s.label}</Text>
+                    <Text className='text-xs'>{explored[s.key] ? '✓' : '—'}</Text>
+                </View>
+            ))}
+        </View>
+    </View>
+);
 
 
 // ── Level pill (pass / locked / unlocked) ─────────────────────
@@ -86,6 +109,14 @@ const LessonCard = ({ lesson, progress, expanded, onToggle, art }: { lesson: Les
 
 export default function ProgressTab({ progress, art }: { progress: Progress; art: React.JSX.Element[]; }) {
     const [expanded, setExpanded] = useState<string | null>(null);
+    const [explored, setExplored] = useState<ExploredSections>(DEFAULT_EXPLORED);
+
+    useEffect(() => {
+        AsyncStorage.getItem(STORAGE_KEYS.explored).then((raw) => {
+            const loaded = raw ? { ...DEFAULT_EXPLORED, ...JSON.parse(raw) } : DEFAULT_EXPLORED;
+            setExplored({ ...loaded, progress: true }); // this tab is being viewed right now
+        });
+    }, []);
 
     const totalDone = LESSONS.reduce((s, l) => s + getLevelsDone(progress, l.id), 0);
     const totalLevels = LESSONS.reduce((s, l) => s + l.levels.length, 0);
@@ -98,6 +129,9 @@ export default function ProgressTab({ progress, art }: { progress: Progress; art
             </View>
 
             <View className='gap-3'>
+                {/* Exploration checklist */}
+                <ExploredCard explored={explored} />
+
                 {/* Per-lesson cards */}
                 {LESSONS.map((lesson, i) => (
                     <LessonCard key={lesson.id} lesson={lesson} progress={progress} expanded={expanded === lesson.id} onToggle={() => setExpanded((prev) => (prev === lesson.id ? null : lesson.id))} art={art[i]} />

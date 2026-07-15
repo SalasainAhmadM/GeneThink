@@ -171,7 +171,7 @@ export default function SettingsScreen() {
     };
 
     const handleReset = async () => {
-        await AsyncStorage.multiRemove([STORAGE_KEYS.playerName, STORAGE_KEYS.progress, STORAGE_KEYS.settings, STORAGE_KEYS.pin]);
+        await AsyncStorage.multiRemove([STORAGE_KEYS.playerName, STORAGE_KEYS.progress, STORAGE_KEYS.settings, STORAGE_KEYS.pin, STORAGE_KEYS.explored]);
         setConfirmReset(false);
         router.push('/');
     };
