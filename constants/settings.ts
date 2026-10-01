@@ -7,7 +7,8 @@ export const STORAGE_KEYS = {
     settings: "gq_settings", // JSON:  Settings object
     stars: 'gq_stars',
     pin: 'gq_pin', // 4-digit PIN, only present once access control has been set up
-    explored: 'gq_explored' // JSON: ExploredSections
+    explored: 'gq_explored', // JSON: ExploredSections
+    storiesRead: 'gq_storiesread' // JSON: StoriesRead — { [lessonId]: boolean[] }
 };
 
 // ── Exploration tracking — which Home tabs has the student opened ──

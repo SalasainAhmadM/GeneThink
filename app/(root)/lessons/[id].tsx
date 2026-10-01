@@ -1,8 +1,9 @@
 import { BackArrow } from '@/components/icons/Arrowicon';
 import Button from '@/components/ui/Button';
 import { HEARTS_PER_LEVEL, LESSONS } from '@/constants/lessons';
-import { isLevelPassed, isLevelUnlocked, Progress, StarsMap } from '@/constants/prorgess';
+import { isLevelPassed, isLevelUnlocked, isStoryRead, Progress, StarsMap, StoriesRead } from '@/constants/prorgess';
 import { STORAGE_KEYS } from '@/constants/settings';
+import { getStory } from '@/constants/stories';
 import { cn } from '@/lib/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -77,17 +78,20 @@ export default function LessonSelectScreen() {
     const { id } = useLocalSearchParams<{ id: string; }>();
     const [progress, setProgress] = useState<Progress>({});
     const [starsMap, setStarsMap] = useState<StarsMap>({});
+    const [storiesRead, setStoriesRead] = useState<StoriesRead>({});
 
     const lesson = LESSONS.find((l) => l.id === id);
 
     useEffect(() => {
         (async () => {
-            const [progressRaw, starsRaw] = await Promise.all([
+            const [progressRaw, starsRaw, storiesReadRaw] = await Promise.all([
                 AsyncStorage.getItem(STORAGE_KEYS.progress),
                 AsyncStorage.getItem(STORAGE_KEYS.stars),
+                AsyncStorage.getItem(STORAGE_KEYS.storiesRead),
             ]);
             if (progressRaw) setProgress(JSON.parse(progressRaw));
             if (starsRaw) setStarsMap(JSON.parse(starsRaw));
+            if (storiesReadRaw) setStoriesRead(JSON.parse(storiesReadRaw));
         })();
     }, []);
 
@@ -116,9 +120,14 @@ export default function LessonSelectScreen() {
             <ScrollView contentContainerClassName='flex-1 p-4 gap-3' showsVerticalScrollIndicator={false}>
                 <Text className='font-nunito-bold text-ink-200 text-sm mb-1'>Select a level to begin: </Text>
 
-                {lesson.levels.map((level, idx) => (
-                    <LevelCard key={level.id} levelNum={level.id} title={level.title} passed={isLevelPassed(progress, lesson.id, idx)} unlocked={isLevelUnlocked(progress, lesson.id, idx)} accentColor={lesson.accentColor} hrefLink={`/lessons/${lesson.id}/${level.id}`} stars={starsMap[lesson!.id]?.[idx] ?? 0} />
-                ))}
+                {lesson.levels.map((level, idx) => {
+                    const hasUnreadStory = !!getStory(lesson.id, level.id) && !isStoryRead(storiesRead, lesson.id, idx);
+                    const hrefLink = hasUnreadStory ? `/lessons/${lesson.id}/${level.id}/story` : `/lessons/${lesson.id}/${level.id}`;
+
+                    return (
+                        <LevelCard key={level.id} levelNum={level.id} title={level.title} passed={isLevelPassed(progress, lesson.id, idx)} unlocked={isLevelUnlocked(progress, lesson.id, idx)} accentColor={lesson.accentColor} hrefLink={hrefLink} stars={starsMap[lesson!.id]?.[idx] ?? 0} />
+                    );
+                })}
 
                 <View className='h-6' />
             </ScrollView>

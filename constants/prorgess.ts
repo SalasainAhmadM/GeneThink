@@ -2,6 +2,9 @@ import { LESSONS } from "./lessons";
 
 export type Progress = Record<string, boolean[]>;
 export type StarsMap = Record<string, number[]>;
+export type StoriesRead = Record<string, boolean[]>;
+
+export const isStoryRead = (storiesRead: StoriesRead, lessonId: string, levelIndex: number): boolean => (storiesRead[lessonId]?.[levelIndex] === true);
 
 export const getLevelsDone = (progress: Progress, lesssonId: string): number => (progress[lesssonId] ?? []).filter(Boolean).length;
 

@@ -7,6 +7,7 @@ import Button from '@/components/ui/Button';
 import { AnswerRecord, HEARTS_PER_LEVEL, LESSONS, Question, sampleLevelQuestions } from '@/constants/lessons';
 import { Progress, StarsMap } from '@/constants/prorgess';
 import { DEFAULT_SETTINGS, Settings, STORAGE_KEYS } from '@/constants/settings';
+import { getStory } from '@/constants/stories';
 import { cn } from '@/lib/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -229,7 +230,12 @@ export default function LevelScreen() {
 
                             <Text className='font-fredoka-bold text-white text-base'>{lesson.title} · Lv{level.id}</Text>
 
-                            <Button btnType='glass' size='sm' icon={<BulbSvg width={14} height={14} />} className='h-9' onPress={() => setShowHint(!showHint)} />
+                            <View className='flex-row gap-2'>
+                                {getStory(lesson.id, level.id) && (
+                                    <Button btnType='glass' size='sm' icon={<Text className='text-sm'>📖</Text>} className='h-9' onPress={() => router.push(`/lessons/${id}/${levelId}/story` as any)} />
+                                )}
+                                <Button btnType='glass' size='sm' icon={<BulbSvg width={14} height={14} />} className='h-9' onPress={() => setShowHint(!showHint)} />
+                            </View>
                         </View>
 
                         {/* Hearts | Timer | Elapsed */}
