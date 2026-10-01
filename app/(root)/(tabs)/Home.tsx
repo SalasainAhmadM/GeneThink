@@ -1,4 +1,5 @@
 import BrainStorm from '@/components/art/BrainStorm';
+import DihybridSquare from '@/components/art/DihybridSquare';
 import DNA from '@/components/art/DNA';
 import PunnettSquare from '@/components/art/PunnetSquare';
 import Scientist from '@/components/art/Scientist';
@@ -29,7 +30,7 @@ const TabBtn = ({ label, active, onPress }: { label: string; active: boolean; on
     <Pressable onPress={onPress} className={cn('flex-1 items-center py-3 border-b-[3px]', active ? 'border-b-[#4caf50]' : 'border-b-transparent')}><Text className={cn('font-nunito-bold text-sm', active ? 'text-primary-300' : "text-ink-200")}>{label}</Text></Pressable>
 );
 
-const ART = [<DNA />, <Scientist />, <PunnettSquare />, <BrainStorm />];
+const ART = [<DNA />, <Scientist />, <PunnettSquare />, <DihybridSquare />, <BrainStorm />];
 
 export default function HomeScreen() {
     const [activeTab, setActiveTab] = useState<TabType>("lessons");

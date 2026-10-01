@@ -450,7 +450,7 @@ export const LESSONS: Lesson[] = [
                     },
                     {
                         id: 'm1h2', difficulty: 'hard', type: 'mcq',
-                        question: 'Dihybrid cross RrYy × RrYy. How many different PHENOTYPE combinations are possible?',
+                        question: 'Dihybrid cross YyRr × YyRr. How many different PHENOTYPE combinations are possible?',
                         hint: 'Round/wrinkled × yellow/green — think of all the combinations.',
                         explanation: 'A dihybrid cross produces 4 phenotype classes: Round Yellow, Round Green, Wrinkled Yellow, Wrinkled Green. In a 9:3:3:1 ratio — 4 phenotype combinations.',
                         choices: [{ id: 'a', text: '2' }, { id: 'b', text: '4' }, { id: 'c', text: '9' }, { id: 'd', text: '16' }], answer: 'b'
@@ -984,7 +984,382 @@ export const LESSONS: Lesson[] = [
     },
 
     // ══════════════════════════════════════════════════════════
-    //  LESSON 4 — Test Your Knowledge
+    //  LESSON 4 — Monohybrid & Dihybrid Cross
+    // ══════════════════════════════════════════════════════════
+    {
+        id: 'dihybrid', title: 'Monohybrid & Dihybrid Cross', subtitle: 'One trait, then two',
+        color: '#d0f2ee', accentColor: '#00897B',
+        levels: [
+            // ── Level 1: Monohybrid Crosses ───────────────────────
+            {
+                id: 1, title: 'Monohybrid Crosses',
+                questions: [
+                    // EASY (5)
+                    {
+                        id: 'x1e1', difficulty: 'easy', type: 'mcq',
+                        question: 'A monohybrid cross tracks how many traits at once?',
+                        hint: '"Mono" means one.',
+                        explanation: 'A monohybrid cross follows the inheritance of just ONE trait (one gene) between two parents — like seed shape alone.',
+                        choices: [{ id: 'a', text: 'One' }, { id: 'b', text: 'Two' }, { id: 'c', text: 'Three' }, { id: 'd', text: 'Four' }], answer: 'a'
+                    },
+                    {
+                        id: 'x1e2', difficulty: 'easy', type: 'mcq',
+                        question: 'Round seeds (R) are dominant over wrinkled seeds (r). A pea plant with genotype Rr has what shape seeds?',
+                        hint: 'One dominant allele is enough to show the dominant trait.',
+                        explanation: 'Rr is heterozygous. Since R (round) is dominant over r (wrinkled), the seeds are round. The wrinkled allele is present but hidden.',
+                        choices: [{ id: 'a', text: 'Wrinkled' }, { id: 'b', text: 'Round' }, { id: 'c', text: 'Half round, half wrinkled' }, { id: 'd', text: 'Neither' }], answer: 'b'
+                    },
+                    {
+                        id: 'x1e3', difficulty: 'easy', type: 'mcq',
+                        question: 'RR × rr cross. What genotype do ALL offspring have?',
+                        hint: 'RR can only give R; rr can only give r.',
+                        explanation: 'RR contributes only R gametes and rr contributes only r gametes, so every offspring is Rr — heterozygous, and round since R is dominant.',
+                        choices: [{ id: 'a', text: 'RR' }, { id: 'b', text: 'rr' }, { id: 'c', text: 'Rr' }, { id: 'd', text: 'A mix of all three' }], answer: 'c'
+                    },
+                    {
+                        id: 'x1e4', difficulty: 'easy', type: 'mcq',
+                        question: 'Rr × Rr cross. What is the phenotype ratio of round to wrinkled offspring?',
+                        hint: 'This is the classic Mendelian ratio.',
+                        explanation: 'Rr × Rr gives RR, Rr, Rr, rr. Three offspring show round (dominant) and one shows wrinkled (recessive) — a 3:1 ratio.',
+                        choices: [{ id: 'a', text: '1:1' }, { id: 'b', text: '1:2:1' }, { id: 'c', text: '3:1' }, { id: 'd', text: '9:3:3:1' }], answer: 'c'
+                    },
+                    {
+                        id: 'x1e5', difficulty: 'easy', type: 'mcq',
+                        question: 'In a monohybrid cross, how many boxes does the Punnett square have?',
+                        hint: 'One gene means each parent contributes 2 possible alleles.',
+                        explanation: 'A monohybrid cross uses a 2×2 Punnett square — 4 boxes total, one for each possible combination of the two parents\' alleles.',
+                        choices: [{ id: 'a', text: '2' }, { id: 'b', text: '4' }, { id: 'c', text: '8' }, { id: 'd', text: '16' }], answer: 'b'
+                    },
+                    // MEDIUM (4)
+                    {
+                        id: 'x1m1', difficulty: 'medium', type: 'mcq',
+                        question: 'Rr × Rr. What fraction of offspring will be wrinkled (rr)?',
+                        hint: 'Count the rr boxes in the 4-cell grid.',
+                        explanation: 'Rr × Rr gives RR, Rr, Rr, rr. Only 1 of the 4 boxes is rr, so 1/4 (25%) of offspring will be wrinkled.',
+                        choices: [{ id: 'a', text: '1/4' }, { id: 'b', text: '1/2' }, { id: 'c', text: '3/4' }, { id: 'd', text: 'All' }], answer: 'a'
+                    },
+                    {
+                        id: 'x1m2', difficulty: 'medium', type: 'mcq',
+                        question: 'Rr × rr cross (a test cross). What is the expected phenotype ratio?',
+                        hint: 'The Rr parent gives R or r; the rr parent only gives r.',
+                        explanation: 'Rr × rr gives Rr, Rr, rr, rr. Half the offspring are round (Rr) and half are wrinkled (rr) — a 1:1 ratio.',
+                        choices: [{ id: 'a', text: '3:1' }, { id: 'b', text: '1:1' }, { id: 'c', text: '1:2:1' }, { id: 'd', text: 'All round' }], answer: 'b'
+                    },
+                    {
+                        id: 'x1m3', difficulty: 'medium', type: 'drag',
+                        question: 'Complete the Punnett square for Rr × Rr.',
+                        hint: 'Top row: R and r. Left column: R and r. Combine each pair.',
+                        explanation: 'Rr × Rr gives RR (top-left), Rr (top-right), Rr (bottom-left), rr (bottom-right). Ratio: 1 RR : 2 Rr : 1 rr.',
+                        parentA: ['R', 'r'], parentB: ['R', 'r'], dragAnswers: ['RR', 'Rr', 'Rr', 'rr']
+                    },
+                    {
+                        id: 'x1m4', difficulty: 'medium', type: 'mcq',
+                        question: 'A round-seeded plant is crossed with a wrinkled plant (rr), and half the offspring are wrinkled. What is the round parent\'s genotype?',
+                        hint: 'If the round parent were RR, no wrinkled offspring could appear.',
+                        explanation: 'Since some offspring are wrinkled, the round parent must carry a hidden r allele. The round parent is Rr (heterozygous), not RR.',
+                        choices: [{ id: 'a', text: 'RR' }, { id: 'b', text: 'Rr' }, { id: 'c', text: 'rr' }, { id: 'd', text: 'Cannot be determined' }], answer: 'b'
+                    },
+                    // HARD (4)
+                    {
+                        id: 'x1h1', difficulty: 'hard', type: 'mcq',
+                        question: 'RR × Rr cross. What percentage of offspring will show the recessive (wrinkled) phenotype?',
+                        hint: 'Neither parent can contribute two r alleles — can any offspring be rr?',
+                        explanation: 'RR × Rr gives RR, RR, Rr, Rr — no rr is possible since the RR parent never contributes an r. 0% of offspring are wrinkled.',
+                        choices: [{ id: 'a', text: '0%' }, { id: 'b', text: '25%' }, { id: 'c', text: '50%' }, { id: 'd', text: '75%' }], answer: 'a'
+                    },
+                    {
+                        id: 'x1h2', difficulty: 'hard', type: 'drag',
+                        question: 'Complete the Punnett square for RR × rr.',
+                        hint: 'RR parent gives only R; rr parent gives only r.',
+                        explanation: 'RR × rr: every cell is Rr. All 4 offspring are heterozygous round — this is why crossing two purebred parents always gives all-hybrid F1 offspring.',
+                        parentA: ['R', 'R'], parentB: ['r', 'r'], dragAnswers: ['Rr', 'Rr', 'Rr', 'Rr']
+                    },
+                    {
+                        id: 'x1h3', difficulty: 'hard', type: 'mcq',
+                        question: 'In a monohybrid cross Rr × Rr, what is the genotype ratio (RR : Rr : rr)?',
+                        hint: 'Count each distinct genotype in the grid.',
+                        explanation: 'Rr × Rr produces one RR, two Rr, and one rr — a 1:2:1 genotype ratio. This differs from the 3:1 phenotype ratio.',
+                        choices: [{ id: 'a', text: '1:1:1' }, { id: 'b', text: '1:2:1' }, { id: 'c', text: '3:1' }, { id: 'd', text: '2:1:1' }], answer: 'b'
+                    },
+                    {
+                        id: 'x1h4', difficulty: 'hard', type: 'mcq',
+                        question: 'Why is a cross between Rr × Rr called a "monohybrid" cross?',
+                        hint: 'Look at the prefix "mono."',
+                        explanation: 'It\'s monohybrid because it studies inheritance of ONE gene (seed shape) between two hybrid (heterozygous) parents — as opposed to a dihybrid cross, which tracks two genes at once.',
+                        choices: [{ id: 'a', text: 'It only involves one parent' }, { id: 'b', text: 'It tracks only one gene/trait' }, { id: 'c', text: 'It produces only one offspring' }, { id: 'd', text: 'It uses only one allele' }], answer: 'b'
+                    },
+                ],
+            },
+
+            // ── Level 2: Dihybrid Crosses ─────────────────────────
+            {
+                id: 2, title: 'Dihybrid Crosses',
+                questions: [
+                    // EASY (5)
+                    {
+                        id: 'x2e1', difficulty: 'easy', type: 'mcq',
+                        question: 'A dihybrid cross tracks how many traits at once?',
+                        hint: '"Di" means two.',
+                        explanation: 'A dihybrid cross follows the inheritance of TWO traits at once — like seed shape AND seed color together.',
+                        choices: [{ id: 'a', text: 'One' }, { id: 'b', text: 'Two' }, { id: 'c', text: 'Three' }, { id: 'd', text: 'Four' }], answer: 'b'
+                    },
+                    {
+                        id: 'x2e2', difficulty: 'easy', type: 'mcq',
+                        question: 'In a dihybrid cross, how many boxes does the Punnett square have?',
+                        hint: 'Each parent now makes 4 kinds of gametes instead of 2.',
+                        explanation: 'A dihybrid cross uses a 4×4 Punnett square = 16 total boxes, since each parent can make 4 different gamete combinations.',
+                        choices: [{ id: 'a', text: '4' }, { id: 'b', text: '8' }, { id: 'c', text: '16' }, { id: 'd', text: '32' }], answer: 'c'
+                    },
+                    {
+                        id: 'x2e3', difficulty: 'easy', type: 'mcq',
+                        question: 'How many kinds of gametes does a fully heterozygous parent (YyRr) produce?',
+                        hint: 'Two genes, each with two alleles — combine them.',
+                        explanation: 'A YyRr parent produces 4 kinds of gametes: YR, Yr, yR, and yr — one for every combination of the two genes\' alleles.',
+                        choices: [{ id: 'a', text: '1' }, { id: 'b', text: '2' }, { id: 'c', text: '4' }, { id: 'd', text: '8' }], answer: 'c'
+                    },
+                    {
+                        id: 'x2e4', difficulty: 'easy', type: 'mcq',
+                        question: 'What does F.O.I.L. stand for when finding gametes for a dihybrid cross?',
+                        hint: 'It\'s the same trick used to multiply two binomials in algebra.',
+                        explanation: 'F.O.I.L. stands for First, Outer, Inner, Last — a systematic way to pair up alleles from a genotype like YyRr to find all 4 gametes.',
+                        choices: [{ id: 'a', text: 'First, Outer, Inner, Last' }, { id: 'b', text: 'Female, Offspring, Inherited, Line' }, { id: 'c', text: 'Fast, Organized, Ideal, Linked' }, { id: 'd', text: 'Formula, Order, Input, Logic' }], answer: 'a'
+                    },
+                    {
+                        id: 'x2e5', difficulty: 'easy', type: 'mcq',
+                        question: 'For genotype YyRr, using FOIL, what is the "First" gamete?',
+                        hint: 'Pair the first letter of each gene pair.',
+                        explanation: 'FOIL\'s "First" step pairs the first letters of each gene pair: Y (first of Yy) and R (first of Rr) → YR.',
+                        choices: [{ id: 'a', text: 'YR' }, { id: 'b', text: 'yR' }, { id: 'c', text: 'Yr' }, { id: 'd', text: 'yr' }], answer: 'a'
+                    },
+                    // MEDIUM (4)
+                    {
+                        id: 'x2m1', difficulty: 'medium', type: 'mcq',
+                        question: 'Using FOIL on genotype YyRr, what are ALL 4 gametes?',
+                        hint: 'First = YR. Now find Outer, Inner, and Last.',
+                        explanation: 'FOIL on YyRr gives: First = YR, Outer = Yr, Inner = yR, Last = yr. Those four gametes fill the top and side of the 4×4 grid.',
+                        choices: [{ id: 'a', text: 'YR, Yr, yR, yr' }, { id: 'b', text: 'YY, yy, RR, rr' }, { id: 'c', text: 'YR, YR, yr, yr' }, { id: 'd', text: 'yR, yR, Yr, Yr' }], answer: 'a'
+                    },
+                    {
+                        id: 'x2m2', difficulty: 'medium', type: 'mcq',
+                        question: 'A dihybrid cross YyRr × YyRr produces how many distinct PHENOTYPE classes?',
+                        hint: 'Think: round/wrinkled × yellow/green.',
+                        explanation: 'A standard dihybrid cross produces 4 phenotype classes: Round Yellow, Round Green, Wrinkled Yellow, Wrinkled Green — in a 9:3:3:1 ratio.',
+                        choices: [{ id: 'a', text: '2' }, { id: 'b', text: '4' }, { id: 'c', text: '9' }, { id: 'd', text: '16' }], answer: 'b'
+                    },
+                    {
+                        id: 'x2m3', difficulty: 'medium', type: 'mcq',
+                        question: 'What is the classic phenotype ratio for a dihybrid cross (YyRr × YyRr)?',
+                        hint: 'It\'s the signature ratio of a dihybrid cross — memorize this one!',
+                        explanation: 'A dihybrid cross between two double-heterozygotes always gives a 9:3:3:1 phenotype ratio, assuming the two genes assort independently.',
+                        choices: [{ id: 'a', text: '3:1' }, { id: 'b', text: '1:2:1' }, { id: 'c', text: '9:3:3:1' }, { id: 'd', text: '1:1:1:1' }], answer: 'c'
+                    },
+                    {
+                        id: 'x2m4', difficulty: 'medium', type: 'mcq',
+                        question: 'YyRr × YyRr cross. What fraction of offspring will show BOTH dominant traits (Round, Yellow)?',
+                        hint: 'That\'s the "9" in the 9:3:3:1 ratio, out of 16 total.',
+                        explanation: 'Round Yellow (Y_R_) is the "9" group in the 9:3:3:1 ratio — 9 out of 16 boxes, so the fraction is 9/16.',
+                        choices: [{ id: 'a', text: '1/16' }, { id: 'b', text: '3/16' }, { id: 'c', text: '9/16' }, { id: 'd', text: '9/9' }], answer: 'c'
+                    },
+                    // HARD (4)
+                    {
+                        id: 'x2h1', difficulty: 'hard', type: 'mcq',
+                        question: 'Genotype YYRr. Using FOIL, how many UNIQUE gametes are possible?',
+                        hint: 'YY can only ever give Y — it has no second option.',
+                        explanation: 'FOIL on YYRr gives YR, YR, Yr, Yr — but since YY only contributes Y, there are only 2 UNIQUE gametes: YR and Yr.',
+                        choices: [{ id: 'a', text: '1' }, { id: 'b', text: '2' }, { id: 'c', text: '4' }, { id: 'd', text: '8' }], answer: 'b'
+                    },
+                    {
+                        id: 'x2h2', difficulty: 'hard', type: 'mcq',
+                        question: 'Genotype YyRR — what are the two unique gametes?',
+                        hint: 'RR only ever gives R. Y or y still varies.',
+                        explanation: 'FOIL on YyRR gives YR, YR, yR, yR — but RR only contributes R, so the unique gametes are YR and yR.',
+                        choices: [{ id: 'a', text: 'YR and yR' }, { id: 'b', text: 'YR and Yr' }, { id: 'c', text: 'YY and RR' }, { id: 'd', text: 'Yr and yr' }], answer: 'a'
+                    },
+                    {
+                        id: 'x2h3', difficulty: 'hard', type: 'mcq',
+                        question: 'In YyRr × YyRr, what fraction of offspring will be double-recessive (yyrr)?',
+                        hint: 'That\'s the "1" in the 9:3:3:1 ratio.',
+                        explanation: 'yyrr (wrinkled, green) is the "1" group in the 9:3:3:1 ratio — only 1 out of 16 boxes, so the fraction is 1/16.',
+                        choices: [{ id: 'a', text: '1/16' }, { id: 'b', text: '3/16' }, { id: 'c', text: '9/16' }, { id: 'd', text: '1/4' }], answer: 'a'
+                    },
+                    {
+                        id: 'x2h4', difficulty: 'hard', type: 'mcq',
+                        question: 'In YyRr × YyRr, what fraction of offspring will be Round but green (dominant shape, recessive color)?',
+                        hint: 'That\'s one of the "3" groups in 9:3:3:1.',
+                        explanation: 'Round Green (yyR_) is one of the "3" groups in the 9:3:3:1 ratio — 3 out of 16 boxes, so the fraction is 3/16.',
+                        choices: [{ id: 'a', text: '1/16' }, { id: 'b', text: '3/16' }, { id: 'c', text: '9/16' }, { id: 'd', text: '6/16' }], answer: 'b'
+                    },
+                    {
+                        id: 'x2e6', difficulty: 'easy', type: 'mcq',
+                        question: 'During meiosis, how do the chromosome pair for seed color (Y/y) and the pair for seed shape (R/r) line up?',
+                        hint: "Think about Mendel's third law.",
+                        explanation: 'The two chromosome pairs line up independently — in one cell Y may sit beside R, in another Y may sit beside r. That is why all 4 gamete combinations appear.',
+                        choices: [{ id: 'a', text: 'Independently of each other' }, { id: 'b', text: 'Always Y with R' }, { id: 'c', text: 'Always Y with r' }, { id: 'd', text: 'Only one pair lines up' }], answer: 'a'
+                    },
+                    {
+                        id: 'x2m5', difficulty: 'medium', type: 'mcq',
+                        question: 'In the shorthand used to group phenotypes, what does Y_ mean?',
+                        hint: 'The blank can be filled by either allele.',
+                        explanation: 'Y_ means "at least one Y" — the genotype is YY or Yy. Both look yellow because Y is dominant.',
+                        choices: [{ id: 'a', text: 'YY only' }, { id: 'b', text: 'Yy only' }, { id: 'c', text: 'YY or Yy' }, { id: 'd', text: 'yy only' }], answer: 'c'
+                    },
+                    {
+                        id: 'x2m6', difficulty: 'medium', type: 'mcq',
+                        question: 'How many DIFFERENT genotypes appear in the 16 boxes of a YyRr × YyRr Punnett square?',
+                        hint: 'List them: YYRR, YYRr, YYrr, YyRR...',
+                        explanation: 'There are 9 unique genotypes: YYRR, YYRr, YYrr, YyRR, YyRr, Yyrr, yyRR, yyRr, yyrr. Several boxes repeat the same genotype.',
+                        choices: [{ id: 'a', text: '4' }, { id: 'b', text: '9' }, { id: 'c', text: '16' }, { id: 'd', text: '3' }], answer: 'b'
+                    },
+                    {
+                        id: 'x2h5', difficulty: 'hard', type: 'mcq',
+                        question: 'What is the GENOTYPIC ratio for YyRr × YyRr?',
+                        hint: 'Count each of the 9 unique genotypes across the 16 boxes.',
+                        explanation: 'Counting the 9 genotypes in order (YYRR, YYRr, YYrr, YyRR, YyRr, Yyrr, yyRR, yyRr, yyrr) gives 1 : 2 : 1 : 2 : 4 : 2 : 1 : 2 : 1, which adds up to 16.',
+                        choices: [{ id: 'a', text: '9:3:3:1' }, { id: 'b', text: '1:2:1' }, { id: 'c', text: '1:2:1:2:4:2:1:2:1' }, { id: 'd', text: '1:1:1:1' }], answer: 'c'
+                    },
+                    {
+                        id: 'x2h6', difficulty: 'hard', type: 'mcq',
+                        question: 'In a YyRr × YyRr Punnett square, how many of the 16 boxes contain YyRr?',
+                        hint: 'It is the "4" in the middle of the genotypic ratio.',
+                        explanation: 'YyRr appears in 4 of the 16 boxes — it is the most common genotype, matching the 4 in the 1:2:1:2:4:2:1:2:1 ratio.',
+                        choices: [{ id: 'a', text: '1' }, { id: 'b', text: '2' }, { id: 'c', text: '4' }, { id: 'd', text: '9' }], answer: 'c'
+                    },
+                ],
+            },
+
+            // ── Level 3: Multi-Trait Mastery ──────────────────────
+            {
+                id: 3, title: 'Multi-Trait Mastery',
+                questions: [
+                    // EASY (5)
+                    {
+                        id: 'x3e1', difficulty: 'easy', type: 'mcq',
+                        question: 'To find the probability of two independent traits BOTH appearing, you should…',
+                        hint: 'Think "AND" — combine, don\'t just pick one.',
+                        explanation: 'For independent events, "AND" means multiply. P(trait A) × P(trait B) gives the probability both happen together.',
+                        choices: [{ id: 'a', text: 'Add their probabilities' }, { id: 'b', text: 'Multiply their probabilities' }, { id: 'c', text: 'Subtract their probabilities' }, { id: 'd', text: 'Divide their probabilities' }], answer: 'b'
+                    },
+                    {
+                        id: 'x3e2', difficulty: 'easy', type: 'mcq',
+                        question: 'P(round seeds) = 3/4. P(yellow seeds) = 3/4. What is P(round AND yellow)?',
+                        hint: 'Multiply: 3/4 × 3/4.',
+                        explanation: '3/4 × 3/4 = 9/16 — matching the "9" group in the classic 9:3:3:1 dihybrid ratio.',
+                        choices: [{ id: 'a', text: '3/4' }, { id: 'b', text: '6/16' }, { id: 'c', text: '9/16' }, { id: 'd', text: '3/8' }], answer: 'c'
+                    },
+                    {
+                        id: 'x3e3', difficulty: 'easy', type: 'mcq',
+                        question: 'A completed dihybrid Punnett square has 16 boxes. Each box represents what probability?',
+                        hint: 'Every box is equally likely.',
+                        explanation: 'Each of the 16 boxes in a dihybrid Punnett square represents an equal 1/16 chance, assuming random fertilization.',
+                        choices: [{ id: 'a', text: '1/4' }, { id: 'b', text: '1/9' }, { id: 'c', text: '1/16' }, { id: 'd', text: '1/32' }], answer: 'c'
+                    },
+                    {
+                        id: 'x3e4', difficulty: 'easy', type: 'mcq',
+                        question: 'In a 9:3:3:1 ratio, which number represents the double-recessive phenotype?',
+                        hint: 'It\'s the smallest, rarest group.',
+                        explanation: 'The "1" in 9:3:3:1 always represents the double-recessive phenotype (both traits recessive) — the rarest of the four outcomes.',
+                        choices: [{ id: 'a', text: '9' }, { id: 'b', text: '3' }, { id: 'c', text: '1' }, { id: 'd', text: 'It varies each time' }], answer: 'c'
+                    },
+                    {
+                        id: 'x3e5', difficulty: 'easy', type: 'mcq',
+                        question: 'YyRr × YyRr. What fraction shows Round Green (dominant shape, recessive color)?',
+                        hint: 'This is one of the two "3" groups.',
+                        explanation: 'Round Green (yyR_) is 3/16 of offspring — one of the two "3" groups in the 9:3:3:1 ratio.',
+                        choices: [{ id: 'a', text: '1/16' }, { id: 'b', text: '3/16' }, { id: 'c', text: '9/16' }, { id: 'd', text: '4/16' }], answer: 'b'
+                    },
+                    // MEDIUM (4)
+                    {
+                        id: 'x3m1', difficulty: 'medium', type: 'mcq',
+                        question: 'YyRr × yyrr (a dihybrid test cross). How many kinds of gametes does the yyrr parent make?',
+                        hint: 'yyrr is homozygous recessive for both genes.',
+                        explanation: 'yyrr is homozygous for both genes, so it can only make ONE kind of gamete: yr. It contributes nothing but recessive alleles.',
+                        choices: [{ id: 'a', text: '1' }, { id: 'b', text: '2' }, { id: 'c', text: '4' }, { id: 'd', text: '8' }], answer: 'a'
+                    },
+                    {
+                        id: 'x3m2', difficulty: 'medium', type: 'mcq',
+                        question: 'YyRr × yyrr cross. What is the resulting phenotype ratio?',
+                        hint: 'The YyRr parent makes 4 gamete types; the yyrr parent makes only 1.',
+                        explanation: 'YyRr × yyrr produces all 4 phenotype combinations in equal numbers — a 1:1:1:1 ratio. This dihybrid test cross reveals the unknown parent\'s alleles.',
+                        choices: [{ id: 'a', text: '9:3:3:1' }, { id: 'b', text: '1:1:1:1' }, { id: 'c', text: '3:1' }, { id: 'd', text: 'All identical' }], answer: 'b'
+                    },
+                    {
+                        id: 'x3m3', difficulty: 'medium', type: 'mcq',
+                        question: 'P(wrinkled) = 1/4 and P(green) = 1/4. What is P(wrinkled AND green)?',
+                        hint: 'Multiply the two fractions.',
+                        explanation: '1/4 × 1/4 = 1/16 — matching the "1" group (double-recessive) in the 9:3:3:1 ratio.',
+                        choices: [{ id: 'a', text: '1/8' }, { id: 'b', text: '1/16' }, { id: 'c', text: '2/4' }, { id: 'd', text: '1/4' }], answer: 'b'
+                    },
+                    {
+                        id: 'x3m4', difficulty: 'medium', type: 'mcq',
+                        question: 'In a dihybrid cross, if the two genes are on DIFFERENT chromosomes, their alleles assort…',
+                        hint: 'This is one of Mendel\'s three laws.',
+                        explanation: 'Genes on different chromosomes follow the Law of Independent Assortment — each gene\'s alleles separate into gametes independently of the other gene.',
+                        choices: [{ id: 'a', text: 'Together, always linked' }, { id: 'b', text: 'Independently of one another' }, { id: 'c', text: 'Only from the mother' }, { id: 'd', text: 'In alphabetical order' }], answer: 'b'
+                    },
+                    // HARD (4)
+                    {
+                        id: 'x3h1', difficulty: 'hard', type: 'mcq',
+                        question: 'YyRr × YyRr. What fraction of offspring will be heterozygous for BOTH genes (YyRr)?',
+                        hint: 'P(Rr) = 1/2 and P(Yy) = 1/2 — multiply them.',
+                        explanation: 'P(Rr) = 1/2 and P(Yy) = 1/2. Multiplying: 1/2 × 1/2 = 1/4 of offspring will be YyRr, heterozygous for both genes.',
+                        choices: [{ id: 'a', text: '1/16' }, { id: 'b', text: '1/4' }, { id: 'c', text: '9/16' }, { id: 'd', text: '1/2' }], answer: 'b'
+                    },
+                    {
+                        id: 'x3h2', difficulty: 'hard', type: 'mcq',
+                        question: 'A dihybrid cross yields a 9:3:3:1 ratio. Out of 32 total offspring, how many are expected to be double-recessive?',
+                        hint: '32 × 1/16 = ?',
+                        explanation: 'The double-recessive group is 1/16 of offspring. 32 × 1/16 = 2 offspring expected to be double-recessive.',
+                        choices: [{ id: 'a', text: '1' }, { id: 'b', text: '2' }, { id: 'c', text: '4' }, { id: 'd', text: '8' }], answer: 'b'
+                    },
+                    {
+                        id: 'x3h3', difficulty: 'hard', type: 'mcq',
+                        question: 'Which law explains why we can MULTIPLY individual trait probabilities together in a dihybrid cross?',
+                        hint: 'It\'s the same law that lets genes sort into gametes without affecting each other.',
+                        explanation: 'The Law of Independent Assortment guarantees the two genes are inherited independently — which is exactly why their probabilities can be multiplied together.',
+                        choices: [{ id: 'a', text: 'Law of Dominance' }, { id: 'b', text: 'Law of Segregation' }, { id: 'c', text: 'Law of Independent Assortment' }, { id: 'd', text: 'Law of Probability' }], answer: 'c'
+                    },
+                    {
+                        id: 'x3h4', difficulty: 'hard', type: 'mcq',
+                        question: 'Genotype YyRr — using FOIL, which gamete comes from the INNER letters?',
+                        hint: 'First: Y+R. Outer: Y+r. Inner: y+R. Last: y+r.',
+                        explanation: 'In Y y R r, the two INNER letters are y and R, so Inner = yR. Full FOIL order: First = YR, Outer = Yr, Inner = yR, Last = yr.',
+                        choices: [{ id: 'a', text: 'YR' }, { id: 'b', text: 'Yr' }, { id: 'c', text: 'yR' }, { id: 'd', text: 'yr' }], answer: 'c'
+                    },
+                    {
+                        id: 'x3e6', difficulty: 'easy', type: 'mcq',
+                        question: 'In the FOIL method, what does Step 5 "Simplify" mean?',
+                        hint: 'Look for gametes that appear more than once.',
+                        explanation: 'After FOIL gives 4 gametes, combine identical ones. For YYRr: YR, Yr, YR, Yr simplifies to just YR and Yr.',
+                        choices: [{ id: 'a', text: 'Combine identical gametes' }, { id: 'b', text: 'Delete the recessive alleles' }, { id: 'c', text: 'Multiply the ratios' }, { id: 'd', text: 'Draw a 2×2 grid' }], answer: 'a'
+                    },
+                    {
+                        id: 'x3m5', difficulty: 'medium', type: 'mcq',
+                        question: 'Using FOIL on YyRR, what are the 4 gametes before simplifying?',
+                        hint: 'Y y R R — First, Outer, Inner, Last.',
+                        explanation: 'First = YR, Outer = YR, Inner = yR, Last = yR. Simplified, the unique gametes are YR and yR.',
+                        choices: [{ id: 'a', text: 'YR, YR, yR, yR' }, { id: 'b', text: 'YR, Yr, yR, yr' }, { id: 'c', text: 'YY, RR, yy, RR' }, { id: 'd', text: 'Yr, Yr, yr, yr' }], answer: 'a'
+                    },
+                    {
+                        id: 'x3m6', difficulty: 'medium', type: 'mcq',
+                        question: 'Using FOIL on YYRr, what is the "Outer" gamete?',
+                        hint: 'The outer letters of Y Y R r are the very first and very last.',
+                        explanation: 'The outer letters are the first Y and the last r, so Outer = Yr.',
+                        choices: [{ id: 'a', text: 'YR' }, { id: 'b', text: 'Yr' }, { id: 'c', text: 'YY' }, { id: 'd', text: 'Rr' }], answer: 'b'
+                    },
+                    {
+                        id: 'x3h5', difficulty: 'hard', type: 'mcq',
+                        question: 'An organism has genotype YYRr. Which statement about where its alleles came from is correct?',
+                        hint: 'Each gamete carries one allele of EACH gene.',
+                        explanation: 'Each parent gave a gamete with one color allele and one shape allele — for example YR from one parent and Yr from the other. It is NOT "YY from one parent and Rr from the other".',
+                        choices: [{ id: 'a', text: 'One parent gave YY and the other gave Rr' }, { id: 'b', text: 'Each parent gave one Y and one R-or-r allele (e.g. YR + Yr)' }, { id: 'c', text: 'Both parents gave YYRr' }, { id: 'd', text: 'Only the mother passed on alleles' }], answer: 'b'
+                    },
+                ],
+            },
+        ],
+    },
+
+    // ══════════════════════════════════════════════════════════
+    //  LESSON 5 — Test Your Knowledge
     // ══════════════════════════════════════════════════════════
     {
         id: 'quiz', title: 'Test Your Knowledge', subtitle: 'Challenge Mode',
