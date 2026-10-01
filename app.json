@@ -48,7 +48,8 @@
             "./assets/fonts/Nunito-ExtraBold.ttf"
           ]
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
     "splash": {
       "image": "./assets/images/splash.png",
