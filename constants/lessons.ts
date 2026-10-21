@@ -6,6 +6,19 @@ export interface Choice {
     text: string;
 }
 
+// Visual shown under an MCQ question (replaces the pictures in the source worksheet)
+export type QuestionFigure =
+    | {
+        kind: 'punnett';
+        top: string[];           // alleles across the top
+        left: string[];          // alleles down the left side
+        cells: string[];         // row by row
+        topLabel?: string;       // e.g. 'Father'
+        leftLabel?: string;      // e.g. 'Mother'
+        cornerLabel?: string;    // e.g. 'Parental Genotype'
+    }
+    | { kind: 'seedPedigree' }; // round × wrinkled parents → F1 all round → F2 3 round : 1 wrinkled
+
 export interface Question {
     id: string;
     difficulty: QuestionDifficulty;
@@ -13,6 +26,7 @@ export interface Question {
     question: string;
     hint: string;
     explanation: string;
+    figure?: QuestionFigure;     // MCQ only — optional illustration
     choices?: Choice[];          // MCQ only
     answer?: string;             // MCQ: choice id
     parentA?: string[];          // drag only
@@ -167,98 +181,101 @@ export const LESSONS: Lesson[] = [
             {
                 id: 2, title: 'Inheritance Patterns',
                 questions: [
+                    // EASY (5)
                     {
                         id: 'i2e1', difficulty: 'easy', type: 'mcq',
-                        question: 'The physical appearance produced by a genotype is called its…',
-                        hint: 'What you can actually see or observe.',
-                        explanation: 'Phenotype is the observable trait — what you can see, such as flower color or plant height. Genotype is the underlying genetic code.',
-                        choices: [{ id: 'a', text: 'Genotype' }, { id: 'b', text: 'Phenotype' }, { id: 'c', text: 'Allele' }, { id: 'd', text: 'Chromosome' }], answer: 'b'
+                        question: 'Which of the following best explains the role of alleles in genetic variation?',
+                        hint: 'Think about why individuals in a population do not all look the same.',
+                        explanation: 'Alleles are different versions of the same gene. Because individuals carry different combinations of alleles, a population shows a wide diversity of traits.',
+                        choices: [{ id: 'a', text: 'Alleles determine dominant traits in an organism.' }, { id: 'b', text: 'Different alleles contribute to the diversity of traits within a population.' }, { id: 'c', text: 'Alleles result in physical differences among individuals.' }, { id: 'd', text: 'A single allele controls all genetic characteristics of an organism.' }], answer: 'b'
                     },
                     {
                         id: 'i2e2', difficulty: 'easy', type: 'mcq',
-                        question: 'The actual allele combination of an organism is its…',
-                        hint: 'The genetic recipe, not the visible result.',
-                        explanation: 'Genotype is the specific pair of alleles an organism carries for a gene (e.g., Tt, BB). It determines what traits can be passed to offspring.',
-                        choices: [{ id: 'a', text: 'Phenotype' }, { id: 'b', text: 'Trait' }, { id: 'c', text: 'Genotype' }, { id: 'd', text: 'Chromosome' }], answer: 'c'
+                        question: 'A heterozygous genotype refers to a genetic makeup where an organism has two different alleles for a specific gene. Which of the following represents a heterozygous genotype?',
+                        hint: 'Look for one capital letter and one lowercase letter.',
+                        explanation: 'Ss is heterozygous because it has two different alleles — one dominant (S) and one recessive (s). SS and ss are homozygous, and "short" is a phenotype, not a genotype.',
+                        choices: [{ id: 'a', text: 'SS' }, { id: 'b', text: 'Ss' }, { id: 'c', text: 'ss' }, { id: 'd', text: 'short' }], answer: 'b'
                     },
                     {
                         id: 'i2e3', difficulty: 'easy', type: 'mcq',
-                        question: 'Which of these is an example of a phenotype?',
-                        hint: 'It is something you can observe about the organism.',
-                        explanation: 'Purple flower color is a phenotype — an observable trait. Genotypes like "Pp" are the underlying genetic codes that produce phenotypes.',
-                        choices: [{ id: 'a', text: 'Tt genotype' }, { id: 'b', text: 'Purple flower color' }, { id: 'c', text: 'The bb allele pair' }, { id: 'd', text: 'A chromosome' }], answer: 'b'
+                        question: 'A phenotype is the set of observable characteristics or traits of an organism. Which of the following is a phenotype?',
+                        hint: 'A phenotype is something you can actually see.',
+                        explanation: '"Short" is a phenotype because it describes an observable trait. Tt is a genotype, while dominant and heterozygous describe alleles and allele pairs.',
+                        choices: [{ id: 'a', text: 'Tt' }, { id: 'b', text: 'Short' }, { id: 'c', text: 'Dominant' }, { id: 'd', text: 'Heterozygous' }], answer: 'b'
                     },
                     {
                         id: 'i2e4', difficulty: 'easy', type: 'mcq',
-                        question: 'A dominant allele is represented by…',
-                        hint: 'Genetics uses a capital/lowercase convention.',
-                        explanation: 'By convention, dominant alleles are written with capital letters (e.g., T for tall) and recessive alleles with lowercase letters (e.g., t for short).',
-                        choices: [{ id: 'a', text: 'A lowercase letter' }, { id: 'b', text: 'A capital letter' }, { id: 'c', text: 'A number' }, { id: 'd', text: 'A symbol' }], answer: 'b'
+                        question: 'In pea plants, yellow seed color (Y) is dominant over green (y). Which of the following represents a homozygous dominant genotype for yellow seed color?',
+                        hint: 'Homozygous dominant means two identical capital letters.',
+                        explanation: 'YY is homozygous dominant — both alleles are the dominant Y. Yy is heterozygous, yy is homozygous recessive, and YG is not a valid genotype for one gene.',
+                        choices: [{ id: 'a', text: 'Yy' }, { id: 'b', text: 'yy' }, { id: 'c', text: 'YY' }, { id: 'd', text: 'YG' }], answer: 'c'
                     },
                     {
                         id: 'i2e5', difficulty: 'easy', type: 'mcq',
-                        question: 'What does "heterozygous" mean?',
-                        hint: 'Hetero means different.',
-                        explanation: 'Heterozygous means having two different alleles for a gene (e.g., Tt or Bb). The organism carries both a dominant and a recessive allele.',
-                        choices: [{ id: 'a', text: 'Two identical alleles' }, { id: 'b', text: 'Two different alleles' }, { id: 'c', text: 'No alleles' }, { id: 'd', text: 'Three alleles' }], answer: 'b'
+                        question: 'In dogs, long fur (L) is dominant to short fur (l). What is the genotype of a dog that is homozygous recessive for this trait?',
+                        hint: 'Homozygous recessive means two identical lowercase letters.',
+                        explanation: 'A homozygous recessive dog has two recessive alleles: ll. This dog has short fur. "Short fur" itself is the phenotype, not the genotype.',
+                        choices: [{ id: 'a', text: 'LL' }, { id: 'b', text: 'Ll' }, { id: 'c', text: 'll' }, { id: 'd', text: 'Short fur' }], answer: 'c'
                     },
-                    // MEDIUM (4)
+                    // MEDIUM (5)
                     {
                         id: 'i2m1', difficulty: 'medium', type: 'mcq',
-                        question: 'Which genotype is heterozygous?',
-                        hint: 'Look for the pair with two different alleles.',
-                        explanation: 'Tt is heterozygous because it has one dominant (T) and one recessive (t) allele. TT and tt are homozygous because both alleles are the same.',
-                        choices: [{ id: 'a', text: 'TT' }, { id: 'b', text: 'tt' }, { id: 'c', text: 'Tt' }, { id: 'd', text: 'None of the above' }], answer: 'c'
+                        question: "Which terms correctly describe the relationship between an organism's genetic composition and its physical traits?",
+                        hint: 'Geno- is the genetic code; pheno- is what shows.',
+                        explanation: 'Genotype is the genetic makeup (the allele combination, like Tt), while phenotype is the observable characteristic that results from it (like tall).',
+                        choices: [{ id: 'a', text: 'Genotype refers to the genetic makeup, while phenotype refers to observable characteristics.' }, { id: 'b', text: 'Phenotype refers to the genetic makeup, while genotype refers to observable characteristics.' }, { id: 'c', text: 'Dominant allele refers to genetic makeup, while recessive allele refers to observable characteristics.' }, { id: 'd', text: 'Homozygous refers to observable traits, while heterozygous refers to genetic makeup.' }], answer: 'a'
                     },
                     {
                         id: 'i2m2', difficulty: 'medium', type: 'mcq',
-                        question: 'A dominant trait appears whenever…',
-                        hint: 'Even one copy of the dominant allele is sufficient.',
-                        explanation: 'A dominant allele only needs to appear once in the genotype to be expressed. So both TT and Tt will show the dominant trait.',
-                        choices: [{ id: 'a', text: 'Two dominant alleles are present' }, { id: 'b', text: 'At least one dominant allele is present' }, { id: 'c', text: 'No recessive alleles are present' }, { id: 'd', text: 'Only in males' }], answer: 'b'
+                        question: 'Given the genotype RRTt (where R = round, r = wrinkled, T = tall, t = dwarf), what will be the phenotypes of the organism?',
+                        hint: 'Check each gene separately — is there at least one dominant allele?',
+                        explanation: 'RR has dominant alleles, so the seeds are round. Tt has one dominant T, so the plant is tall. The phenotype is round seeds, tall plant.',
+                        choices: [{ id: 'a', text: 'Round seeds, tall plant' }, { id: 'b', text: 'Round seeds, dwarf plant' }, { id: 'c', text: 'Wrinkled seeds, tall plant' }, { id: 'd', text: 'Wrinkled seeds, dwarf plant' }], answer: 'a'
                     },
                     {
                         id: 'i2m3', difficulty: 'medium', type: 'mcq',
-                        question: 'Two tall plants (Tt × Tt). What % of offspring will be short (tt)?',
-                        hint: 'Draw the Punnett square: TT, Tt, Tt, tt.',
-                        explanation: 'The Punnett square for Tt × Tt gives TT, Tt, Tt, tt. Only tt shows the recessive (short) phenotype — that is 1 out of 4 = 25%.',
-                        choices: [{ id: 'a', text: '0%' }, { id: 'b', text: '25%' }, { id: 'c', text: '50%' }, { id: 'd', text: '75%' }], answer: 'b'
+                        question: 'Brown fur is dominant. White fur is recessive. One parent is homozygous for brown fur and the other is heterozygous. Which of the following is a correct genotype of the parents?',
+                        hint: 'Homozygous brown = two capital B; heterozygous = one of each.',
+                        explanation: 'The homozygous brown parent is BB and the heterozygous parent is Bb, so the cross is BB × Bb.',
+                        choices: [{ id: 'a', text: 'BB × bb' }, { id: 'b', text: 'Bb × bb' }, { id: 'c', text: 'BB × Bb' }, { id: 'd', text: 'Bb × Bb' }], answer: 'c'
                     },
                     {
                         id: 'i2m4', difficulty: 'medium', type: 'mcq',
-                        question: 'If both parents are Bb (brown eyes), what fraction of children will have blue eyes (bb)?',
-                        hint: 'Cross Bb × Bb and count the bb boxes.',
-                        explanation: 'Bb × Bb gives BB, Bb, Bb, bb. The bb (blue-eyed) outcome appears once in four boxes, so 1/4 or 25% of children will have blue eyes.',
-                        choices: [{ id: 'a', text: '0' }, { id: 'b', text: '1/4' }, { id: 'c', text: '1/2' }, { id: 'd', text: '3/4' }], answer: 'b'
+                        question: "Look at the Punnett square. What type of allele pair is the mother's genotype?",
+                        hint: 'Read the two alleles on the mother\'s side of the square.',
+                        explanation: 'The mother contributes C and c, so her genotype is Cc — two different alleles, which makes her heterozygous.',
+                        figure: { kind: 'punnett', cornerLabel: 'Parental Genotype', topLabel: 'Father', leftLabel: 'Mother', top: ['C', 'c'], left: ['C', 'c'], cells: ['CC', 'Cc', 'Cc', 'cc'] },
+                        choices: [{ id: 'a', text: 'Homozygous Dominant' }, { id: 'b', text: 'Homozygous Recessive' }, { id: 'c', text: 'Heterozygous' }, { id: 'd', text: 'Dominant' }], answer: 'c'
                     },
-                    // HARD (4)
+                    {
+                        id: 'i2m5', difficulty: 'medium', type: 'mcq',
+                        question: 'C = curly hair (dominant), c = straight hair (recessive). Which genotype will show straight hair?',
+                        hint: 'A recessive trait only shows when there is no dominant allele.',
+                        explanation: 'Straight hair is recessive, so it only appears in cc. CC and Cc both have at least one dominant C allele and show curly hair.',
+                        figure: { kind: 'punnett', cornerLabel: 'Parental Genotype', topLabel: 'Father', leftLabel: 'Mother', top: ['C', 'c'], left: ['C', 'c'], cells: ['CC', 'Cc', 'Cc', 'cc'] },
+                        choices: [{ id: 'a', text: 'CC' }, { id: 'b', text: 'Cc' }, { id: 'c', text: 'cc' }, { id: 'd', text: 'all of them' }], answer: 'c'
+                    },
+                    // HARD (3)
                     {
                         id: 'i2h1', difficulty: 'hard', type: 'mcq',
-                        question: 'Two carrier parents (Aa × Aa). Probability child shows the disease?',
-                        hint: 'Only aa shows the recessive disease.',
-                        explanation: 'Aa × Aa gives AA, Aa, Aa, aa. Only aa (1 out of 4) shows the disease, so there is a 25% chance. This is why carrier parents can have affected children.',
-                        choices: [{ id: 'a', text: '0%' }, { id: 'b', text: '25%' }, { id: 'c', text: '50%' }, { id: 'd', text: '75%' }], answer: 'b'
+                        question: 'Which of the following pairs is INCORRECTLY matched?',
+                        hint: 'A hybrid has two different alleles.',
+                        explanation: 'kk has two identical recessive alleles, so it is homozygous recessive — not a hybrid. A hybrid is heterozygous (like Hh), and RR is homozygous.',
+                        choices: [{ id: 'a', text: 'kk = hybrid' }, { id: 'b', text: 'hybrid = heterozygous' }, { id: 'c', text: 'heterozygous = Hh' }, { id: 'd', text: 'homozygous = RR' }], answer: 'a'
                     },
                     {
                         id: 'i2h2', difficulty: 'hard', type: 'mcq',
-                        question: 'A blue-eyed child (bb) with two brown-eyed parents. Parents\' genotypes?',
-                        hint: 'The parents must each carry a hidden recessive allele.',
-                        explanation: 'Both parents must be Bb — they each carry one hidden b allele. When both pass b, the child gets bb (blue eyes). This shows how recessive traits can be carried silently.',
-                        choices: [{ id: 'a', text: 'BB × BB' }, { id: 'b', text: 'Bb × Bb' }, { id: 'c', text: 'BB × bb' }, { id: 'd', text: 'bb × bb' }], answer: 'b'
+                        question: 'Two pea plants can have the same phenotype but have different genotypes. Which of the following best explains how this is possible?',
+                        hint: 'Compare TT and Tt — do they look different?',
+                        explanation: 'A homozygous dominant plant (TT) and a heterozygous plant (Tt) both show the dominant trait, because one dominant allele is enough to mask the recessive allele.',
+                        choices: [{ id: 'a', text: 'One plant could be heterozygous while the other is homozygous for the same trait.' }, { id: 'b', text: 'Both plants have different alleles, but they express identical phenotypes because they lack dominance.' }, { id: 'c', text: 'The genotype does not influence phenotype in plants.' }, { id: 'd', text: 'The phenotype of a plant only changes based on environmental factors, not genetics.' }], answer: 'a'
                     },
                     {
                         id: 'i2h3', difficulty: 'hard', type: 'mcq',
-                        question: 'Which cross will produce ONLY offspring with the dominant phenotype?',
-                        hint: 'Both parents must be homozygous dominant.',
-                        explanation: 'BB × BB gives only BB offspring — all of them show the dominant phenotype. No recessive allele is present, so the recessive trait cannot appear.',
-                        choices: [{ id: 'a', text: 'Tt × tt' }, { id: 'b', text: 'Tt × Tt' }, { id: 'c', text: 'BB × BB' }, { id: 'd', text: 'Bb × bb' }], answer: 'c'
-                    },
-                    {
-                        id: 'i2h4', difficulty: 'hard', type: 'mcq',
-                        question: 'The allele that is always expressed when present, regardless of the other allele, is called…',
-                        hint: 'This allele "dominates" its partner.',
-                        explanation: 'A dominant allele is always expressed when present — whether the organism is homozygous (TT) or heterozygous (Tt). The recessive allele is masked.',
-                        choices: [{ id: 'a', text: 'Recessive' }, { id: 'b', text: 'Codominant' }, { id: 'c', text: 'Dominant' }, { id: 'd', text: 'Polygenic' }], answer: 'c'
+                        question: 'A plant with the genotype Gg (heterozygous) is crossed with a plant with the genotype GG (homozygous dominant). Which statement best analyzes the relationship between their genotypes and phenotypes?',
+                        hint: 'The GG parent always passes a G. What does every offspring receive?',
+                        explanation: 'Gg × GG gives GG and Gg offspring only. Every offspring has at least one dominant G, so all of them show the same dominant phenotype as the GG parent.',
+                        choices: [{ id: 'a', text: 'The offspring will exhibit a recessive trait due to the presence of the g allele.' }, { id: 'b', text: 'The offspring will all have the same phenotype as the parent with the GG genotype because G is dominant.' }, { id: 'c', text: 'The offspring will have a 3:1 phenotypic ratio, demonstrating complete dominance.' }, { id: 'd', text: 'The presence of two dominant alleles in one parent will suppress any expression of the heterozygous genotype in the other parent.' }], answer: 'b'
                     },
                 ],
             },
@@ -376,98 +393,127 @@ export const LESSONS: Lesson[] = [
             {
                 id: 1, title: "Mendel's Experiments",
                 questions: [
+                    // EASY (5)
                     {
                         id: 'm1e1', difficulty: 'easy', type: 'mcq',
-                        question: 'What plant did Gregor Mendel use in his genetics experiments?',
-                        hint: 'It is a common garden vegetable with edible seeds.',
-                        explanation: 'Mendel chose pea plants (Pisum sativum) because they have distinct, easily observable traits, reproduce quickly, and can be self-pollinated or cross-pollinated.',
-                        choices: [{ id: 'a', text: 'Corn' }, { id: 'b', text: 'Pea plant' }, { id: 'c', text: 'Rose' }, { id: 'd', text: 'Tomato' }], answer: 'b'
+                        question: "Which of the following is NOT one of Mendel's principles?",
+                        hint: 'Mendel described three laws: Dominance, Segregation, and Independent Assortment.',
+                        explanation: "Mendel's principles are the Law of Dominance, the Law of Segregation, and the Law of Independent Assortment. The \"Law of Uniformity\" is not one of them.",
+                        choices: [{ id: 'a', text: 'Law of Segregation' }, { id: 'b', text: 'Law of Independent Assortment' }, { id: 'c', text: 'Law of Dominance' }, { id: 'd', text: 'Law of Uniformity' }], answer: 'd'
                     },
                     {
                         id: 'm1e2', difficulty: 'easy', type: 'mcq',
-                        question: 'Mendel is known as the Father of…',
-                        hint: 'The science of heredity and variation.',
-                        explanation: 'Gregor Mendel is called the Father of Genetics because his experiments with pea plants in the 1860s established the fundamental laws of inheritance.',
-                        choices: [{ id: 'a', text: 'Evolution' }, { id: 'b', text: 'Cell biology' }, { id: 'c', text: 'Genetics' }, { id: 'd', text: 'Botany' }], answer: 'c'
+                        question: "How many alleles does an organism inherit for each gene in Mendel's experiment?",
+                        hint: 'One comes from each parent.',
+                        explanation: 'An organism inherits two alleles for each gene — one from the mother and one from the father.',
+                        choices: [{ id: 'a', text: 'One' }, { id: 'b', text: 'Two' }, { id: 'c', text: 'Three' }, { id: 'd', text: 'Four' }], answer: 'b'
                     },
                     {
                         id: 'm1e3', difficulty: 'easy', type: 'mcq',
-                        question: 'A pea plant has genotype "Pp" (P = purple, dominant). What color are its flowers?',
-                        hint: 'One dominant allele is enough to express the dominant trait.',
-                        explanation: 'Pp is heterozygous. Since P (purple) dominates p (white), the plant shows purple flowers. The white allele is present but not expressed.',
-                        choices: [{ id: 'a', text: 'White' }, { id: 'b', text: 'Purple' }, { id: 'c', text: 'Pink' }, { id: 'd', text: 'Yellow' }], answer: 'b'
+                        question: "What was the primary purpose of Mendel's experiments with pea plants?",
+                        hint: 'Mendel is called the Father of Genetics — the study of heredity.',
+                        explanation: 'Mendel crossed pea plants with contrasting traits to understand how traits are passed from parents to offspring.',
+                        choices: [{ id: 'a', text: 'To study plant growth rates' }, { id: 'b', text: 'To understand how traits are inherited' }, { id: 'c', text: 'To test the effects of fertilizers' }, { id: 'd', text: 'To breed new plant species' }], answer: 'b'
                     },
                     {
                         id: 'm1e4', difficulty: 'easy', type: 'mcq',
-                        question: 'Which pea trait is dominant — round seeds or wrinkled seeds?',
-                        hint: 'It appeared in every F1 generation plant.',
-                        explanation: 'Round seeds are dominant over wrinkled. When Mendel crossed pure round × pure wrinkled plants, ALL F1 offspring had round seeds — proving round is dominant.',
-                        choices: [{ id: 'a', text: 'Wrinkled' }, { id: 'b', text: 'Round' }, { id: 'c', text: 'Both' }, { id: 'd', text: 'Neither' }], answer: 'b'
+                        question: 'Which principle explains how alleles separate during gamete formation, ensuring that each gamete receives only one allele for a given trait?',
+                        hint: 'To "segregate" means to separate.',
+                        explanation: 'The Law of Segregation states that the two alleles for a trait separate during gamete formation, so each gamete carries only one allele.',
+                        choices: [{ id: 'a', text: 'Law of Independent Assortment' }, { id: 'b', text: 'Law of Segregation' }, { id: 'c', text: 'Law of Continuous Variation' }, { id: 'd', text: 'Law of Codominance' }], answer: 'b'
                     },
                     {
                         id: 'm1e5', difficulty: 'easy', type: 'mcq',
-                        question: 'In Mendel\'s experiments, what does the "P generation" refer to?',
-                        hint: 'P stands for "parental."',
-                        explanation: 'The P generation is the original parental generation — the purebred plants Mendel started with. Crossing P plants produces the F1 generation.',
-                        choices: [{ id: 'a', text: 'The offspring generation' }, { id: 'b', text: 'The purebred parental generation' }, { id: 'c', text: 'The hybrid generation' }, { id: 'd', text: 'The final generation' }], answer: 'b'
+                        question: 'What did Mendel conclude about recessive traits in his F2 generation?',
+                        hint: 'The recessive trait was hidden in F1 — what happened in F2?',
+                        explanation: 'The recessive trait disappeared in the F1 generation but reappeared in the F2 generation in a ratio of 3 dominant : 1 recessive.',
+                        choices: [{ id: 'a', text: 'They disappear entirely' }, { id: 'b', text: 'They are always dominant' }, { id: 'c', text: 'They reappear in a 3:1 ratio' }, { id: 'd', text: 'They show incomplete dominance' }], answer: 'c'
                     },
-                    // MEDIUM (4)
+                    // MEDIUM (7)
                     {
                         id: 'm1m1', difficulty: 'medium', type: 'mcq',
-                        question: 'Mendel\'s Law of Segregation states that allele pairs separate during…',
-                        hint: 'When sex cells (gametes) are formed.',
-                        explanation: 'Allele pairs separate during meiosis — the process that forms gametes (egg and sperm). Each gamete receives only one allele per gene, which reunite at fertilization.',
-                        choices: [{ id: 'a', text: 'Mitosis' }, { id: 'b', text: 'Fertilization' }, { id: 'c', text: 'Meiosis' }, { id: 'd', text: 'Growth' }], answer: 'c'
+                        question: "How did Gregor Mendel's experiments with pea plants contribute to the foundation of modern genetics?",
+                        hint: 'Mendel never saw DNA — he counted traits in offspring.',
+                        explanation: 'Mendel showed that traits are inherited in predictable patterns through dominant and recessive "factors" (alleles), not by blending. DNA was identified much later.',
+                        choices: [{ id: 'a', text: 'He identified DNA as the molecule responsible for inheritance.' }, { id: 'b', text: "He proved that environmental factors alone determine an organism's traits." }, { id: 'c', text: 'He discovered that all traits blend together rather than following specific inheritance patterns.' }, { id: 'd', text: 'He demonstrated that traits are inherited in predictable patterns through dominant and recessive alleles.' }], answer: 'd'
                     },
                     {
                         id: 'm1m2', difficulty: 'medium', type: 'mcq',
-                        question: 'Tt × Tt cross. What is the ratio of tall to short offspring?',
-                        hint: 'Count the Punnett square outcomes: TT, Tt, Tt, tt.',
-                        explanation: 'Tt × Tt gives TT, Tt, Tt, tt. Three show the dominant (tall) phenotype; one shows recessive (short). The ratio is 3:1 — a classic Mendelian result.',
-                        choices: [{ id: 'a', text: '1:1' }, { id: 'b', text: '2:1' }, { id: 'c', text: '3:1' }, { id: 'd', text: '4:0' }], answer: 'c'
+                        question: "What is the significance of Mendel's Law of Independent Assortment?",
+                        hint: 'Think of two different traits, like seed color and seed shape.',
+                        explanation: 'The Law of Independent Assortment means alleles for different traits are sorted into gametes independently — inheriting one trait does not affect inheriting another.',
+                        choices: [{ id: 'a', text: 'Traits are inherited independently of each other.' }, { id: 'b', text: 'Traits blend from both parents.' }, { id: 'c', text: 'All offspring are identical to their parents.' }, { id: 'd', text: 'Only dominant traits are inherited.' }], answer: 'a'
                     },
                     {
                         id: 'm1m3', difficulty: 'medium', type: 'mcq',
-                        question: 'In Mendel\'s F1 cross (Pp × Pp), what fraction of offspring will have white flowers (pp)?',
-                        hint: 'Only homozygous recessive plants show white.',
-                        explanation: 'Pp × Pp gives PP, Pp, Pp, pp. Only pp (1 of 4) shows white flowers. So 1/4 or 25% will have white flowers. This is Mendel\'s famous 3:1 ratio.',
-                        choices: [{ id: 'a', text: '1/4' }, { id: 'b', text: '1/2' }, { id: 'c', text: '3/4' }, { id: 'd', text: '0' }], answer: 'a'
+                        question: "In Mendel's experiment comparing round-seeded and wrinkled-seeded pea plants, how did he classify the wrinkled-seeded trait?",
+                        hint: 'Wrinkled seeds disappeared in F1 and came back in F2.',
+                        explanation: 'Wrinkled seed shape is recessive. It is masked whenever the dominant round allele (R) is present and only shows in rr plants.',
+                        choices: [{ id: 'a', text: 'A dominant trait that appears in every generation' }, { id: 'b', text: 'A recessive trait that is masked in the presence of a dominant allele' }, { id: 'c', text: 'A codominant trait that blends with the round-seeded trait' }, { id: 'd', text: 'A mutation that randomly appears in some offspring' }], answer: 'b'
                     },
                     {
                         id: 'm1m4', difficulty: 'medium', type: 'mcq',
-                        question: 'What does the F2 generation represent in Mendel\'s experiments?',
-                        hint: 'F2 comes from crossing F1 plants with each other.',
-                        explanation: 'The F2 generation is the offspring of F1 × F1 crosses. This is where Mendel observed the 3:1 phenotype ratio and 1:2:1 genotype ratio.',
-                        choices: [{ id: 'a', text: 'The original purebred parents' }, { id: 'b', text: 'Offspring of F1 × F1 cross' }, { id: 'c', text: 'First hybrid generation' }, { id: 'd', text: 'Third generation' }], answer: 'b'
+                        question: "In Mendel's Law of Dominance, why is a dominant trait expressed over a recessive trait in a heterozygous organism?",
+                        hint: 'What does the dominant allele do to the recessive one?',
+                        explanation: 'In a heterozygote (like Tt), the dominant allele masks the expression of the recessive allele, so only the dominant trait shows.',
+                        choices: [{ id: 'a', text: 'Dominant traits are always more common.' }, { id: 'b', text: 'Dominant alleles mask the expression of recessive alleles.' }, { id: 'c', text: 'Recessive alleles are never expressed.' }, { id: 'd', text: 'Recessive traits are always expressed in the phenotype.' }], answer: 'b'
                     },
-                    // HARD (4)
+                    {
+                        id: 'm1m5', difficulty: 'medium', type: 'mcq',
+                        question: 'In Mendelian genetics, what does a dominant allele do?',
+                        hint: 'More than one choice may describe it.',
+                        explanation: 'A dominant allele masks the effect of a recessive allele, and whenever it is present it is expressed in the phenotype — so both A and B are correct.',
+                        choices: [{ id: 'a', text: 'Masks the effect of a recessive allele' }, { id: 'b', text: 'Is always expressed as a phenotype' }, { id: 'c', text: 'Is never expressed in the phenotype' }, { id: 'd', text: 'Both A and B' }], answer: 'd'
+                    },
+                    {
+                        id: 'm1m6', difficulty: 'medium', type: 'mcq',
+                        question: 'When Mendel crossed hybrids (F1 generation) in his experiments, which of the following was the result specifically on the pea plant height?',
+                        hint: 'Tt × Tt — count the tall and short outcomes.',
+                        explanation: 'Crossing hybrids (Tt × Tt) gave TT, Tt, Tt, tt — 3 tall to 1 short. That is 75% tall and 25% short.',
+                        choices: [{ id: 'a', text: 'All the plants were tall.' }, { id: 'b', text: 'All the plants were short.' }, { id: 'c', text: '75% of the plants were tall and 25% were short.' }, { id: 'd', text: '25% of the plants were tall and 75% were short.' }], answer: 'c'
+                    },
+                    {
+                        id: 'm1m7', difficulty: 'medium', type: 'mcq',
+                        question: "In Mendel's experiment with seed color, why were only yellow seeds visible in the F1 generation after crossing a homozygous yellow-seeded plant (YY) with a homozygous green-seeded plant (yy)?",
+                        hint: 'Every F1 plant is Yy. Which allele shows?',
+                        explanation: 'YY × yy gives all Yy offspring. Because yellow (Y) is dominant over green (y), all F1 seeds are yellow.',
+                        choices: [{ id: 'a', text: 'Green seed color is dominant over yellow.' }, { id: 'b', text: 'Yellow seed color is dominant over green.' }, { id: 'c', text: 'Both yellow and green colors were expressed equally in the F1 generation.' }, { id: 'd', text: 'Seed color is determined by multiple alleles.' }], answer: 'b'
+                    },
+                    // HARD (5)
                     {
                         id: 'm1h1', difficulty: 'hard', type: 'mcq',
-                        question: 'Law of Independent Assortment: genes for different traits are inherited…',
-                        hint: 'One gene\'s allele sorting does not affect another gene\'s alleles.',
-                        explanation: 'Mendel\'s Law of Independent Assortment states that alleles for different genes separate independently during gamete formation — one gene\'s inheritance does not influence another\'s.',
-                        choices: [{ id: 'a', text: 'Together always' }, { id: 'b', text: 'Independently of one another' }, { id: 'c', text: 'In dominant-to-recessive order' }, { id: 'd', text: 'Only from the mother' }], answer: 'b'
+                        question: 'What key principle did Mendel discover from his dihybrid cross experiments?',
+                        hint: 'A dihybrid cross follows two traits at the same time.',
+                        explanation: 'Dihybrid crosses showed that the inheritance of one trait does not affect the inheritance of another — the Law of Independent Assortment, giving the 9:3:3:1 ratio.',
+                        choices: [{ id: 'a', text: 'Each offspring inherits all traits exclusively from one parent.' }, { id: 'b', text: 'Traits are inherited together and do not assort independently.' }, { id: 'c', text: 'Recessive traits disappear completely in the F₂ generation.' }, { id: 'd', text: 'The inheritance of one trait does not affect the inheritance of another, following the Law of Independent Assortment.' }], answer: 'd'
                     },
                     {
                         id: 'm1h2', difficulty: 'hard', type: 'mcq',
-                        question: 'Dihybrid cross YyRr × YyRr. How many different PHENOTYPE combinations are possible?',
-                        hint: 'Round/wrinkled × yellow/green — think of all the combinations.',
-                        explanation: 'A dihybrid cross produces 4 phenotype classes: Round Yellow, Round Green, Wrinkled Yellow, Wrinkled Green. In a 9:3:3:1 ratio — 4 phenotype combinations.',
-                        choices: [{ id: 'a', text: '2' }, { id: 'b', text: '4' }, { id: 'c', text: '9' }, { id: 'd', text: '16' }], answer: 'b'
+                        question: "Which of the following was NOT an advantage of using garden pea plants in Mendel's experiments?",
+                        hint: 'Mendel needed plants he could grow in large numbers, generation after generation.',
+                        explanation: 'Pea plants were ideal because they breed true, have clearly contrasting traits, allow controlled pollination, and mature quickly in little space. Needing years to mature and lots of space would NOT be an advantage.',
+                        choices: [{ id: 'a', text: 'Pea plants show consistent traits across successive generations.' }, { id: 'b', text: 'Pea plants have clearly contrasting forms of observable traits.' }, { id: 'c', text: 'Pea plants allow controlled pollination through flower manipulation.' }, { id: 'd', text: 'Pea plants take many years to mature and require a large growing space.' }], answer: 'd'
                     },
                     {
                         id: 'm1h3', difficulty: 'hard', type: 'mcq',
-                        question: 'In Mendel\'s monohybrid cross (Tt × Tt), what is the genotype ratio?',
-                        hint: 'Count each distinct genotype: TT, Tt, tt.',
-                        explanation: 'The genotype ratio from Tt × Tt is 1 TT : 2 Tt : 1 tt. The phenotype ratio is 3 tall : 1 short. These are different — genotype and phenotype ratios differ.',
-                        choices: [{ id: 'a', text: '1:1:1' }, { id: 'b', text: '1:2:1' }, { id: 'c', text: '3:1' }, { id: 'd', text: '2:1:1' }], answer: 'b'
+                        question: "Which of the following statements states Mendel's law of independent assortment?",
+                        hint: 'It is about factors for DIFFERENT traits.',
+                        explanation: 'The law of independent assortment states that the factors (alleles) for different traits separate independently of one another during gamete formation.',
+                        choices: [{ id: 'a', text: 'Parents of contrasting appearance produce offspring of intermediate appearance.' }, { id: 'b', text: 'Factors for different traits separate independently during gamete formation.' }, { id: 'c', text: 'Organisms have more factors for each trait.' }, { id: 'd', text: 'One allele masked another; one allele was dominant over the other in the F1 generation.' }], answer: 'b'
                     },
                     {
                         id: 'm1h4', difficulty: 'hard', type: 'mcq',
-                        question: 'Why did Mendel choose pea plants with traits that showed no blending?',
-                        hint: 'Think about what makes traits easy to analyze statistically.',
-                        explanation: 'Mendel chose traits with clear-cut dominant/recessive patterns (no blending) so he could count ratios precisely. Blended traits would have made the pattern impossible to see.',
-                        choices: [{ id: 'a', text: 'Pea plants grow faster with blended traits' }, { id: 'b', text: 'Clear ratios could be counted and analyzed statistically' }, { id: 'c', text: 'Blended traits are always dominant' }, { id: 'd', text: 'He had no choice — peas only blend' }], answer: 'b'
+                        question: 'In each case where Mendel crossed true-breeding plants as parents, the offspring displayed only one of the two traits seen in the parents. This observation supports which principle of genetics?',
+                        hint: 'One trait "hid" the other in the offspring.',
+                        explanation: 'Only one parental trait appeared in the F1 offspring because one allele is dominant and masks the recessive one — the principle of dominance and recessiveness.',
+                        choices: [{ id: 'a', text: 'segregation' }, { id: 'b', text: 'independent assortment' }, { id: 'c', text: 'dominance and recessiveness' }, { id: 'd', text: 'allele frequency' }], answer: 'c'
+                    },
+                    {
+                        id: 'm1h5', difficulty: 'hard', type: 'mcq',
+                        question: 'Which of the following is FALSE regarding the law of segregation?',
+                        hint: 'Each gamete receives only ONE allele for a trait.',
+                        explanation: 'The law of segregation says the two alleles for a trait separate into different gametes — they never end up together in the same gamete. The other statements are true.',
+                        choices: [{ id: 'a', text: "It can account for the 3:1 ratio seen in the F2 generation of Mendel's crosses." }, { id: 'b', text: 'It states that each of two alleles for a given trait segregate into different gametes.' }, { id: 'c', text: 'It can be explained by the segregation of homologous chromosomes during meiosis.' }, { id: 'd', text: 'It states that both alleles for a given trait end up together in the same gamete.' }], answer: 'd'
                     },
                 ],
             },
@@ -687,10 +733,10 @@ export const LESSONS: Lesson[] = [
                 questions: [
                     {
                         id: 'p1e1', difficulty: 'easy', type: 'mcq',
-                        question: 'What is a Punnett square used for?',
-                        hint: 'It predicts what offspring might look like genetically.',
-                        explanation: 'A Punnett square is a grid diagram used to predict the possible genotypes and phenotypes of offspring from a specific genetic cross between two parents.',
-                        choices: [{ id: 'a', text: 'Drawing cell structures' }, { id: 'b', text: 'Predicting offspring genotypes' }, { id: 'c', text: 'Mapping chromosomes' }, { id: 'd', text: 'Counting mutations' }], answer: 'b'
+                        question: 'Which tool could best be used to predict the likelihood of a specific phenotype in offspring?',
+                        hint: 'It is a grid named after Reginald Punnett.',
+                        explanation: 'A Punnett square is a grid that combines the alleles of two parents to predict the possible genotypes and phenotypes of their offspring.',
+                        choices: [{ id: 'a', text: 'Punnett square' }, { id: 'b', text: 'Punnett cube' }, { id: 'c', text: 'Square Table' }, { id: 'd', text: 'Phenotypic Ratio' }], answer: 'a'
                     },
                     {
                         id: 'p1e2', difficulty: 'easy', type: 'mcq',
@@ -997,96 +1043,159 @@ export const LESSONS: Lesson[] = [
                     // EASY (5)
                     {
                         id: 'x1e1', difficulty: 'easy', type: 'mcq',
-                        question: 'A monohybrid cross tracks how many traits at once?',
-                        hint: '"Mono" means one.',
-                        explanation: 'A monohybrid cross follows the inheritance of just ONE trait (one gene) between two parents — like seed shape alone.',
-                        choices: [{ id: 'a', text: 'One' }, { id: 'b', text: 'Two' }, { id: 'c', text: 'Three' }, { id: 'd', text: 'Four' }], answer: 'a'
+                        question: 'Mendel crossed two heterozygous purple-flowered pea plants. Using his results, which of the following phenotypic ratios would you expect in the F2 generation?',
+                        hint: 'Pp × Pp — only pp is white.',
+                        explanation: 'Pp × Pp gives PP, Pp, Pp, pp. Three of the four boxes have a dominant P (purple) and one is pp (white): 3 purple : 1 white.',
+                        choices: [{ id: 'a', text: '3 purple-flowered : 1 white-flowered' }, { id: 'b', text: '1 purple-flowered : 3 white-flowered' }, { id: 'c', text: '2 purple-flowered : 2 white-flowered' }, { id: 'd', text: 'All purple-flowered' }], answer: 'a'
                     },
                     {
                         id: 'x1e2', difficulty: 'easy', type: 'mcq',
-                        question: 'Round seeds (R) are dominant over wrinkled seeds (r). A pea plant with genotype Rr has what shape seeds?',
-                        hint: 'One dominant allele is enough to show the dominant trait.',
-                        explanation: 'Rr is heterozygous. Since R (round) is dominant over r (wrinkled), the seeds are round. The wrinkled allele is present but hidden.',
-                        choices: [{ id: 'a', text: 'Wrinkled' }, { id: 'b', text: 'Round' }, { id: 'c', text: 'Half round, half wrinkled' }, { id: 'd', text: 'Neither' }], answer: 'b'
+                        question: 'Assume that R is the dominant trait for round and r is the recessive trait for wrinkled. The cross of parental genotypes Rr and Rr will have _______ of its phenotypes.',
+                        hint: 'Rr × Rr gives RR, Rr, Rr, rr.',
+                        explanation: 'Three of the four offspring (RR, Rr, Rr) have a dominant R and are round; only rr is wrinkled. So ¾ round and ¼ wrinkled.',
+                        choices: [{ id: 'a', text: '¾ round and ¼ wrinkled' }, { id: 'b', text: '¼ round and ¾ wrinkled' }, { id: 'c', text: '½ round and ½ wrinkled' }, { id: 'd', text: 'All round' }], answer: 'a'
                     },
                     {
                         id: 'x1e3', difficulty: 'easy', type: 'mcq',
-                        question: 'RR × rr cross. What genotype do ALL offspring have?',
-                        hint: 'RR can only give R; rr can only give r.',
-                        explanation: 'RR contributes only R gametes and rr contributes only r gametes, so every offspring is Rr — heterozygous, and round since R is dominant.',
-                        choices: [{ id: 'a', text: 'RR' }, { id: 'b', text: 'rr' }, { id: 'c', text: 'Rr' }, { id: 'd', text: 'A mix of all three' }], answer: 'c'
+                        question: 'When Mendel crossed a true-breeding tall plant with a true-breeding short plant, what will be the expected offspring as shown in the Punnett square?',
+                        hint: 'Every box in the square is Tt.',
+                        explanation: 'TT × tt gives Tt in all four boxes. Each offspring has a dominant T, so 100% are tall.',
+                        figure: { kind: 'punnett', top: ['T', 'T'], left: ['t', 't'], cells: ['Tt', 'Tt', 'Tt', 'Tt'] },
+                        choices: [{ id: 'a', text: '100% tall' }, { id: 'b', text: '50% tall, 50% short' }, { id: 'c', text: '100% short' }, { id: 'd', text: '100% medium' }], answer: 'a'
                     },
                     {
                         id: 'x1e4', difficulty: 'easy', type: 'mcq',
-                        question: 'Rr × Rr cross. What is the phenotype ratio of round to wrinkled offspring?',
-                        hint: 'This is the classic Mendelian ratio.',
-                        explanation: 'Rr × Rr gives RR, Rr, Rr, rr. Three offspring show round (dominant) and one shows wrinkled (recessive) — a 3:1 ratio.',
-                        choices: [{ id: 'a', text: '1:1' }, { id: 'b', text: '1:2:1' }, { id: 'c', text: '3:1' }, { id: 'd', text: '9:3:3:1' }], answer: 'c'
+                        question: "Two true-breeding parents are crossed, similar to Mendel's P generation. A purple flower (PP) is crossed with a white flower (pp). What is the expected outcome for the F1 generation?",
+                        hint: 'Look at the boxes — every offspring is Pp.',
+                        explanation: 'PP × pp gives Pp in all four boxes. Purple (P) is dominant, so all F1 flowers are purple.',
+                        figure: { kind: 'punnett', top: ['P', 'P'], left: ['p', 'p'], cells: ['Pp', 'Pp', 'Pp', 'Pp'] },
+                        choices: [{ id: 'a', text: 'all white' }, { id: 'b', text: 'all purple' }, { id: 'c', text: 'all red' }, { id: 'd', text: 'half purple, half white' }], answer: 'b'
                     },
                     {
                         id: 'x1e5', difficulty: 'easy', type: 'mcq',
-                        question: 'In a monohybrid cross, how many boxes does the Punnett square have?',
-                        hint: 'One gene means each parent contributes 2 possible alleles.',
-                        explanation: 'A monohybrid cross uses a 2×2 Punnett square — 4 boxes total, one for each possible combination of the two parents\' alleles.',
-                        choices: [{ id: 'a', text: '2' }, { id: 'b', text: '4' }, { id: 'c', text: '8' }, { id: 'd', text: '16' }], answer: 'b'
+                        question: 'If a homozygous black guinea pig (BB) is crossed with a homozygous white guinea pig (bb), what is the probability that an offspring will have black fur?',
+                        hint: 'BB can only give B; bb can only give b.',
+                        explanation: 'BB × bb gives Bb in every box. Each offspring has a dominant B, so the probability of black fur is 100%.',
+                        choices: [{ id: 'a', text: '25%' }, { id: 'b', text: '50%' }, { id: 'c', text: '75%' }, { id: 'd', text: '100%' }], answer: 'd'
                     },
-                    // MEDIUM (4)
+                    // MEDIUM (10)
                     {
                         id: 'x1m1', difficulty: 'medium', type: 'mcq',
-                        question: 'Rr × Rr. What fraction of offspring will be wrinkled (rr)?',
-                        hint: 'Count the rr boxes in the 4-cell grid.',
-                        explanation: 'Rr × Rr gives RR, Rr, Rr, rr. Only 1 of the 4 boxes is rr, so 1/4 (25%) of offspring will be wrinkled.',
-                        choices: [{ id: 'a', text: '1/4' }, { id: 'b', text: '1/2' }, { id: 'c', text: '3/4' }, { id: 'd', text: 'All' }], answer: 'a'
+                        question: 'In a cross of a round hybrid pea (Rr) with a true-breeding round parent (RR), what phenotypic proportions would be observed in the offspring?',
+                        hint: 'The question asks about phenotypes — what the seeds look like.',
+                        explanation: 'Rr × RR gives RR, RR, Rr, Rr. Every offspring has at least one dominant R, so all of them are round. (Half RR and half Rr describes genotypes, not phenotypes.)',
+                        choices: [{ id: 'a', text: 'Half heterozygous, half homozygous dominant' }, { id: 'b', text: 'Half round, half wrinkled' }, { id: 'c', text: 'All heterozygous' }, { id: 'd', text: 'All round' }], answer: 'd'
                     },
                     {
                         id: 'x1m2', difficulty: 'medium', type: 'mcq',
-                        question: 'Rr × rr cross (a test cross). What is the expected phenotype ratio?',
-                        hint: 'The Rr parent gives R or r; the rr parent only gives r.',
-                        explanation: 'Rr × rr gives Rr, Rr, rr, rr. Half the offspring are round (Rr) and half are wrinkled (rr) — a 1:1 ratio.',
-                        choices: [{ id: 'a', text: '3:1' }, { id: 'b', text: '1:1' }, { id: 'c', text: '1:2:1' }, { id: 'd', text: 'All round' }], answer: 'b'
+                        question: 'In the cross Tt × Tt, what percent of offspring would have the same phenotype as the parents?',
+                        hint: 'Both parents are tall. How many boxes show tall?',
+                        explanation: 'Tt × Tt gives TT, Tt, Tt, tt. The parents are tall, and three of the four offspring (TT, Tt, Tt) are tall too: 75%.',
+                        choices: [{ id: 'a', text: '25%' }, { id: 'b', text: '50%' }, { id: 'c', text: '75%' }, { id: 'd', text: '100%' }], answer: 'c'
                     },
                     {
-                        id: 'x1m3', difficulty: 'medium', type: 'drag',
+                        id: 'x1m3', difficulty: 'medium', type: 'mcq',
+                        question: 'If you crossed two heterozygous plants, how many of the offspring will also be heterozygous?',
+                        hint: 'Count the boxes with one capital and one lowercase letter.',
+                        explanation: 'Tt × Tt gives TT, Tt, Tt, tt. Two of the four boxes are heterozygous (Tt), so half of the offspring are heterozygous.',
+                        choices: [{ id: 'a', text: 'all' }, { id: 'b', text: 'half' }, { id: 'c', text: '¾' }, { id: 'd', text: '¼' }], answer: 'b'
+                    },
+                    {
+                        id: 'x1m4', difficulty: 'medium', type: 'mcq',
+                        question: 'PP = purple, pp = white. What will be the offspring of a cross between two heterozygous purple-flowering plants?',
+                        hint: 'Pp × Pp — can a pp offspring appear?',
+                        explanation: 'Pp × Pp gives PP, Pp, Pp (purple) and pp (white). So the offspring include both purple-flowered and white-flowered plants.',
+                        choices: [{ id: 'a', text: 'all purple-flowered plants' }, { id: 'b', text: 'all white-flowered plants' }, { id: 'c', text: 'two types of white-flowered plants: PP and Pp' }, { id: 'd', text: 'purple-flowered plants and white-flowered plants' }], answer: 'd'
+                    },
+                    {
+                        id: 'x1m5', difficulty: 'medium', type: 'mcq',
+                        question: 'In terms of the color of the pods, green is dominant to yellow. If a heterozygous plant is crossed with a homozygous yellow pod plant, what is the probability that the offspring will be yellow?',
+                        hint: 'Gg × gg — count the gg boxes.',
+                        explanation: 'Gg × gg gives Gg, Gg, gg, gg. Two of the four boxes are gg (yellow), so the probability is 1/2.',
+                        choices: [{ id: 'a', text: '1/2' }, { id: 'b', text: '1' }, { id: 'c', text: '1/8' }, { id: 'd', text: '0' }], answer: 'a'
+                    },
+                    {
+                        id: 'x1m6', difficulty: 'medium', type: 'mcq',
+                        question: 'C = curly hair, c = straight hair. Based on the Punnett square, what is the probability of the parents having an offspring with curly hair?',
+                        hint: 'Any box with at least one capital C is curly.',
+                        explanation: 'Cc × Cc gives CC, Cc, Cc, cc. Three of the four boxes have a dominant C (curly), so the probability is 75%.',
+                        figure: { kind: 'punnett', cornerLabel: 'Parental Genotype', topLabel: 'Father', leftLabel: 'Mother', top: ['C', 'c'], left: ['C', 'c'], cells: ['CC', 'Cc', 'Cc', 'cc'] },
+                        choices: [{ id: 'a', text: '100%' }, { id: 'b', text: '75%' }, { id: 'c', text: '50%' }, { id: 'd', text: '25%' }], answer: 'b'
+                    },
+                    {
+                        id: 'x1m7', difficulty: 'medium', type: 'mcq',
+                        question: "In Mendel's experiment, a pea plant that has purple flowers is crossed with one that has white flowers. The offspring were half white and half purple. What were the genotypes of the parents?",
+                        hint: 'For white offspring to appear, the purple parent must carry a hidden p.',
+                        explanation: 'Pp × pp gives Pp, Pp, pp, pp — half purple and half white. PP × pp would give all purple, and W is not an allele of this gene.',
+                        choices: [{ id: 'a', text: 'Pp × pp' }, { id: 'b', text: 'Pp × Pp' }, { id: 'c', text: 'PP × pp' }, { id: 'd', text: 'PP × WW' }], answer: 'a'
+                    },
+                    {
+                        id: 'x1m8', difficulty: 'medium', type: 'mcq',
+                        question: 'In tomatoes, red fruit (R) is dominant over yellow fruit (r). A plant that is heterozygous for red fruit is crossed with a plant that has yellow fruit. What would be the phenotypes of the offspring?',
+                        hint: 'Rr × rr — count the red and yellow boxes.',
+                        explanation: 'Rr × rr gives Rr, Rr, rr, rr. Half are red (Rr) and half are yellow (rr).',
+                        choices: [{ id: 'a', text: '100% red fruit' }, { id: 'b', text: '100% yellow fruit' }, { id: 'c', text: '50% red & 50% yellow fruit' }, { id: 'd', text: '75% red fruit & 25% yellow fruit' }], answer: 'c'
+                    },
+                    {
+                        id: 'x1m9', difficulty: 'medium', type: 'mcq',
+                        question: 'As shown in the Punnett square, what happened when Mendel crossed hybrids (F1 generation)?',
+                        hint: 'Count the boxes that have at least one capital T.',
+                        explanation: 'Tt × Tt gives TT, Tt, Tt, tt. Three boxes are tall and one is short: ¾ tall and ¼ short.',
+                        figure: { kind: 'punnett', top: ['T', 't'], left: ['T', 't'], cells: ['TT', 'Tt', 'Tt', 'tt'] },
+                        choices: [{ id: 'a', text: 'all the plants were tall' }, { id: 'b', text: 'all the plants were medium' }, { id: 'c', text: '¾ of the plants were tall, ¼ of the plants were short' }, { id: 'd', text: '½ of the plants were tall, ½ of the plants were short' }], answer: 'c'
+                    },
+                    {
+                        id: 'x1m10', difficulty: 'medium', type: 'drag',
                         question: 'Complete the Punnett square for Rr × Rr.',
                         hint: 'Top row: R and r. Left column: R and r. Combine each pair.',
                         explanation: 'Rr × Rr gives RR (top-left), Rr (top-right), Rr (bottom-left), rr (bottom-right). Ratio: 1 RR : 2 Rr : 1 rr.',
                         parentA: ['R', 'r'], parentB: ['R', 'r'], dragAnswers: ['RR', 'Rr', 'Rr', 'rr']
                     },
-                    {
-                        id: 'x1m4', difficulty: 'medium', type: 'mcq',
-                        question: 'A round-seeded plant is crossed with a wrinkled plant (rr), and half the offspring are wrinkled. What is the round parent\'s genotype?',
-                        hint: 'If the round parent were RR, no wrinkled offspring could appear.',
-                        explanation: 'Since some offspring are wrinkled, the round parent must carry a hidden r allele. The round parent is Rr (heterozygous), not RR.',
-                        choices: [{ id: 'a', text: 'RR' }, { id: 'b', text: 'Rr' }, { id: 'c', text: 'rr' }, { id: 'd', text: 'Cannot be determined' }], answer: 'b'
-                    },
-                    // HARD (4)
+                    // HARD (6)
                     {
                         id: 'x1h1', difficulty: 'hard', type: 'mcq',
-                        question: 'RR × Rr cross. What percentage of offspring will show the recessive (wrinkled) phenotype?',
-                        hint: 'Neither parent can contribute two r alleles — can any offspring be rr?',
-                        explanation: 'RR × Rr gives RR, RR, Rr, Rr — no rr is possible since the RR parent never contributes an r. 0% of offspring are wrinkled.',
-                        choices: [{ id: 'a', text: '0%' }, { id: 'b', text: '25%' }, { id: 'c', text: '50%' }, { id: 'd', text: '75%' }], answer: 'a'
+                        question: 'Which cross would produce offspring with a 3:1 phenotypic ratio, demonstrating how a dominant allele masks a recessive allele in a heterozygous organism?',
+                        hint: 'Both parents must carry a hidden recessive allele.',
+                        explanation: 'Only Tt × Tt gives TT, Tt, Tt, tt — 3 dominant : 1 recessive. TT × tt and TT × Tt give all dominant, and tt × tt gives all recessive.',
+                        choices: [{ id: 'a', text: 'TT × tt' }, { id: 'b', text: 'TT × Tt' }, { id: 'c', text: 'Tt × Tt' }, { id: 'd', text: 'tt × tt' }], answer: 'c'
                     },
                     {
-                        id: 'x1h2', difficulty: 'hard', type: 'drag',
+                        id: 'x1h2', difficulty: 'hard', type: 'mcq',
+                        question: "In Mendel's pea plant experiment, crossing two F₁ plants resulted in an F₂ generation with approximately three tall plants for every one short plant. Which explanation best accounts for this result based on the Law of Segregation?",
+                        hint: 'Alleles do not blend or disappear — they separate and recombine.',
+                        explanation: 'Each F₁ plant (Tt) separates its two alleles into different gametes. At fertilization the gametes combine randomly, giving TT, Tt, Tt, tt — a 3:1 ratio.',
+                        choices: [{ id: 'a', text: 'The tall and short alleles blend in F₁ plants and separate again in F₂ plants.' }, { id: 'b', text: 'The recessive allele disappears in F₁ plants and reappears in some F₂ plants.' }, { id: 'c', text: 'The two alleles separate during gamete formation and reunite during fertilization.' }, { id: 'd', text: 'The dominant allele is inherited more frequently than the recessive allele during reproduction.' }], answer: 'c'
+                    },
+                    {
+                        id: 'x1h3', difficulty: 'hard', type: 'mcq',
+                        question: 'Refer to the illustration. What are the possible genotypes of the parents?',
+                        hint: 'All F1 seeds are round, but wrinkled comes back in F2.',
+                        explanation: 'One parent is wrinkled (rr). Since every F1 seed is round and wrinkled reappears in F2, the round parent must be true-breeding RR. The parents are RR and rr.',
+                        figure: { kind: 'seedPedigree' },
+                        choices: [{ id: 'a', text: 'RR and Rr' }, { id: 'b', text: 'Rr and Rr' }, { id: 'c', text: 'RR and rr' }, { id: 'd', text: 'Rr and rr' }], answer: 'c'
+                    },
+                    {
+                        id: 'x1h4', difficulty: 'hard', type: 'mcq',
+                        question: 'Refer to the illustration. What is the ratio of the F2 generation?',
+                        hint: 'Count the round and wrinkled seeds in the F2 row.',
+                        explanation: 'The F2 row shows 3 round seeds and 1 wrinkled seed, a 3:1 phenotypic ratio. (1:2:1 is the genotypic ratio RR : Rr : rr.)',
+                        figure: { kind: 'seedPedigree' },
+                        choices: [{ id: 'a', text: '1:2:1' }, { id: 'b', text: '3:1' }, { id: 'c', text: '1:1' }, { id: 'd', text: '4:0' }], answer: 'b'
+                    },
+                    {
+                        id: 'x1h5', difficulty: 'hard', type: 'mcq',
+                        question: 'Refer to the illustration. Assuming that both parent plants are homozygous, why would all offspring of the F1 generation have round phenotypes?',
+                        hint: 'Every F1 seed is Rr. Which allele shows?',
+                        explanation: 'RR × rr gives all Rr F1 seeds. They are heterozygous, but round is dominant over wrinkled, so they all look round.',
+                        figure: { kind: 'seedPedigree' },
+                        choices: [{ id: 'a', text: 'Because the F1 genotypes are homozygous.' }, { id: 'b', text: 'Because round is dominant over wrinkled seed.' }, { id: 'c', text: 'Because both parents passed on the round alleles.' }, { id: 'd', text: 'Because both parental genotypes are heterozygous.' }], answer: 'b'
+                    },
+                    {
+                        id: 'x1h6', difficulty: 'hard', type: 'drag',
                         question: 'Complete the Punnett square for RR × rr.',
                         hint: 'RR parent gives only R; rr parent gives only r.',
                         explanation: 'RR × rr: every cell is Rr. All 4 offspring are heterozygous round — this is why crossing two purebred parents always gives all-hybrid F1 offspring.',
                         parentA: ['R', 'R'], parentB: ['r', 'r'], dragAnswers: ['Rr', 'Rr', 'Rr', 'Rr']
-                    },
-                    {
-                        id: 'x1h3', difficulty: 'hard', type: 'mcq',
-                        question: 'In a monohybrid cross Rr × Rr, what is the genotype ratio (RR : Rr : rr)?',
-                        hint: 'Count each distinct genotype in the grid.',
-                        explanation: 'Rr × Rr produces one RR, two Rr, and one rr — a 1:2:1 genotype ratio. This differs from the 3:1 phenotype ratio.',
-                        choices: [{ id: 'a', text: '1:1:1' }, { id: 'b', text: '1:2:1' }, { id: 'c', text: '3:1' }, { id: 'd', text: '2:1:1' }], answer: 'b'
-                    },
-                    {
-                        id: 'x1h4', difficulty: 'hard', type: 'mcq',
-                        question: 'Why is a cross between Rr × Rr called a "monohybrid" cross?',
-                        hint: 'Look at the prefix "mono."',
-                        explanation: 'It\'s monohybrid because it studies inheritance of ONE gene (seed shape) between two hybrid (heterozygous) parents — as opposed to a dihybrid cross, which tracks two genes at once.',
-                        choices: [{ id: 'a', text: 'It only involves one parent' }, { id: 'b', text: 'It tracks only one gene/trait' }, { id: 'c', text: 'It produces only one offspring' }, { id: 'd', text: 'It uses only one allele' }], answer: 'b'
                     },
                 ],
             },

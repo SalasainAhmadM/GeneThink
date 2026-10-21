@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import Button from '../ui/Button';
 import AnswerFeedback from './AnswerFeedback';
+import QuestionFigure from './QuestionFigure';
 
 const FEEDBACK_DELAY = 1000;
 
@@ -55,6 +56,7 @@ export default function MCQQuestion({ quizNumberLabel, showHint, question, onAns
             <View className='bg-white rounded-2xl p-4' style={{ shadowColor: '#000', shadowOpacity: 0.06, shadowRadius: 8, elevation: 2 }} >
                 <Text className='font-nunito text-ink-100 text-xs uppercase tracking-wide mb-2'>Question</Text>
                 <Text className='font-nunito-bold text-ink-300 text-base leading-6'>{question.question}</Text>
+                {question.figure && <QuestionFigure figure={question.figure} />}
             </View>
 
             {/* Choices */}
