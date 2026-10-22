@@ -2,13 +2,19 @@ import { APP_EXPIRATION_DATE } from "@/constants/settings";
 import { Stack } from "expo-router";
 
 import { useFonts } from "expo-font";
+import { LinearGradient } from "expo-linear-gradient";
 import * as SplashScreen from "expo-splash-screen";
+import { cssInterop } from "nativewind";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import "./global.css";
 
 SplashScreen.preventAutoHideAsync();
+
+// NativeWind only maps className → style for registered components; without this,
+// every <LinearGradient className=…> ignores flex/padding/rounded classes.
+cssInterop(LinearGradient, { className: "style" });
 
 const isExpired = () => Date.now() > new Date(APP_EXPIRATION_DATE).getTime();
 

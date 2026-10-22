@@ -1,6 +1,8 @@
 // ── Comic-strip "Story" reading content — shown before a level's quiz ──
 // Mirrors the Lesson/Level/Question shape in constants/lessons.ts.
 
+import { getMission } from './missions';
+
 export type StoryCharacterKey = 'guide' | 'chromosome' | 'dna' | 'gene' | 'mendel';
 
 export interface StoryCharacterMeta {
@@ -940,4 +942,9 @@ export const STORIES: LevelStory[] = [
 
 export function getStory(lessonId: string, levelId: number): LevelStory | undefined {
     return STORIES.find((s) => s.lessonId === lessonId && s.levelId === levelId);
+}
+
+// A level has a pre-quiz story if it has a comic story or an investigator mission.
+export function hasStory(lessonId: string, levelId: number): boolean {
+    return !!getStory(lessonId, levelId) || !!getMission(lessonId, levelId);
 }

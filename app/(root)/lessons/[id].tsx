@@ -3,7 +3,7 @@ import Button from '@/components/ui/Button';
 import { HEARTS_PER_LEVEL, LESSONS } from '@/constants/lessons';
 import { isLevelPassed, isLevelUnlocked, isStoryRead, Progress, StarsMap, StoriesRead } from '@/constants/prorgess';
 import { STORAGE_KEYS } from '@/constants/settings';
-import { getStory } from '@/constants/stories';
+import { hasStory } from '@/constants/stories';
 import { cn } from '@/lib/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -121,7 +121,7 @@ export default function LessonSelectScreen() {
                 <Text className='font-nunito-bold text-ink-200 text-sm mb-1'>Select a level to begin: </Text>
 
                 {lesson.levels.map((level, idx) => {
-                    const hasUnreadStory = !!getStory(lesson.id, level.id) && !isStoryRead(storiesRead, lesson.id, idx);
+                    const hasUnreadStory = hasStory(lesson.id, level.id) && !isStoryRead(storiesRead, lesson.id, idx);
                     const hrefLink = hasUnreadStory ? `/lessons/${lesson.id}/${level.id}/story` : `/lessons/${lesson.id}/${level.id}`;
 
                     return (

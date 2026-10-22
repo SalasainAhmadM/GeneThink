@@ -1,7 +1,7 @@
 import Button from '@/components/ui/Button';
 import { LevelStory } from '@/constants/stories';
 import React, { useRef, useState } from 'react';
-import { FlatList, useWindowDimensions, View, ViewToken } from 'react-native';
+import { FlatList, Text, useWindowDimensions, View, ViewToken } from 'react-native';
 import StoryPanelView from './StoryPanelView';
 
 export default function StoryReader({ story, accentColor, onFinish }: { story: LevelStory; accentColor: string; onFinish: () => void; }) {
@@ -23,10 +23,13 @@ export default function StoryReader({ story, accentColor, onFinish }: { story: L
     return (
         <View className='flex-1'>
             {/* Progress dots */}
-            <View className='flex-row justify-center gap-1.5 py-3'>
-                {story.panels.map((p, i) => (
-                    <View key={p.id} className='h-1.5 rounded-pill' style={{ width: i === index ? 22 : 8, backgroundColor: i <= index ? accentColor : '#e0e0e0' }} />
-                ))}
+            <View className='items-center gap-1.5 py-3'>
+                <View className='flex-row justify-center gap-1.5'>
+                    {story.panels.map((p, i) => (
+                        <View key={p.id} className='h-1.5 rounded-pill' style={{ width: i === index ? 22 : 8, backgroundColor: i <= index ? accentColor : '#e0e0e0' }} />
+                    ))}
+                </View>
+                <Text className='font-nunito-bold text-ink-100 text-[11px]'>Screen {index + 1} of {story.panels.length}</Text>
             </View>
 
             <FlatList

@@ -70,6 +70,108 @@ export const QUESTIONS_PER_PHASE: Record<QuestionDifficulty, number> = {
 export const LESSONS: Lesson[] = [
 
     // ══════════════════════════════════════════════════════════
+    //  LESSON 0 — Genetic Terms (Genetics Investigator · Mission 1)
+    // ══════════════════════════════════════════════════════════
+    {
+        id: 'terms', title: 'Genetic Terms', subtitle: 'Genetics Investigator · Mission 1',
+        color: '#e3f2fd', accentColor: '#1565C0',
+        levels: [
+            {
+                id: 1, title: 'Crack the Genetic Code',
+                questions: [
+                    // EASY (5)
+                    {
+                        id: 't1e1', difficulty: 'easy', type: 'mcq',
+                        question: 'Which of the following is a trait?',
+                        hint: 'A trait is something you can observe.',
+                        explanation: 'A trait is an observable characteristic of an organism. Curly hair can be seen, so it is a trait.',
+                        choices: [{ id: 'a', text: 'DNA' }, { id: 'b', text: 'Curly hair' }, { id: 'c', text: 'Chromosome' }, { id: 'd', text: 'Allele' }], answer: 'b'
+                    },
+                    {
+                        id: 't1e2', difficulty: 'easy', type: 'mcq',
+                        question: 'What is the passing of characteristics from parents to offspring called?',
+                        hint: 'Think of what is "inherited".',
+                        explanation: 'Heredity is the transmission of characteristics from parents to offspring.',
+                        choices: [{ id: 'a', text: 'Mutation' }, { id: 'b', text: 'Heredity' }, { id: 'c', text: 'Phenotype' }, { id: 'd', text: 'Adaptation' }], answer: 'b'
+                    },
+                    {
+                        id: 't1e3', difficulty: 'easy', type: 'mcq',
+                        question: 'A segment of DNA that contains information for a particular characteristic is a…',
+                        hint: 'Chromosomes contain many of these.',
+                        explanation: 'A gene is a segment of DNA that contains information related to a particular characteristic or biological function.',
+                        choices: [{ id: 'a', text: 'Cell' }, { id: 'b', text: 'Nucleus' }, { id: 'c', text: 'Gene' }, { id: 'd', text: 'Trait' }], answer: 'c'
+                    },
+                    {
+                        id: 't1e4', difficulty: 'easy', type: 'mcq',
+                        question: 'Y (yellow) and y (green) are two different forms of the seed-color gene. What are they called?',
+                        hint: 'Different versions of the same gene.',
+                        explanation: 'An allele is a different form or version of a gene. Y and y are alleles of the seed-color gene.',
+                        choices: [{ id: 'a', text: 'Alleles' }, { id: 'b', text: 'Chromosomes' }, { id: 'c', text: 'Phenotypes' }, { id: 'd', text: 'Cells' }], answer: 'a'
+                    },
+                    {
+                        id: 't1e5', difficulty: 'easy', type: 'mcq',
+                        question: 'Which of these is a phenotype?',
+                        hint: 'A phenotype is what you can observe.',
+                        explanation: 'A phenotype is the observable expression of a trait. "Purple flowers" can be seen; Aa, BB and bb are genotypes.',
+                        choices: [{ id: 'a', text: 'Aa' }, { id: 'b', text: 'BB' }, { id: 'c', text: 'Purple flowers' }, { id: 'd', text: 'bb' }], answer: 'c'
+                    },
+                    // MEDIUM (4)
+                    {
+                        id: 't1m1', difficulty: 'medium', type: 'mcq',
+                        question: 'Which genotype is heterozygous?',
+                        hint: 'Hetero means different.',
+                        explanation: 'A heterozygous genotype has two different alleles, such as Aa or Bb.',
+                        choices: [{ id: 'a', text: 'AA' }, { id: 'b', text: 'aa' }, { id: 'c', text: 'Bb' }, { id: 'd', text: 'BB' }], answer: 'c'
+                    },
+                    {
+                        id: 't1m2', difficulty: 'medium', type: 'mcq',
+                        question: 'Which statement about genes and chromosomes is correct?',
+                        hint: 'One of them is much bigger and holds many of the other.',
+                        explanation: 'A gene is not the same thing as a chromosome. A chromosome contains many genes.',
+                        choices: [{ id: 'a', text: 'A chromosome can contain many genes.' }, { id: 'b', text: 'A gene is larger than a chromosome.' }, { id: 'c', text: 'A gene is a complete cell.' }, { id: 'd', text: 'Genes are found only outside cells.' }], answer: 'a'
+                    },
+                    {
+                        id: 't1m3', difficulty: 'medium', type: 'mcq',
+                        question: 'What does "dominant" mean in a simple dominant–recessive pattern?',
+                        hint: 'It is about expression, not strength.',
+                        explanation: "A dominant allele's effect is expressed in the phenotype even when paired with a recessive allele. It does NOT mean better, stronger or more common.",
+                        choices: [{ id: 'a', text: 'The allele is stronger and healthier.' }, { id: 'b', text: 'The allele is always more common.' }, { id: 'c', text: 'Its effect is expressed even when paired with a recessive allele.' }, { id: 'd', text: 'It is only expressed with two copies.' }], answer: 'c'
+                    },
+                    {
+                        id: 't1m4', difficulty: 'medium', type: 'mcq',
+                        question: 'AA, Aa and aa are all examples of…',
+                        hint: 'They are allele combinations.',
+                        explanation: 'A genotype is the combination of alleles an organism has for a particular gene or trait.',
+                        choices: [{ id: 'a', text: 'Phenotypes' }, { id: 'b', text: 'Genotypes' }, { id: 'c', text: 'Traits' }, { id: 'd', text: 'Chromosomes' }], answer: 'b'
+                    },
+                    // HARD (3)
+                    {
+                        id: 't1h1', difficulty: 'hard', type: 'mcq',
+                        question: 'P = purple and p = white. A plant has genotype Pp. What phenotype is expected?',
+                        hint: 'Which allele is dominant?',
+                        explanation: 'Pp contains the dominant allele P. Under a simple dominant–recessive pattern, the dominant phenotype — purple flowers — is expected.',
+                        choices: [{ id: 'a', text: 'White flowers' }, { id: 'b', text: 'Purple flowers' }, { id: 'c', text: 'Pink flowers' }, { id: 'd', text: 'Cannot be determined' }], answer: 'b'
+                    },
+                    {
+                        id: 't1h2', difficulty: 'hard', type: 'mcq',
+                        question: 'Which statement best explains why Bb is heterozygous?',
+                        hint: 'Look at whether the two alleles match.',
+                        explanation: 'Bb is heterozygous because its two alleles (B and b) are different.',
+                        choices: [{ id: 'a', text: 'Because it contains two alleles.' }, { id: 'b', text: 'Because its two alleles are different.' }, { id: 'c', text: 'Because it can be observed.' }, { id: 'd', text: 'Because it contains two identical recessive alleles.' }], answer: 'b'
+                    },
+                    {
+                        id: 't1h3', difficulty: 'hard', type: 'mcq',
+                        question: 'Lola Lita has curly hair, her daughter Pilar has straight hair, and Pilar\'s daughter Ana has curly hair. What best explains this?',
+                        hint: 'A characteristic can be carried without being observed.',
+                        explanation: 'Pilar can carry a hidden (recessive) allele for curly hair without showing it. Ana inherited that allele — characteristics can be passed on even when not observed in a parent.',
+                        choices: [{ id: 'a', text: 'Ana copied her grandmother\'s appearance.' }, { id: 'b', text: 'Pilar carried an allele for curly hair that was not expressed.' }, { id: 'c', text: 'Characteristics appear without any biological basis.' }, { id: 'd', text: 'Curly hair is not a trait.' }], answer: 'b'
+                    },
+                ],
+            },
+        ],
+    },
+
+    // ══════════════════════════════════════════════════════════
     //  LESSON 1 — Intro to Genetics
     // ══════════════════════════════════════════════════════════
     {

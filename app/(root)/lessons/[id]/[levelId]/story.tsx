@@ -1,7 +1,9 @@
 import { BackArrow } from '@/components/icons/Arrowicon';
+import MissionReader from '@/components/Mission/MissionReader';
 import StoryReader from '@/components/Story/StoryReader';
 import Button from '@/components/ui/Button';
 import { LESSONS } from '@/constants/lessons';
+import { getMission } from '@/constants/missions';
 import { StoriesRead } from '@/constants/prorgess';
 import { STORAGE_KEYS } from '@/constants/settings';
 import { getStory } from '@/constants/stories';
@@ -19,6 +21,7 @@ export default function StoryScreen() {
     const levelIndex = lesson?.levels.findIndex((l) => String(l.id) === levelId) ?? -1;
     const level = lesson?.levels[levelIndex];
     const story = lesson ? getStory(lesson.id, Number(levelId)) : undefined;
+    const mission = lesson ? getMission(lesson.id, Number(levelId)) : undefined;
 
     const markReadAndStart = async () => {
         try {
@@ -34,7 +37,7 @@ export default function StoryScreen() {
         }
     };
 
-    if (!lesson || !level || !story) {
+    if (!lesson || !level || (!story && !mission)) {
         return (
             <View className='flex-1 items-center justify-center bg-bg-light'>
                 <Text className='font-nunito text-ink-100'>Story not found.</Text>
@@ -54,7 +57,9 @@ export default function StoryScreen() {
                 </SafeAreaView>
             </LinearGradient>
 
-            <StoryReader story={story} accentColor={lesson.accentColor} onFinish={markReadAndStart} />
+            {mission
+                ? <MissionReader mission={mission} accentColor={lesson.accentColor} onFinish={markReadAndStart} />
+                : <StoryReader story={story!} accentColor={lesson.accentColor} onFinish={markReadAndStart} />}
         </View>
     );
 }

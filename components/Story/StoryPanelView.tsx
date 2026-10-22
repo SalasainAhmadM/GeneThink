@@ -1,4 +1,5 @@
 import Cell from '@/components/art/Cell';
+import { ClueHeader, EvidenceCard, NoteCard, VisualCard } from '@/components/Mission/Cards';
 import ChromosomeCharacter from '@/components/art/ChromosomeCharacter';
 import DnaCharacter from '@/components/art/DnaCharacter';
 import GeneCharacter from '@/components/art/GeneCharacter';
@@ -413,35 +414,34 @@ const Illustration = ({ panel }: { panel: StoryPanel; }) => {
     }
 };
 
+// Investigator layout: clue header → visual card → dialogue → key idea → evidence card
 export default function StoryPanelView({ panel, index, accentColor }: { panel: StoryPanel; index: number; accentColor: string; }) {
     return (
-        <ScrollView className='flex-1' contentContainerClassName='px-5 pt-2 pb-4' showsVerticalScrollIndicator={false}>
-            {/* Panel header */}
-            <View className='flex-row items-center gap-2.5 mb-5'>
-                <View className='size-7 rounded-full items-center justify-center' style={{ backgroundColor: accentColor }}>
-                    <Text className='font-fredoka-bold text-white text-xs'>{index + 1}</Text>
-                </View>
-                <Text className='font-fredoka-bold text-ink-300 text-lg flex-1'>{panel.title}</Text>
-            </View>
+        <ScrollView className='flex-1' contentContainerClassName='px-5 pt-1 pb-4' showsVerticalScrollIndicator={false}>
+            <ClueHeader title={`Clue #${index + 1} — ${panel.title}`} accentColor={accentColor} />
 
             {/* Illustration */}
-            <View className='items-center justify-center py-4'>
+            <VisualCard>
                 <Illustration panel={panel} />
-            </View>
+            </VisualCard>
 
             {/* Dialogue */}
-            <View className='gap-3 mt-3'>
+            <View className='gap-3 mt-4'>
                 {panel.lines.map((line, i) => (
                     <SpeechBubble key={i} speaker={line.speaker} text={line.text} />
                 ))}
             </View>
 
-            {/* Note callout — same styling as the hint box in MCQQuestion */}
+            {/* Note callout — investigator key idea */}
             {panel.note && (
-                <View className='bg-[#fffde7] rounded-xl px-4 py-3 border-2 border-medium mt-4'>
-                    <Text className='font-nunito text-ink-600 text-sm leading-5'>💡 {panel.note}</Text>
+                <View className='mt-4'>
+                    <NoteCard tone='tip' title='Key idea' text={panel.note} />
                 </View>
             )}
+
+            <View className='mt-4'>
+                <EvidenceCard terms={[panel.title]} />
+            </View>
 
             {panel.references && (
                 <View className='mt-4 gap-1'>
