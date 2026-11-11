@@ -20,6 +20,7 @@ export default function MissionReader({ mission, accentColor, onFinish }: { miss
     const firstOpen = screen.blocks.findIndex((b, i) => isInteractive(b) && !solved[key(i)]);
     const visible = firstOpen === -1 ? screen.blocks : screen.blocks.slice(0, firstOpen + 1);
     const canContinue = firstOpen === -1;
+    const isCover = screen.blocks[0]?.type === 'cover';
 
     const goTo = (i: number) => {
         setIndex(Math.max(0, Math.min(mission.screens.length - 1, i)));
@@ -40,7 +41,7 @@ export default function MissionReader({ mission, accentColor, onFinish }: { miss
 
             <ScrollView ref={scrollRef} className='flex-1' contentContainerClassName='px-5 pt-1 pb-6' showsVerticalScrollIndicator={false}>
                 {/* Mission banner on the first screen */}
-                {index === 0 && (
+                {index === 0 && !isCover && (
                     <View className='items-center mb-4'>
                         <Text className='font-fredoka-bold text-[26px] uppercase' style={{ color: accentColor }}>{mission.title}</Text>
                         <View className='rounded-pill px-5 py-1.5 mt-1 bg-[#fff8e1] border-2 border-gold'>
@@ -49,7 +50,7 @@ export default function MissionReader({ mission, accentColor, onFinish }: { miss
                     </View>
                 )}
 
-                <ClueHeader title={screen.title} kicker={screen.kicker} accentColor={accentColor} />
+                {!isCover && <ClueHeader title={screen.title} kicker={screen.kicker} accentColor={accentColor} />}
 
                 <View className='gap-4'>
                     {visible.map((b, i) => (

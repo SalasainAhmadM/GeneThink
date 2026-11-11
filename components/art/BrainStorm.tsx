@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import BrainStormSvg from '../../assets/svgs/brainstorm-svgrepo-com.svg';
+import BrainStormSvg from '../../assets/svgs/brainstorm.svg';
 
 export default function BrainStorm() {
     return (

@@ -3,12 +3,15 @@ import { MissionBlock, TOOLKIT } from '@/constants/missions';
 import { cn } from '@/lib/utils';
 import React, { useMemo, useState } from 'react';
 import { Text, View } from 'react-native';
-import { CARD_SHADOW, DefinitionCard, EvidenceCard, FoundCard, NoteCard, OptionRow, OptionState, PromptCard, RichText, VisualCard } from './Cards';
+import TrophySvg from '../../assets/svgs/trophy.svg';
+import GlossaryText from '@/components/ui/GlossaryText';
+import { CARD_SHADOW, CoverCard, DefinitionCard, EvidenceCard, FoundCard, NoteCard, OptionRow, OptionState, PromptCard, RichText, SpeechBubble, StepsCard, TableCard, VisualCard } from './Cards';
 import MissionVisualView from './MissionVisuals';
+import { FillSquare, FoilTable, PunnettBuilder, PunnettCard, PunnettLab } from './PunnettKit';
 
 const LABELS = ['A', 'B', 'C', 'D'];
 
-export const isInteractive = (b: MissionBlock) => ['check', 'tapSort', 'classify', 'caseQuestions', 'fillBlanks'].includes(b.type);
+export const isInteractive = (b: MissionBlock) => ['check', 'tapSort', 'classify', 'caseQuestions', 'fillBlanks', 'fillSquare', 'order', 'builder', 'lab'].includes(b.type);
 
 type Solve = () => void;
 
@@ -22,7 +25,7 @@ const CheckBlock = ({ block, solved, onSolved }: { block: Extract<MissionBlock, 
     };
     return (
         <View className='gap-2.5'>
-            <Text className='font-nunito-bold text-ink-300 text-base leading-6'>{block.question}</Text>
+            <GlossaryText text={block.question} className='font-nunito-bold text-ink-300 text-base leading-6' />
             {block.choices.map((c, i) => {
                 const state: OptionState = solved && c.id === block.answer ? 'correct' : wrong.includes(c.id) ? 'wrong' : 'idle';
                 return (
@@ -87,6 +90,25 @@ const ClassifyBlock = ({ block, solved, onSolved }: { block: Extract<MissionBloc
             <Text className='font-nunito-bold text-ink-300 text-base'>{block.prompt}</Text>
             {block.rows.map((row, i) => {
                 const a = answers[i];
+                if (block.options.length > 3) {
+                    return (
+                        <View key={row.label} className='gap-1.5 rounded-xl p-2.5 bg-white border border-[#e8e8e8]'>
+                            <Text className='font-fredoka-bold text-ink-300 text-sm'>{row.label}</Text>
+                            <View className='flex-row flex-wrap gap-1.5'>
+                                {block.options.map((opt) => {
+                                    const chosen = a === opt, ok = chosen && opt === row.answer;
+                                    return (
+                                        <Button key={opt} btnType='container' className='rounded-lg' onPress={() => choose(i, opt)}>
+                                            <View className={cn('rounded-lg w-10 py-1.5 items-center border-2', ok ? 'bg-[#e8f5e9] border-primary-300' : chosen ? 'bg-[#ffebee] border-danger2' : 'bg-[#f5f9f5] border-[#e8e8e8]')}>
+                                                <Text className={cn('font-fredoka-bold text-sm', ok ? 'text-primary-400' : chosen ? 'text-danger' : 'text-ink-200')}>{opt}</Text>
+                                            </View>
+                                        </Button>
+                                    );
+                                })}
+                            </View>
+                        </View>
+                    );
+                }
                 return (
                     <View key={row.label} className='flex-row items-center gap-2'>
                         <View className='w-14 rounded-xl py-2.5 items-center bg-[#fff3e0]'>
@@ -202,6 +224,45 @@ const FillBlanksBlock = ({ block, solved, onSolved }: { block: Extract<MissionBl
     );
 };
 
+// ── Tap items in the correct order ────────────────────────────
+const OrderBlock = ({ block, solved, onSolved }: { block: Extract<MissionBlock, { type: 'order'; }>; solved: boolean; onSolved: Solve; }) => {
+    const shuffled = useMemo(() => [...block.items].reverse(), [block]);
+    const [placed, setPlaced] = useState<string[]>(solved ? block.items : []);
+    const [flash, setFlash] = useState<string | null>(null);
+    const tap = (item: string) => {
+        if (solved || placed.includes(item)) return;
+        if (block.items[placed.length] !== item) { setFlash(item); setTimeout(() => setFlash(null), 700); return; }
+        const next = [...placed, item];
+        setPlaced(next);
+        if (next.length === block.items.length) onSolved();
+    };
+    return (
+        <View className='gap-2.5'>
+            <Text className='font-nunito-bold text-ink-300 text-base'>{block.prompt}</Text>
+            {block.items.map((_, i) => (
+                <View key={i} className='flex-row items-center gap-2'>
+                    <View className='size-7 rounded-full bg-science-300 items-center justify-center'><Text className='font-fredoka-bold text-white text-sm'>{i + 1}</Text></View>
+                    <View className={cn('flex-1 rounded-xl px-3 py-2.5 border-2', placed[i] ? 'bg-[#e8f5e9] border-primary-300' : 'bg-[#f5f5f5] border-dashed border-[#bdbdbd]')}>
+                        <Text className={cn('font-nunito-bold text-sm', placed[i] ? 'text-primary-400' : 'text-ink-100')}>{placed[i] ?? '______'}</Text>
+                    </View>
+                </View>
+            ))}
+            {!solved && (
+                <View className='flex-row flex-wrap gap-2'>
+                    {shuffled.filter((it) => !placed.includes(it)).map((it) => (
+                        <Button key={it} btnType='container' className='rounded-pill' onPress={() => tap(it)}>
+                            <View className={cn('rounded-pill px-3.5 py-2 border-2', flash === it ? 'bg-[#ffebee] border-danger2' : 'bg-white border-[#e8e8e8]')}>
+                                <Text className='font-nunito-bold text-ink-600 text-sm'>{it}</Text>
+                            </View>
+                        </Button>
+                    ))}
+                </View>
+            )}
+            {solved && <FoundCard title='Correct order!' text={block.feedback} />}
+        </View>
+    );
+};
+
 // ── Toolkit table ─────────────────────────────────────────────
 export const ToolkitTable = ({ accentColor }: { accentColor: string; }) => (
     <View className='bg-white rounded-2xl overflow-hidden' style={CARD_SHADOW}>
@@ -221,7 +282,22 @@ export const ToolkitTable = ({ accentColor }: { accentColor: string; }) => (
 );
 
 // ── Mission complete card ─────────────────────────────────────
-const CompleteCard = ({ title, text, accentColor }: { title: string; text: string; accentColor: string; }) => (
+const CompleteCard = ({ title, text, accentColor, learned }: { title: string; text: string; accentColor: string; learned?: string[]; }) => learned ? (
+    <View className='rounded-2xl p-4 gap-3 items-center border-2 border-gold bg-[#fffde7]'>
+        <TrophySvg width={64} height={64} />
+        <Text className='font-fredoka-bold text-xl uppercase text-center' style={{ color: accentColor }}>{title}</Text>
+        <Text className='font-nunito text-ink-600 text-sm leading-5 text-center'>{text}</Text>
+        <View className='self-stretch rounded-xl bg-white p-3 gap-1.5'>
+            <Text className='font-nunito-extrabold text-ink-200 text-xs uppercase tracking-wide'>You learned</Text>
+            {learned.map((l) => (
+                <View key={l} className='flex-row items-start gap-2'>
+                    <View className='size-5 rounded-full bg-primary-300 items-center justify-center mt-0.5'><Text className='font-fredoka-bold text-white text-[11px]'>✓</Text></View>
+                    <Text className='font-nunito-bold text-ink-600 text-[13px] flex-1'>{l}</Text>
+                </View>
+            ))}
+        </View>
+    </View>
+) : (
     <View className='rounded-2xl p-4 gap-3 items-center border-2 border-gold bg-[#fffde7]'>
         <Text className='text-[40px]'>🏆</Text>
         <Text className='font-fredoka-bold text-xl uppercase' style={{ color: accentColor }}>{title}</Text>
@@ -271,7 +347,17 @@ export default function MissionBlockView({ block, accentColor, solved, onSolved 
         case 'found': return <FoundCard title={block.title} text={block.text} />;
         case 'evidence': return <EvidenceCard terms={block.terms} />;
         case 'toolkit': return <ToolkitTable accentColor={accentColor} />;
-        case 'complete': return <CompleteCard title={block.title} text={block.text} accentColor={accentColor} />;
+        case 'complete': return <CompleteCard title={block.title} text={block.text} accentColor={accentColor} learned={block.learned} />;
+        case 'cover': return <CoverCard mission={block.mission} title={block.title} text={block.text} accentColor={accentColor} />;
+        case 'speech': return <SpeechBubble text={block.text} who={block.who} accentColor={accentColor} />;
+        case 'table': return <TableCard title={block.title} headers={block.headers} rows={block.rows} accentColor={accentColor} />;
+        case 'steps': return <StepsCard title={block.title} steps={block.steps} accentColor={accentColor} />;
+        case 'punnett': return <PunnettCard p1={block.p1} p2={block.p2} caption={block.caption} ringCells={block.ringCells} ringEdges={block.ringEdges} />;
+        case 'fillSquare': return <FillSquare p1={block.p1} p2={block.p2} prompt={block.prompt} solved={solved} onSolved={onSolved} />;
+        case 'foil': return <FoilTable genotype={block.genotype} />;
+        case 'order': return <OrderBlock block={block} solved={solved} onSolved={onSolved} />;
+        case 'builder': return <PunnettBuilder problem={block.problem} p1={block.p1} p2={block.p2} traits={block.traits} onSolved={onSolved} />;
+        case 'lab': return <PunnettLab onSolved={onSolved} />;
         default: return null;
     }
 }

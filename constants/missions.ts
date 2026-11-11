@@ -2,11 +2,16 @@
 // Layout follows the GENTHINK content worksheet: visual → prompt → definition card →
 // quick check → feedback → evidence card. Interactive blocks gate everything after them.
 
+import type { TraitDef } from '@/lib/genetics';
 import { Choice } from './lessons';
+import { QUEST_MISSIONS } from './questMissions';
 
 export type MissionVisual =
     | 'family' | 'traitGallery' | 'heredityLine' | 'cellToGene' | 'seedAlleles'
-    | 'genotypeTiles' | 'flowerPhenotype' | 'domRec' | 'zygosityChips' | 'flowerCase' | 'seedCase';
+    | 'genotypeTiles' | 'flowerPhenotype' | 'domRec' | 'zygosityChips' | 'flowerCase' | 'seedCase'
+    // GeneQuest missions 1B–4
+    | 'peaTraits' | 'domRecFlowers' | 'pollination' | 'firstCross' | 'secondGen' | 'threeLaws'
+    | 'segregation' | 'meiosis' | 'twoGenes' | 'tallCross' | 'dihybridParents';
 
 // Small icon/colour per genetics term — reused by the Toolkit, evidence cards and the Guide tab.
 export interface ToolkitTerm {
@@ -47,7 +52,18 @@ export type MissionBlock =
     | { type: 'found'; title: string; text: string; }
     | { type: 'evidence'; terms: string[]; }                     // ToolkitTerm keys
     | { type: 'toolkit'; }
-    | { type: 'complete'; title: string; text: string; };
+    | { type: 'complete'; title: string; text: string; learned?: string[]; }
+    // ── GeneQuest blocks ──
+    | { type: 'cover'; mission: string; title: string; text: string; }        // GeneQuest mission title card
+    | { type: 'speech'; text: string; who?: 'investigator' | 'mendel'; }       // character speech bubble
+    | { type: 'table'; headers: string[]; rows: string[][]; title?: string; }
+    | { type: 'steps'; title?: string; steps: { label: string; text: string; }[]; }
+    | { type: 'punnett'; p1: string; p2: string; caption?: string; ringCells?: boolean; ringEdges?: boolean; }
+    | { type: 'fillSquare'; p1: string; p2: string; prompt: string; }      // tap boxes one at a time
+    | { type: 'foil'; genotype: string; }                                  // F-O-I-L gamete table
+    | { type: 'order'; prompt: string; items: string[]; feedback: string; } // tap items in the right order
+    | { type: 'builder'; problem: string; p1: string; p2: string; traits: TraitDef[]; }
+    | { type: 'lab'; };                                                     // Punnett Square Lab: choose trait → practice
 
 export interface MissionScreen {
     id: string;
@@ -65,7 +81,7 @@ export interface LevelMission {
     screens: MissionScreen[];
 }
 
-export const MISSIONS: LevelMission[] = [
+const BASE_MISSIONS: LevelMission[] = [
     {
         lessonId: 'terms',
         levelId: 1,
@@ -363,12 +379,14 @@ export const MISSIONS: LevelMission[] = [
                         ],
                     },
                     { type: 'complete', title: 'Mission complete!', text: 'Congratulations, Genetics Investigator! You have collected the first set of genetics tools. You can now explain how heredity is connected to traits and distinguish important genetic terms.' },
-                    { type: 'note', tone: 'tip', title: 'But the investigation is not over…', text: 'More than a century ago, a scientist carefully crossed pea plants and recorded what happened to their offspring. Can you discover the pattern he found? Head to **Mendel\'s Laws** next.' },
+                    { type: 'note', tone: 'tip', title: 'But the investigation is not over…', text: 'More than a century ago, a scientist carefully crossed pea plants and recorded what happened to their offspring. Can you discover the pattern he found? Continue with **Mission 1 · Part B: Dominant & Recessive Traits**.' },
                 ],
             },
         ],
     },
 ];
+
+export const MISSIONS: LevelMission[] = [...BASE_MISSIONS, ...QUEST_MISSIONS];
 
 export function getMission(lessonId: string, levelId: number): LevelMission | undefined {
     return MISSIONS.find((m) => m.lessonId === lessonId && m.levelId === levelId);

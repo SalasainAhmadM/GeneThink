@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import ScientistSvg from '../../assets/svgs/scientist-svgrepo-com.svg';
+import ScientistSvg from '../../assets/svgs/scientist.svg';
 
 export default function Scientist() {
     return (

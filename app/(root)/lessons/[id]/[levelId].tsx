@@ -15,7 +15,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Modal, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import BulbSvg from '../../../../assets/svgs/bulb-svgrepo-com.svg';
+import BulbSvg from '../../../../assets/svgs/bulb.svg';
 
 // ── Heart display ─────────────────────────────────────────────
 const Hearts = ({ current, max }: { current: number; max: number; }) => (
@@ -45,12 +45,10 @@ const BackModal = ({ onStay, onLeave }: { onStay: () => void; onLeave: () => voi
 
 export default function LevelScreen() {
     const { id, levelId } = useLocalSearchParams<{ id: string; levelId: string; }>();
-    const MAX_TIME = levelId === '1' ? 80 : levelId === '2' ? 60 : 40;
-    // const MAX_TIME = levelId === '1' ? 1 : levelId === '2' ? 60 : 40;
-
     const lesson = LESSONS.find(l => l.id === id);
     const levelIndex = lesson?.levels.findIndex(l => String(l.id) === levelId) ?? -1;
     const level = lesson?.levels[levelIndex];
+    const MAX_TIME = level?.timeLimit ?? (levelId === '1' ? 80 : levelId === '2' ? 60 : 40);
 
     const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
     const [showBackModal, setShowBackModal] = useState(false);

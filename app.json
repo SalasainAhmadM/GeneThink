@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "GeneThink",
+    "name": "GeneQuest",
     "slug": "genethink",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -12,7 +12,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#1a237e",
         "foregroundImage": "./assets/images/icon.png"
       },
       "predictiveBackGestureEnabled": false,
@@ -21,7 +21,9 @@
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/icon.png"
+      "favicon": "./assets/images/icon.png",
+      "name": "GeneQuest",
+      "shortName": "GeneQuest"
     },
     "plugins": [
       "expo-router",
@@ -30,7 +32,7 @@
         {
           "image": "./assets/images/splash.png",
           "resizeMode": "cover",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#1a237e",
           "enableFullScreenImage_legacy": true
         }
       ],

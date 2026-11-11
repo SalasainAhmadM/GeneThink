@@ -1,4 +1,7 @@
 import { getTerm } from '@/constants/missions';
+import { LinearGradient } from 'expo-linear-gradient';
+import InvestigatorSvg from '../../assets/svgs/investigator.svg';
+import ScientistSvg from '../../assets/svgs/scientist.svg';
 import { cn } from '@/lib/utils';
 import React from 'react';
 import { Text, View } from 'react-native';
@@ -132,3 +135,70 @@ export const OptionRow = ({ label, text, state }: { label: string; text: string;
         </View>
     );
 };
+
+// ── GeneQuest mission cover (title card) ──────────────────────
+export const CoverCard = ({ mission, title, text, accentColor }: { mission: string; title: string; text: string; accentColor: string; }) => (
+    <View className='rounded-2xl overflow-hidden' style={CARD_SHADOW}>
+        <LinearGradient colors={['#1a237e', '#283593', '#1b5e20']} locations={[0, 0.45, 1]} start={{ x: 0.2, y: 0 }} end={{ x: 0.8, y: 1 }}>
+            <View className='items-center px-4 pt-5 pb-4 gap-2'>
+                <Text className='font-fredoka-bold text-white text-[34px] leading-[40px]'>Gene<Text style={{ color: '#FFD93D' }}>Quest</Text></Text>
+                <View className='rounded-pill px-4 py-1 bg-glass-white2 border border-white/30'>
+                    <Text className='font-nunito-extrabold text-white text-xs uppercase tracking-wide'>{mission}</Text>
+                </View>
+                <View className='rounded-xl px-4 py-2 mt-1 bg-[#fff8e1] border-2 border-gold'>
+                    <Text className='font-fredoka-bold text-ink-300 text-lg uppercase text-center'>{title}</Text>
+                </View>
+            </View>
+        </LinearGradient>
+        <View className='bg-white px-4 py-3'>
+            <SpeechBubble text={text} accentColor={accentColor} />
+        </View>
+    </View>
+);
+
+// ── Character speech bubble ───────────────────────────────────
+export const SpeechBubble = ({ text, who = 'investigator', accentColor }: { text: string; who?: 'investigator' | 'mendel'; accentColor: string; }) => (
+    <View className='flex-row items-end gap-2'>
+        <View className='size-14 rounded-full items-center justify-center bg-[#f5f9f5] border-2' style={{ borderColor: accentColor }}>
+            {who === 'mendel' ? <ScientistSvg width={44} height={44} /> : <InvestigatorSvg width={44} height={44} />}
+        </View>
+        <View className='flex-1 rounded-2xl rounded-bl-sm px-3.5 py-2.5 border-2' style={{ backgroundColor: accentColor + '10', borderColor: accentColor + '40' }}>
+            <Text className='font-nunito-extrabold text-[10px] uppercase tracking-wide' style={{ color: accentColor }}>{who === 'mendel' ? 'Gregor Mendel' : 'Gene Investigator'}</Text>
+            <RichText text={text} className='font-nunito text-ink-300 text-sm leading-5' />
+        </View>
+    </View>
+);
+
+// ── Simple data table ─────────────────────────────────────────
+export const TableCard = ({ title, headers, rows, accentColor }: { title?: string; headers: string[]; rows: string[][]; accentColor: string; }) => (
+    <View className='bg-white rounded-2xl overflow-hidden' style={CARD_SHADOW}>
+        {title && (
+            <View className='px-3 py-2' style={{ backgroundColor: accentColor }}>
+                <Text className='font-fredoka-bold text-white text-sm'>{title}</Text>
+            </View>
+        )}
+        <View className='flex-row px-3 py-2 bg-science-100'>
+            {headers.map((h, i) => <Text key={i} className='font-nunito-extrabold text-science-400 text-xs flex-1'>{h}</Text>)}
+        </View>
+        {rows.map((r, i) => (
+            <View key={i} className={cn('flex-row px-3 py-2', i > 0 && 'border-t border-[#f0f0f0]')}>
+                {r.map((c, j) => <Text key={j} className={cn('text-xs flex-1 leading-4', j === 0 ? 'font-nunito-bold text-ink-300' : 'font-nunito text-ink-400')}>{c}</Text>)}
+            </View>
+        ))}
+    </View>
+);
+
+// ── Numbered / labelled steps ─────────────────────────────────
+export const StepsCard = ({ title, steps, accentColor }: { title?: string; steps: { label: string; text: string; }[]; accentColor: string; }) => (
+    <View className='bg-white rounded-2xl p-3 gap-2' style={CARD_SHADOW}>
+        {title && <Text className='font-fredoka-bold text-ink-300 text-sm'>{title}</Text>}
+        {steps.map((s, i) => (
+            <View key={i} className='flex-row items-start gap-2.5'>
+                <View className='rounded-pill px-2.5 py-1 min-w-[30px] items-center' style={{ backgroundColor: accentColor + '22' }}>
+                    <Text className='font-fredoka-bold text-xs' style={{ color: accentColor }}>{s.label}</Text>
+                </View>
+                <RichText text={s.text} className='font-nunito text-ink-600 text-[13px] leading-5 flex-1' />
+            </View>
+        ))}
+    </View>
+);

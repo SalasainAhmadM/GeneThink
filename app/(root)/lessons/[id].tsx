@@ -27,7 +27,7 @@ const HeartRow = ({ count }: { count: number; }) => (
     </View>
 );
 
-const LevelCard = ({ levelNum, title, passed, unlocked, accentColor, hrefLink, stars }: { levelNum: number; title: string; passed: boolean; unlocked: boolean; accentColor: string; hrefLink: string; stars: number; }) => {
+const LevelCard = ({ levelNum, title, passed, unlocked, accentColor, hrefLink, stars, replayHref }: { levelNum: number; title: string; passed: boolean; unlocked: boolean; accentColor: string; hrefLink: string; stars: number; replayHref?: string; }) => {
     const labelIndex = Math.min(levelNum - 1, LEVEL_LABELS.length - 1);
     const diffColor = LEVEL_COLORS[labelIndex];
     const diffBg = LEVEL_BG[labelIndex];
@@ -59,6 +59,14 @@ const LevelCard = ({ levelNum, title, passed, unlocked, accentColor, hrefLink, s
                     {/* Hearts — always 5, just visual info */}
                     <View className='flex-row items-center justify-between'>
                         <HeartRow count={HEARTS_PER_LEVEL} />
+
+                        {replayHref && unlocked && (
+                            <Button btnType='container' href={replayHref} className='rounded-pill'>
+                                <View className='rounded-pill px-2.5 py-1 mt-2' style={{ backgroundColor: accentColor + '1f' }}>
+                                    <Text className='font-nunito-bold text-[11px]' style={{ color: accentColor }}>📖 Mission</Text>
+                                </View>
+                            </Button>
+                        )}
 
                         {passed && (
                             <View className="flex-row gap-0.5">
@@ -121,11 +129,12 @@ export default function LessonSelectScreen() {
                 <Text className='font-nunito-bold text-ink-200 text-sm mb-1'>Select a level to begin: </Text>
 
                 {lesson.levels.map((level, idx) => {
-                    const hasUnreadStory = hasStory(lesson.id, level.id) && !isStoryRead(storiesRead, lesson.id, idx);
+                    const levelHasStory = hasStory(lesson.id, level.id);
+                    const hasUnreadStory = levelHasStory && !isStoryRead(storiesRead, lesson.id, idx);
                     const hrefLink = hasUnreadStory ? `/lessons/${lesson.id}/${level.id}/story` : `/lessons/${lesson.id}/${level.id}`;
 
                     return (
-                        <LevelCard key={level.id} levelNum={level.id} title={level.title} passed={isLevelPassed(progress, lesson.id, idx)} unlocked={isLevelUnlocked(progress, lesson.id, idx)} accentColor={lesson.accentColor} hrefLink={hrefLink} stars={starsMap[lesson!.id]?.[idx] ?? 0} />
+                        <LevelCard key={level.id} levelNum={level.id} title={level.title} passed={isLevelPassed(progress, lesson.id, idx)} unlocked={isLevelUnlocked(progress, lesson.id, idx)} accentColor={lesson.accentColor} hrefLink={hrefLink} stars={starsMap[lesson!.id]?.[idx] ?? 0} replayHref={levelHasStory && !hasUnreadStory ? `/lessons/${lesson.id}/${level.id}/story` : undefined} />
                     );
                 })}
 

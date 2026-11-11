@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import Button from '../ui/Button';
+import GlossaryText from '../ui/GlossaryText';
 import AnswerFeedback from './AnswerFeedback';
 import QuestionFigure from './QuestionFigure';
 
@@ -55,7 +56,8 @@ export default function MCQQuestion({ quizNumberLabel, showHint, question, onAns
             {/* Question card */}
             <View className='bg-white rounded-2xl p-4' style={{ shadowColor: '#000', shadowOpacity: 0.06, shadowRadius: 8, elevation: 2 }} >
                 <Text className='font-nunito text-ink-100 text-xs uppercase tracking-wide mb-2'>Question</Text>
-                <Text className='font-nunito-bold text-ink-300 text-base leading-6'>{question.question}</Text>
+                <GlossaryText key={question.id} text={question.question} className='font-nunito-bold text-ink-300 text-base leading-6' />
+                <Text className='font-nunito text-ink-100 text-[10px] mt-1'>Tip: tap an underlined word 👆 to see what it means.</Text>
                 {question.figure && <QuestionFigure figure={question.figure} />}
             </View>
 

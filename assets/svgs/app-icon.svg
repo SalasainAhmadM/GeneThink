@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a237e"/>
+      <stop offset="0.55" stop-color="#283593"/>
+      <stop offset="1" stop-color="#1b5e20"/>
+    </linearGradient>
+    <radialGradient id="lens" cx="45%" cy="40%" r="60%">
+      <stop offset="0" stop-color="#E9FBFF"/>
+      <stop offset="1" stop-color="#9FE3F5"/>
+    </radialGradient>
+    <linearGradient id="pod" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9BE07A"/>
+      <stop offset="1" stop-color="#3E9E3A"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFE97A"/>
+      <stop offset="1" stop-color="#FFA000"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <!-- leaves -->
+  <path d="M120 900c40-170 170-260 330-250-60 140-180 230-330 250z" fill="#4CAF50" opacity="0.55"/>
+  <path d="M930 140c-60 120-170 170-300 150 60-110 170-170 300-150z" fill="#4CAF50" opacity="0.45"/>
+  <!-- sparkles -->
+  <g fill="#FFE97A">
+    <path d="M190 190l18 42 42 18-42 18-18 42-18-42-42-18 42-18z"/>
+    <path d="M840 520l13 30 30 13-30 13-13 30-13-30-30-13 30-13z"/>
+    <path d="M300 820l10 24 24 10-24 10-10 24-10-24-24-10 24-10z" opacity="0.8"/>
+  </g>
+  <!-- handle: pea pod -->
+  <g transform="rotate(45 700 700)">
+    <rect x="610" y="640" width="180" height="330" rx="90" fill="url(#pod)" stroke="#1F5E22" stroke-width="22"/>
+    <circle cx="700" cy="730" r="40" fill="#C8F59A" stroke="#1F5E22" stroke-width="10"/>
+    <circle cx="700" cy="820" r="40" fill="#C8F59A" stroke="#1F5E22" stroke-width="10"/>
+    <circle cx="700" cy="910" r="34" fill="#C8F59A" stroke="#1F5E22" stroke-width="10"/>
+  </g>
+  <!-- magnifier -->
+  <circle cx="440" cy="440" r="270" fill="url(#rim)" stroke="#0d1b2a" stroke-width="26"/>
+  <circle cx="440" cy="440" r="210" fill="url(#lens)" stroke="#0d1b2a" stroke-width="18"/>
+  <!-- DNA inside lens -->
+  <g stroke-linecap="round">
+    <g stroke-width="22">
+      <line x1="390" y1="300" x2="490" y2="300" stroke="#FFC93C"/>
+      <line x1="360" y1="370" x2="520" y2="370" stroke="#FF6B81"/>
+      <line x1="390" y1="440" x2="490" y2="440" stroke="#4FC3F7"/>
+      <line x1="360" y1="510" x2="520" y2="510" stroke="#FFC93C"/>
+      <line x1="390" y1="580" x2="490" y2="580" stroke="#FF6B81"/>
+    </g>
+    <path d="M360 250c0 90 160 120 160 190s-160 100-160 190" fill="none" stroke="#1565C0" stroke-width="40"/>
+    <path d="M520 250c0 90-160 120-160 190s160 100 160 190" fill="none" stroke="#2E9E44" stroke-width="40"/>
+  </g>
+  <ellipse cx="330" cy="320" rx="40" ry="70" fill="#ffffff" opacity="0.55" transform="rotate(35 330 320)"/>
+</svg>

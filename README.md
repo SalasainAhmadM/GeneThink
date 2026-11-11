@@ -1,5 +1,7 @@
-<<<<<<< HEAD
-# Welcome to your Expo app 👋
+# GeneQuest
+Grade 8 Biology genetics learning app.
+
+## Development
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
@@ -49,7 +51,3 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-=======
-# GeneThink
-Grade 5 Learning Application
->>>>>>> d0e0d941a58df2263dca723f109d1fc65118e8dd

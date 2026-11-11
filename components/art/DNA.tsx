@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import DNASvg from '../../assets/svgs/dna-svgrepo-com.svg';
+import DNASvg from '../../assets/svgs/dna.svg';
 
 export default function DNA() {
     return (

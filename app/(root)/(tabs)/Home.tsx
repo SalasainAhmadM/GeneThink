@@ -88,7 +88,7 @@ export default function HomeScreen() {
                         {/* Logo row */}
                         <View className='flex-row items-center justify-between mb-1'>
                             <View>
-                                <Text className='font-fredoka-bold text-white text-3xl'>GeneThink</Text>
+                                <Text className='font-fredoka-bold text-white text-3xl'>Gene<Text style={{ color: '#FFD93D' }}>Quest</Text></Text>
 
                                 <Text className='font-nunito-semibold text-white text-[13px] mt-2'>Hello, {playerName}! 👋</Text>
                             </View>

@@ -45,6 +45,8 @@ export interface Level {
     id: number;
     title: string;
     questions: Question[];
+    fixedOrder?: boolean;   // play every question in order (no random sampling)
+    timeLimit?: number;     // seconds for the whole level (defaults by level id)
 }
 
 export interface Lesson {
@@ -73,7 +75,7 @@ export const LESSONS: Lesson[] = [
     //  LESSON 0 — Genetic Terms (Genetics Investigator · Mission 1)
     // ══════════════════════════════════════════════════════════
     {
-        id: 'terms', title: 'Genetic Terms', subtitle: 'Genetics Investigator · Mission 1',
+        id: 'terms', title: 'Genetic Terms', subtitle: 'GeneQuest · Mission 1',
         color: '#e3f2fd', accentColor: '#1565C0',
         levels: [
             {
@@ -165,6 +167,95 @@ export const LESSONS: Lesson[] = [
                         hint: 'A characteristic can be carried without being observed.',
                         explanation: 'Pilar can carry a hidden (recessive) allele for curly hair without showing it. Ana inherited that allele — characteristics can be passed on even when not observed in a parent.',
                         choices: [{ id: 'a', text: 'Ana copied her grandmother\'s appearance.' }, { id: 'b', text: 'Pilar carried an allele for curly hair that was not expressed.' }, { id: 'c', text: 'Characteristics appear without any biological basis.' }, { id: 'd', text: 'Curly hair is not a trait.' }], answer: 'b'
+                    },
+                ],
+            },
+            {
+                id: 2, title: 'Dominant & Recessive Traits',
+                questions: [
+                    {
+                        id: 't2e1', difficulty: 'easy', type: 'mcq',
+                        question: 'Which genotype will show a purple flower? (P = purple, p = white)',
+                        hint: 'One dominant allele is enough.',
+                        explanation: 'P is dominant, so any genotype with at least one P (PP or Pp) shows purple flowers.',
+                        choices: [{ id: 'a', text: 'PP only' }, { id: 'b', text: 'Pp only' }, { id: 'c', text: 'pp' }, { id: 'd', text: 'Both PP and Pp' }], answer: 'd'
+                    },
+                    {
+                        id: 't2e2', difficulty: 'easy', type: 'mcq',
+                        question: 'Which genotype will show a wrinkled seed? (R = round, r = wrinkled)',
+                        hint: 'Wrinkled is recessive.',
+                        explanation: 'A recessive trait shows only with two recessive alleles: rr.',
+                        choices: [{ id: 'a', text: 'RR' }, { id: 'b', text: 'Rr' }, { id: 'c', text: 'rr' }, { id: 'd', text: 'Both RR and Rr' }], answer: 'c'
+                    },
+                    {
+                        id: 't2e3', difficulty: 'easy', type: 'mcq',
+                        question: 'How is a dominant allele written?',
+                        hint: 'Think of P, R, Y, G, A, T.',
+                        explanation: 'Dominant alleles use uppercase letters; recessive alleles use the same letter in lowercase.',
+                        choices: [{ id: 'a', text: 'In lowercase (e.g. t)' }, { id: 'b', text: 'In uppercase (e.g. T)' }, { id: 'c', text: 'With a number' }, { id: 'd', text: 'With two letters' }], answer: 'b'
+                    },
+                    {
+                        id: 't2e4', difficulty: 'easy', type: 'mcq',
+                        question: 'A pea plant has the genotype Tt. What can you say about this plant?',
+                        hint: 'T = tall is dominant.',
+                        explanation: 'Tt contains the dominant T allele, so the plant is tall.',
+                        choices: [{ id: 'a', text: 'It is tall.' }, { id: 'b', text: 'It is short.' }, { id: 'c', text: 'It can be tall or short.' }, { id: 'd', text: 'It is always tall and short at the same time.' }], answer: 'a'
+                    },
+                    {
+                        id: 't2e5', difficulty: 'easy', type: 'mcq',
+                        question: 'Look at the genotype Pp. What is the phenotype?',
+                        hint: 'P is the purple allele.',
+                        explanation: 'Pp has one dominant P, so the flower is purple.',
+                        choices: [{ id: 'a', text: 'Purple flower' }, { id: 'b', text: 'White flower' }, { id: 'c', text: 'Round seed' }, { id: 'd', text: 'Wrinkled seed' }], answer: 'a'
+                    },
+                    {
+                        id: 't2m1', difficulty: 'medium', type: 'mcq',
+                        question: 'Which of the following genotypes will result in a yellow seed? (Y = yellow, y = green)',
+                        hint: 'Yellow is dominant.',
+                        explanation: 'YY and Yy both have the dominant yellow allele.',
+                        choices: [{ id: 'a', text: 'YY' }, { id: 'b', text: 'Yy' }, { id: 'c', text: 'yy' }, { id: 'd', text: 'Both YY and Yy' }], answer: 'd'
+                    },
+                    {
+                        id: 't2m2', difficulty: 'medium', type: 'mcq',
+                        question: 'Which genotype will produce a constricted pod? (I = inflated, i = constricted)',
+                        hint: 'Constricted is recessive.',
+                        explanation: 'Only ii (two recessive alleles) gives a constricted pod.',
+                        choices: [{ id: 'a', text: 'II' }, { id: 'b', text: 'Ii' }, { id: 'c', text: 'ii' }, { id: 'd', text: 'Both II and Ii' }], answer: 'c'
+                    },
+                    {
+                        id: 't2m3', difficulty: 'medium', type: 'mcq',
+                        question: 'Which statement correctly identifies the genotype and phenotype of a pea plant with genotype Pp, where P = purple and p = white?',
+                        hint: 'Genotype = letters, phenotype = what you see.',
+                        explanation: 'The genotype is the allele combination (Pp); the phenotype is the visible trait (purple flowers).',
+                        choices: [{ id: 'a', text: 'Genotype: purple; phenotype: Pp' }, { id: 'b', text: 'Genotype: Pp; phenotype: purple flowers' }, { id: 'c', text: 'Genotype: p; phenotype: white flowers' }, { id: 'd', text: 'Genotype: purple flowers; phenotype: white allele' }], answer: 'b'
+                    },
+                    {
+                        id: 't2m4', difficulty: 'medium', type: 'mcq',
+                        question: 'Complete the sentence: A plant with genotype ___ will show a wrinkled seed because the wrinkled trait is ___.',
+                        hint: 'Recessive traits need two copies.',
+                        explanation: 'Wrinkled is recessive, so it appears only in rr.',
+                        choices: [{ id: 'a', text: 'RR – dominant' }, { id: 'b', text: 'Rr – dominant' }, { id: 'c', text: 'rr – recessive' }, { id: 'd', text: 'Rr – recessive' }], answer: 'c'
+                    },
+                    {
+                        id: 't2h1', difficulty: 'hard', type: 'mcq',
+                        question: 'In pea plants, round seeds (R) are dominant to wrinkled (r), and tall (T) is dominant to short (t). A plant has genotype RRtt. Which phenotype does it show?',
+                        hint: 'Look at each gene separately.',
+                        explanation: 'RR → round seeds; tt → short plant.',
+                        choices: [{ id: 'a', text: 'Round seeds and short plants' }, { id: 'b', text: 'Wrinkled seeds and tall plants' }, { id: 'c', text: 'Round seeds and tall plants' }, { id: 'd', text: 'Wrinkled seeds and short plants' }], answer: 'a'
+                    },
+                    {
+                        id: 't2h2', difficulty: 'hard', type: 'mcq',
+                        question: 'A cross between Pp and Pp produced 74 purple and 26 white flowers. What can you conclude?',
+                        hint: 'About 3 : 1.',
+                        explanation: 'Roughly 3 purple : 1 white is the pattern expected when purple is dominant.',
+                        choices: [{ id: 'a', text: 'Purple is dominant and white is recessive.' }, { id: 'b', text: 'White is dominant and purple is recessive.' }, { id: 'c', text: 'Both traits are recessive.' }, { id: 'd', text: 'There is no dominant or recessive trait.' }], answer: 'a'
+                    },
+                    {
+                        id: 't2h3', difficulty: 'hard', type: 'mcq',
+                        question: 'Why can two pea plants of the same species show different versions of an inherited trait?',
+                        hint: 'Think about versions of a gene.',
+                        explanation: 'Different alleles of the same gene produce different versions of a trait.',
+                        choices: [{ id: 'a', text: 'They may inherit different alleles for a gene.' }, { id: 'b', text: 'Every plant has a different number of cells.' }, { id: 'c', text: 'One allele controls every characteristic.' }, { id: 'd', text: 'Inherited traits are unrelated to genes.' }], answer: 'a'
                     },
                 ],
             },
@@ -488,7 +579,7 @@ export const LESSONS: Lesson[] = [
     //  LESSON 2 — Mendel's Laws
     // ══════════════════════════════════════════════════════════
     {
-        id: 'mendel', title: "Mendel's Laws", subtitle: 'Father of Genetics',
+        id: 'mendel', title: "Mendel's Laws", subtitle: 'GeneQuest · Mission 2',
         color: '#ead5f0', accentColor: '#9C27B0',
         levels: [
             // ── Level 1: Mendel's Experiments ────────────────────
@@ -622,7 +713,90 @@ export const LESSONS: Lesson[] = [
 
             // ── Level 2: Beyond Mendel ────────────────────────────
             {
-                id: 2, title: 'Beyond Mendel',
+                id: 2, title: 'The Three Laws of Mendel',
+                questions: [
+                    {
+                        id: 'l2e1', difficulty: 'easy', type: 'mcq',
+                        question: 'A plant has genotype Rr (R = round, r = wrinkled). What seed shape will it have?',
+                        hint: 'Law of Dominance.',
+                        explanation: 'The dominant R masks r, so the seed is round.',
+                        choices: [{ id: 'a', text: 'Round' }, { id: 'b', text: 'Wrinkled' }, { id: 'c', text: 'Both round and wrinkled' }, { id: 'd', text: 'Cannot be determined' }], answer: 'a'
+                    },
+                    {
+                        id: 'l2e2', difficulty: 'easy', type: 'mcq',
+                        question: 'Which law says that the dominant allele is expressed while the recessive allele is masked?',
+                        hint: 'Masking = dominance.',
+                        explanation: 'The Law of Dominance explains why Rr looks like RR.',
+                        choices: [{ id: 'a', text: 'Law of Dominance' }, { id: 'b', text: 'Law of Segregation' }, { id: 'c', text: 'Law of Independent Assortment' }, { id: 'd', text: 'Law of Blending' }], answer: 'a'
+                    },
+                    {
+                        id: 'l2e3', difficulty: 'easy', type: 'mcq',
+                        question: 'A plant with genotype Rr can produce which gametes?',
+                        hint: 'Alleles separate.',
+                        explanation: 'By the Law of Segregation, each gamete gets one allele: R or r.',
+                        choices: [{ id: 'a', text: 'R only' }, { id: 'b', text: 'r only' }, { id: 'c', text: 'R and r' }, { id: 'd', text: 'RR and rr' }], answer: 'c'
+                    },
+                    {
+                        id: 'l2e4', difficulty: 'easy', type: 'mcq',
+                        question: 'Which genotype shows a wrinkled seed?',
+                        hint: 'Wrinkled is recessive.',
+                        explanation: 'Only rr shows the recessive wrinkled seed.',
+                        choices: [{ id: 'a', text: 'RR' }, { id: 'b', text: 'Rr' }, { id: 'c', text: 'rr' }, { id: 'd', text: 'Both RR and Rr' }], answer: 'c'
+                    },
+                    {
+                        id: 'l2m1', difficulty: 'medium', type: 'mcq',
+                        question: 'Which statement describes the Law of Segregation?',
+                        hint: 'Segregate = separate.',
+                        explanation: 'Each parent passes on only one of its two alleles.',
+                        choices: [{ id: 'a', text: 'The two alleles of a gene separate when gametes form.' }, { id: 'b', text: 'All traits are inherited together as one unit.' }, { id: 'c', text: 'Dominant alleles are always more common.' }, { id: 'd', text: 'Offspring receive both alleles from only one parent.' }], answer: 'a'
+                    },
+                    {
+                        id: 'l2m2', difficulty: 'medium', type: 'mcq',
+                        question: 'What is the genotypic ratio of the offspring from Rr × Rr?',
+                        hint: 'Draw the Punnett square.',
+                        explanation: 'RR, Rr, Rr, rr → 1 RR : 2 Rr : 1 rr.',
+                        figure: { kind: 'punnett', top: ['R', 'r'], left: ['R', 'r'], cells: ['RR', 'Rr', 'Rr', 'rr'] },
+                        choices: [{ id: 'a', text: '1 : 1' }, { id: 'b', text: '3 : 1' }, { id: 'c', text: '1 : 2 : 1' }, { id: 'd', text: '2 : 2' }], answer: 'c'
+                    },
+                    {
+                        id: 'l2m3', difficulty: 'medium', type: 'mcq',
+                        question: 'What will be the seed shape of the offspring from the cross Rr × Rr?',
+                        hint: 'Group the round genotypes.',
+                        explanation: 'RR + Rr + Rr = 3 round; rr = 1 wrinkled.',
+                        choices: [{ id: 'a', text: 'All round' }, { id: 'b', text: '3 round : 1 wrinkled' }, { id: 'c', text: 'All wrinkled' }, { id: 'd', text: '1 round : 3 wrinkled' }], answer: 'b'
+                    },
+                    {
+                        id: 'l2m4', difficulty: 'medium', type: 'mcq',
+                        question: 'Which is NOT one of Mendel\'s three commonly taught laws of inheritance?',
+                        hint: 'Mendel showed traits do not blend.',
+                        explanation: 'Mendel\'s laws are Dominance, Segregation and Independent Assortment. "Blending" is the idea his work disproved.',
+                        choices: [{ id: 'a', text: 'Law of Dominance' }, { id: 'b', text: 'Law of Segregation' }, { id: 'c', text: 'Law of Independent Assortment' }, { id: 'd', text: 'Law of Blending Inheritance' }], answer: 'd'
+                    },
+                    {
+                        id: 'l2h1', difficulty: 'hard', type: 'mcq',
+                        question: 'Which statement best describes the Law of Independent Assortment?',
+                        hint: 'Different genes, independent.',
+                        explanation: 'How one gene sorts into gametes does not affect how another gene sorts.',
+                        choices: [{ id: 'a', text: 'Alleles of a gene separate during gamete formation.' }, { id: 'b', text: 'Alleles of different genes are inherited independently of each other.' }, { id: 'c', text: 'Dominant alleles always appear in the offspring.' }, { id: 'd', text: 'Traits are inherited together as one unit.' }], answer: 'b'
+                    },
+                    {
+                        id: 'l2h2', difficulty: 'hard', type: 'mcq',
+                        question: 'How many different kinds of gametes can a plant with genotype RrYy produce?',
+                        hint: 'Use 2ⁿ.',
+                        explanation: 'Two heterozygous genes → 2² = 4 gametes: RY, Ry, rY, ry.',
+                        choices: [{ id: 'a', text: '2' }, { id: 'b', text: '3' }, { id: 'c', text: '4' }, { id: 'd', text: '8' }], answer: 'c'
+                    },
+                    {
+                        id: 'l2h3', difficulty: 'hard', type: 'mcq',
+                        question: 'Which of the following is a possible gamete from a plant with genotype RrYy?',
+                        hint: 'One allele per gene.',
+                        explanation: 'A gamete has exactly one allele of each gene, e.g. RY.',
+                        choices: [{ id: 'a', text: 'RR' }, { id: 'b', text: 'RY' }, { id: 'c', text: 'Rr' }, { id: 'd', text: 'RYy' }], answer: 'b'
+                    },
+                ],
+            },
+            {
+                id: 3, title: 'Beyond Mendel',
                 questions: [
                     {
                         id: 'm2e1', difficulty: 'easy', type: 'mcq',
@@ -722,7 +896,7 @@ export const LESSONS: Lesson[] = [
 
             // ── Level 3: Sex-Linked Traits ────────────────────────
             {
-                id: 3, title: 'Sex-Linked Traits',
+                id: 4, title: 'Sex-Linked Traits',
                 questions: [
                     {
                         id: 'm3e1', difficulty: 'easy', type: 'mcq',
@@ -826,7 +1000,7 @@ export const LESSONS: Lesson[] = [
     //  LESSON 3 — Punnett Squares
     // ══════════════════════════════════════════════════════════
     {
-        id: 'punnett', title: 'Punnett Squares', subtitle: 'Predict offspring',
+        id: 'punnett', title: 'Punnett Squares', subtitle: 'GeneQuest · Mission 3 · Punnett Square Lab',
         color: '#cfe4fa', accentColor: '#1565C0',
         levels: [
             // ── Level 1: Reading the Grid ─────────────────────────
@@ -1135,7 +1309,7 @@ export const LESSONS: Lesson[] = [
     //  LESSON 4 — Monohybrid & Dihybrid Cross
     // ══════════════════════════════════════════════════════════
     {
-        id: 'dihybrid', title: 'Monohybrid & Dihybrid Cross', subtitle: 'One trait, then two',
+        id: 'dihybrid', title: 'Monohybrid & Dihybrid Cross', subtitle: 'GeneQuest · Mission 4',
         color: '#d0f2ee', accentColor: '#00897B',
         levels: [
             // ── Level 1: Monohybrid Crosses ───────────────────────
@@ -1875,12 +2049,145 @@ export const LESSONS: Lesson[] = [
                     },
                 ],
             },
+            {
+                id: 4, title: 'Checking of Understanding (18 items)', fixedOrder: true, timeLimit: 600,
+                questions: [
+                    {
+                        id: 'cu01', difficulty: 'easy', type: 'mcq',
+                        question: 'Mission 1 · Why can two pea plants of the same species show different versions of an inherited trait?',
+                        hint: 'Versions of a gene.',
+                        explanation: 'Different alleles of the same gene give different versions of a trait.',
+                        choices: [{ id: 'a', text: 'They may inherit different alleles for a gene.' }, { id: 'b', text: 'Every plant has a different number of cells.' }, { id: 'c', text: 'One allele controls every characteristic.' }, { id: 'd', text: 'Inherited traits are unrelated to genes.' }], answer: 'a'
+                    },
+                    {
+                        id: 'cu02', difficulty: 'easy', type: 'mcq',
+                        question: 'Mission 1 · Which statement correctly identifies the genotype and phenotype of a pea plant with genotype Pp, where P = purple and p = white?',
+                        hint: 'Letters vs. what you see.',
+                        explanation: 'Genotype = Pp; phenotype = purple flowers.',
+                        choices: [{ id: 'a', text: 'Genotype: purple; phenotype: Pp' }, { id: 'b', text: 'Genotype: Pp; phenotype: purple flowers' }, { id: 'c', text: 'Genotype: p; phenotype: white flowers' }, { id: 'd', text: 'Genotype: purple flowers; phenotype: white allele' }], answer: 'b'
+                    },
+                    {
+                        id: 'cu03', difficulty: 'easy', type: 'mcq',
+                        question: 'Mission 1 · Round seeds (R) are dominant to wrinkled (r), and tall (T) is dominant to short (t). A plant has genotype RRtt. Which phenotype does it show?',
+                        hint: 'One gene at a time.',
+                        explanation: 'RR → round; tt → short.',
+                        choices: [{ id: 'a', text: 'Round seeds and short plants' }, { id: 'b', text: 'Wrinkled seeds and tall plants' }, { id: 'c', text: 'Round seeds and tall plants' }, { id: 'd', text: 'Wrinkled seeds and short plants' }], answer: 'a'
+                    },
+                    {
+                        id: 'cu04', difficulty: 'medium', type: 'mcq',
+                        question: 'Mission 2 · Which statement best explains why Gregor Mendel used pea plants in his inheritance experiments?',
+                        hint: 'Contrasting traits.',
+                        explanation: 'Clear contrasting traits and controllable pollination made peas ideal.',
+                        choices: [{ id: 'a', text: 'Pea plants have contrasting traits and can be cross-pollinated.' }, { id: 'b', text: 'Pea plants have no inherited variation.' }, { id: 'c', text: 'Pea plants produce only one offspring.' }, { id: 'd', text: 'Pea plants cannot self-pollinate.' }], answer: 'a'
+                    },
+                    {
+                        id: 'cu05', difficulty: 'medium', type: 'mcq',
+                        question: 'Mission 2 · In pea plants, tall (T) is dominant to short (t). Two heterozygous plants (Tt × Tt) are crossed. Which outcome is expected?',
+                        hint: 'Tt × Tt.',
+                        explanation: 'TT, Tt, Tt, tt → 3 tall : 1 short.',
+                        choices: [{ id: 'a', text: 'All offspring are tall.' }, { id: 'b', text: 'Three-fourths are tall and one-fourth are short.' }, { id: 'c', text: 'Half are tall and half are short.' }, { id: 'd', text: 'All offspring are short.' }], answer: 'b'
+                    },
+                    {
+                        id: 'cu06', difficulty: 'medium', type: 'mcq',
+                        question: 'Mission 2 · A true-breeding purple-flowered plant (PP) is crossed with a true-breeding white-flowered plant (pp). Purple is dominant. Why are all F₁ offspring purple?',
+                        hint: 'What genotype do all F₁ get?',
+                        explanation: 'Every F₁ plant is Pp; the dominant P masks p.',
+                        choices: [{ id: 'a', text: 'All offspring are PP.' }, { id: 'b', text: 'All offspring are Pp, and P is dominant over p.' }, { id: 'c', text: 'The alleles blend into a new color.' }, { id: 'd', text: 'The white allele is removed.' }], answer: 'b'
+                    },
+                    {
+                        id: 'cu07', difficulty: 'medium', type: 'mcq',
+                        question: 'Mission 2 · Which statement describes the Law of Segregation?',
+                        hint: 'Segregate = separate.',
+                        explanation: 'Each gamete receives only one allele of each gene.',
+                        choices: [{ id: 'a', text: 'The two alleles of a gene separate when gametes form.' }, { id: 'b', text: 'All traits are inherited together as one unit.' }, { id: 'c', text: 'Dominant alleles are always more common.' }, { id: 'd', text: 'Offspring receive both alleles from only one parent.' }], answer: 'a'
+                    },
+                    {
+                        id: 'cu08', difficulty: 'medium', type: 'mcq',
+                        question: 'Mission 2 · Which is NOT one of Mendel\'s three commonly taught laws of inheritance?',
+                        hint: 'Mendel disproved blending.',
+                        explanation: 'Blending inheritance is not one of Mendel\'s laws.',
+                        choices: [{ id: 'a', text: 'Law of Dominance' }, { id: 'b', text: 'Law of Segregation' }, { id: 'c', text: 'Law of Independent Assortment' }, { id: 'd', text: 'Law of Blending Inheritance' }], answer: 'd'
+                    },
+                    {
+                        id: 'cu09', difficulty: 'medium', type: 'mcq',
+                        question: 'Mission 3 · A plant that shows the recessive trait must have which genotype?',
+                        hint: 'Recessive needs two copies.',
+                        explanation: 'Only aa shows the recessive trait.',
+                        choices: [{ id: 'a', text: 'A dominant allele only (e.g. AA)' }, { id: 'b', text: 'Two recessive alleles (e.g. aa)' }, { id: 'c', text: 'One dominant and one recessive allele (e.g. Aa)' }, { id: 'd', text: 'Any combination of alleles' }], answer: 'b'
+                    },
+                    {
+                        id: 'cu10', difficulty: 'medium', type: 'mcq',
+                        question: 'Mission 3 · In a cross Aa × aa, what is the expected phenotypic ratio if A is dominant?',
+                        hint: 'Aa, Aa, aa, aa.',
+                        explanation: 'Two Aa (dominant) and two aa (recessive) → 1 : 1.',
+                        figure: { kind: 'punnett', top: ['A', 'a'], left: ['a', 'a'], cells: ['Aa', 'aa', 'Aa', 'aa'] },
+                        choices: [{ id: 'a', text: '1 : 0 (all dominant)' }, { id: 'b', text: '0 : 1 (all recessive)' }, { id: 'c', text: '1 : 1 (half dominant, half recessive)' }, { id: 'd', text: '3 : 1 (three dominant, one recessive)' }], answer: 'c'
+                    },
+                    {
+                        id: 'cu11', difficulty: 'medium', type: 'mcq',
+                        question: 'Mission 3 · Which Punnett square correctly shows the cross Tt × Tt?',
+                        hint: 'Gametes T and t on both sides.',
+                        explanation: 'Rows: TT, Tt and Tt, tt.',
+                        choices: [{ id: 'a', text: 'TT, TT / Tt, tt' }, { id: 'b', text: 'TT, Tt / Tt, tt' }, { id: 'c', text: 'Tt, tt / Tt, tt' }, { id: 'd', text: 'Tt, Tt / Tt, Tt' }], answer: 'b'
+                    },
+                    {
+                        id: 'cu12', difficulty: 'medium', type: 'mcq',
+                        question: 'Mission 3 · What is the genotypic ratio of offspring from the cross Tt × Tt?',
+                        hint: 'Count each box.',
+                        explanation: '1 TT : 2 Tt : 1 tt.',
+                        choices: [{ id: 'a', text: '1 TT : 1 Tt : 1 tt' }, { id: 'b', text: '1 TT : 2 Tt : 1 tt' }, { id: 'c', text: '3 TT : 1 tt' }, { id: 'd', text: '1 Tt : 1 tt' }], answer: 'b'
+                    },
+                    {
+                        id: 'cu13', difficulty: 'medium', type: 'mcq',
+                        question: 'Mission 3 · From a Tt × Tt cross, what is the probability of obtaining a short plant (tt)?',
+                        hint: 'One box of four.',
+                        explanation: 'Only 1 of the 4 boxes is tt → 25%.',
+                        choices: [{ id: 'a', text: '0% (0)' }, { id: 'b', text: '25% (1/4)' }, { id: 'c', text: '50% (1/2)' }, { id: 'd', text: '75% (3/4)' }], answer: 'b'
+                    },
+                    {
+                        id: 'cu14', difficulty: 'medium', type: 'mcq',
+                        question: 'Mission 3 · In pea plants, yellow seed color (Y) is dominant to green (y). Which cross can produce some green seeds?',
+                        hint: 'Each parent must pass on y.',
+                        explanation: 'Only Yy × Yy can give a yy offspring (1 in 4).',
+                        choices: [{ id: 'a', text: 'YY × yy' }, { id: 'b', text: 'YY × Yy' }, { id: 'c', text: 'Yy × Yy' }, { id: 'd', text: 'YY × YY' }], answer: 'c'
+                    },
+                    {
+                        id: 'cu15', difficulty: 'medium', type: 'mcq',
+                        question: 'Mission 3 · Which statement about a heterozygous genotype is correct?',
+                        hint: 'Hetero = different.',
+                        explanation: 'Heterozygous means two different alleles.',
+                        choices: [{ id: 'a', text: 'It has two identical alleles (e.g. AA or aa).' }, { id: 'b', text: 'It has two different alleles (e.g. Aa).' }, { id: 'c', text: 'It always shows the recessive trait.' }, { id: 'd', text: 'It produces only one type of gamete.' }], answer: 'b'
+                    },
+                    {
+                        id: 'cu16', difficulty: 'hard', type: 'mcq',
+                        question: 'Mission 4 · Which set of gametes can be produced by a plant with genotype RrYy?',
+                        hint: 'Use FOIL.',
+                        explanation: 'FOIL gives RY, Ry, rY and ry.',
+                        choices: [{ id: 'a', text: 'RY and ry only' }, { id: 'b', text: 'Ry and rY only' }, { id: 'c', text: 'RY, Ry, rY, and ry' }, { id: 'd', text: 'RR, Rr, Yy, and yy' }], answer: 'c'
+                    },
+                    {
+                        id: 'cu17', difficulty: 'hard', type: 'mcq',
+                        question: 'Mission 4 · In a dihybrid cross (RrYy × RrYy) with independent assortment, what is the expected phenotypic ratio of the offspring?',
+                        hint: 'Classic dihybrid ratio.',
+                        explanation: '9 : 3 : 3 : 1.',
+                        choices: [{ id: 'a', text: '3 : 1' }, { id: 'b', text: '9 : 3 : 3 : 1' }, { id: 'c', text: '1 : 2 : 1' }, { id: 'd', text: '1 : 1 : 1 : 1' }], answer: 'b'
+                    },
+                    {
+                        id: 'cu18', difficulty: 'hard', type: 'mcq',
+                        question: 'Mission 4 · Which statement best describes the Law of Independent Assortment?',
+                        hint: 'Different genes.',
+                        explanation: 'Genes for different traits sort into gametes independently.',
+                        choices: [{ id: 'a', text: 'Alleles of a gene separate during gamete formation.' }, { id: 'b', text: 'Alleles of different genes are inherited independently of each other.' }, { id: 'c', text: 'Dominant alleles always appear in the offspring.' }, { id: 'd', text: 'Traits are inherited together as one unit.' }], answer: 'b'
+                    },
+                ],
+            },
         ],
     },
 ];
 
 // ── Question sampler (Duolingo-style random per play) ─────────
 export function sampleLevelQuestions(level: Level): Question[] {
+    if (level.fixedOrder) return [...level.questions];
     const byDiff = (d: QuestionDifficulty) => level.questions.filter(q => q.difficulty === d);
 
     const pick = (pool: Question[], n: number): Question[] => {

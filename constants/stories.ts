@@ -308,7 +308,7 @@ export const STORIES: LevelStory[] = [
     // ══════════════════════════════════════════════════════════
     {
         lessonId: 'mendel',
-        levelId: 2,
+        levelId: 3,
         panels: [
             {
                 id: 'beyond-intro',
@@ -367,7 +367,7 @@ export const STORIES: LevelStory[] = [
     // ══════════════════════════════════════════════════════════
     {
         lessonId: 'mendel',
-        levelId: 3,
+        levelId: 4,
         panels: [
             {
                 id: 'the-23rd-pair',

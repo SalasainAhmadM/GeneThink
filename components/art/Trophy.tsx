@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
-import TrophySvg from '../../assets/svgs/trophy-svgrepo-com.svg';
+import TrophySvg from '../../assets/svgs/trophy.svg';
 
 export default function Trophy() {
     const float = useRef(new Animated.Value(0)).current;

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
-import BrokenHeartSvg from '../../assets/svgs/broken-heart-svgrepo-com.svg';
+import BrokenHeartSvg from '../../assets/svgs/broken-heart.svg';
 
 export default function BrokenHeart() {
     const float = useRef(new Animated.Value(0)).current;

@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react';
 import { FlatList, Text, useWindowDimensions, View, ViewToken } from 'react-native';
 import StoryPanelView from './StoryPanelView';
 
-export default function StoryReader({ story, accentColor, onFinish }: { story: LevelStory; accentColor: string; onFinish: () => void; }) {
+export default function StoryReader({ story, accentColor, onFinish, finishLabel = 'Start Quiz →' }: { story: LevelStory; accentColor: string; onFinish: () => void; finishLabel?: string; }) {
     const { width: SCREEN_W } = useWindowDimensions();
     const [index, setIndex] = useState(0);
     const listRef = useRef<FlatList<any>>(null);
@@ -56,7 +56,7 @@ export default function StoryReader({ story, accentColor, onFinish }: { story: L
                 </View>
 
                 {isLast ? (
-                    <Button label='Start Quiz →' btnType='secondary' size='lg' fredokaBold onPress={onFinish} />
+                    <Button label={finishLabel} btnType='secondary' size='lg' fredokaBold onPress={onFinish} />
                 ) : (
                     <Button label='Next' btnType='primary' size='md' fredokaBold onPress={() => goTo(index + 1)} />
                 )}

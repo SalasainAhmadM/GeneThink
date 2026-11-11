@@ -10,7 +10,7 @@ import { getStory } from '@/constants/stories';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -22,6 +22,7 @@ export default function StoryScreen() {
     const level = lesson?.levels[levelIndex];
     const story = lesson ? getStory(lesson.id, Number(levelId)) : undefined;
     const mission = lesson ? getMission(lesson.id, Number(levelId)) : undefined;
+    const [phase, setPhase] = useState<'story' | 'mission'>(story ? 'story' : 'mission');
 
     const markReadAndStart = async () => {
         try {
@@ -57,9 +58,9 @@ export default function StoryScreen() {
                 </SafeAreaView>
             </LinearGradient>
 
-            {mission
+            {phase === 'mission' && mission
                 ? <MissionReader mission={mission} accentColor={lesson.accentColor} onFinish={markReadAndStart} />
-                : <StoryReader story={story!} accentColor={lesson.accentColor} onFinish={markReadAndStart} />}
+                : <StoryReader story={story!} accentColor={lesson.accentColor} onFinish={mission ? () => setPhase('mission') : markReadAndStart} finishLabel={mission ? 'Start Mission →' : undefined} />}
         </View>
     );
 }

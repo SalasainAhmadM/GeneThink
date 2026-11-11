@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
-import StarInactiveSvg from '../../assets/svgs/star-inactive-svgrepo-com.svg';
-import StarSvg from '../../assets/svgs/star-svgrepo-com.svg';
+import StarInactiveSvg from '../../assets/svgs/star-inactive.svg';
+import StarSvg from '../../assets/svgs/star.svg';
 
 export default function Star({ active }: { active: boolean; }) {
     return (

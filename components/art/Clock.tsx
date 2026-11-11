@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
-import ClockSvg from '../../assets/svgs/clock-svgrepo-com.svg';
+import ClockSvg from '../../assets/svgs/clock.svg';
 
 export default function Clock() {
     const float = useRef(new Animated.Value(0)).current;
