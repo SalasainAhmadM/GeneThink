@@ -1,4 +1,5 @@
 import { APP_EXPIRATION_DATE } from "@/constants/settings";
+import { initSounds } from "@/lib/sound";
 import { Stack } from "expo-router";
 
 import { useFonts } from "expo-font";
@@ -42,6 +43,7 @@ export default function RootLayout() {
     "Nunito-ExtraBold": require("../assets/fonts/Nunito-ExtraBold.ttf"),
   });
 
+  useEffect(() => { initSounds(); }, []);
   useEffect(() => { if (fontsLoaded) SplashScreen.hideAsync(); }, [fontsLoaded]);
 
   if (!fontsLoaded) return null;

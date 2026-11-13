@@ -1,3 +1,4 @@
+import { playSound, setSoundEnabled } from '@/lib/sound';
 import { BackArrow } from '@/components/icons/Arrowicon';
 import Button from '@/components/ui/Button';
 import { DEFAULT_SETTINGS, Settings, STORAGE_KEYS } from '@/constants/settings';
@@ -14,7 +15,7 @@ const TOGGLES: {
     subtitle: string;
     key: keyof Settings;
 }[] = [
-        { icon: "🔊", title: "Sound Effects", subtitle: "Ding on correct answers", key: "sound" },
+        { icon: "🔊", title: "Sound Effects", subtitle: "Taps, right & wrong answers", key: "sound" },
         { icon: "⏱", title: "Show Timer", subtitle: "Countdown & time limit during quiz", key: "timer" },
         { icon: "💡", title: "Auto-show Hints", subtitle: "Hint button always visible", key: "hints" },
         { icon: "✨", title: "Animations", subtitle: "Enable UI animations", key: "animations" },
@@ -51,7 +52,7 @@ const Toggle = ({
 
     return (
         <TouchableOpacity
-            onPress={onToggle}
+            onPress={() => { playSound('tap'); onToggle(); }}
             activeOpacity={0.85}
             className={cn('w-[48px] h-7 rounded-[14px] justify-center p-0.5', value ? 'bg-success' : 'bg-[#e0e0e0]')}
         >
@@ -116,6 +117,7 @@ export default function SettingsScreen() {
     const updateSetting = async <K extends keyof Settings>(key: K, value: Settings[K]) => {
         const updated = { ...settings, [key]: value };
         setSettings(updated);
+        if (key === 'sound') setSoundEnabled(value as boolean);
         await AsyncStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(updated));
     };
 
@@ -172,6 +174,7 @@ export default function SettingsScreen() {
 
     const handleReset = async () => {
         await AsyncStorage.multiRemove([STORAGE_KEYS.playerName, STORAGE_KEYS.progress, STORAGE_KEYS.settings, STORAGE_KEYS.pin, STORAGE_KEYS.explored]);
+        setSoundEnabled(DEFAULT_SETTINGS.sound);
         setConfirmReset(false);
         router.push('/');
     };

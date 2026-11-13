@@ -1,3 +1,4 @@
+import { playSound } from '@/lib/sound';
 import { Lesson, LESSONS } from '@/constants/lessons';
 import { getLevelsDone, isLevelPassed, isLevelUnlocked, Progress, StarsMap } from '@/constants/prorgess';
 import { DEFAULT_EXPLORED, ExploredSections, STORAGE_KEYS } from '@/constants/settings';
@@ -74,7 +75,7 @@ const LessonCard = ({ lesson, progress, expanded, onToggle, art }: { lesson: Les
 
     return (
         <View className='bg-bg-card rounded-2xl overflow-hidden' style={{ shadowColor: "#000", shadowOpacity: 0.06, shadowRadius: 8, elevation: 3 }}>
-            <Pressable onPress={onToggle} className='flex-row items-center px-4 py-3 gap-3'>
+            <Pressable onPress={() => { playSound('tap'); onToggle(); }} className='flex-row items-center px-4 py-3 gap-3'>
                 <View className='size-[70px]'>{art}</View>
 
                 <View className='flex-1'>

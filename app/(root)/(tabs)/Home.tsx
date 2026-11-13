@@ -1,3 +1,4 @@
+import { playSound } from '@/lib/sound';
 import { ClipboardIcon, DnaIcon, FlowerPairIcon, MagnifierIcon, PunnettBookIcon, SeedQuadIcon } from '@/components/art/QuestIcons';
 import GuideTab from '@/components/Home/GuideTab';
 import LessonTab from '@/components/Home/LessonTab';
@@ -24,7 +25,7 @@ const StatChip = ({ value, label }: { value: string | number; label: string; }) 
 
 // ── Custom tab button ─────────────────────────────────────────
 const TabBtn = ({ label, active, onPress }: { label: string; active: boolean; onPress: () => void; }) => (
-    <Pressable onPress={onPress} className={cn('flex-1 items-center py-3 border-b-[3px]', active ? 'border-b-[#7B2CBF]' : 'border-b-transparent')}><Text className={cn('font-nunito-bold text-sm', active ? 'text-[#7B2CBF]' : "text-ink-200")}>{label}</Text></Pressable>
+    <Pressable onPress={() => { playSound('tap'); onPress(); }} className={cn('flex-1 items-center py-3 border-b-[3px]', active ? 'border-b-[#7B2CBF]' : 'border-b-transparent')}><Text className={cn('font-nunito-bold text-sm', active ? 'text-[#7B2CBF]' : "text-ink-200")}>{label}</Text></Pressable>
 );
 
 // Order follows LESSONS: terms, intro, mendel, punnett, dihybrid, quiz

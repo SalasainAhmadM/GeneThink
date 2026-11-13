@@ -1,3 +1,4 @@
+import { playSound } from '@/lib/sound';
 import Button from '@/components/ui/Button';
 import { LevelMission } from '@/constants/missions';
 import React, { useRef, useState } from 'react';
@@ -62,7 +63,7 @@ export default function MissionReader({ mission, accentColor, onFinish }: { miss
 
                 <View className='gap-4'>
                     {visible.map((b, i) => (
-                        <MissionBlockView key={`${screen.id}-${i}`} block={b} accentColor={accentColor} solved={!!solved[key(i)]} onSolved={() => setSolved((s) => ({ ...s, [key(i)]: true }))} />
+                        <MissionBlockView key={`${screen.id}-${i}`} block={b} accentColor={accentColor} solved={!!solved[key(i)]} onSolved={() => { if (!solved[key(i)]) playSound('correct'); setSolved((s) => ({ ...s, [key(i)]: true })); }} />
                     ))}
                 </View>
             </ScrollView>

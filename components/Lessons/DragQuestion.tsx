@@ -5,6 +5,7 @@
  * Shows a brief correct/incorrect notification before advancing.
  */
 
+import { playSound } from '@/lib/sound';
 import { Question } from '@/constants/lessons';
 import React, { useRef, useState } from 'react';
 import {
@@ -191,6 +192,7 @@ export default function DragQuestion({
                     moveY >= cy &&
                     moveY <= cy + ch
                 ) {
+                    playSound('tap');
                     setCells((prev) => {
                         const next = [...prev];
                         next[idx] = draggedValue;
@@ -350,6 +352,7 @@ export default function DragQuestion({
                                     }}
                                     onPress={() => {
                                         if (submitting || !val) return;
+                                        playSound('tap');
                                         setCells((prev) => {
                                             const next = [...prev];
                                             next[idx] = '';

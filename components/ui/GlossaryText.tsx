@@ -1,3 +1,4 @@
+import { playSound } from '@/lib/sound';
 import { GlossaryEntry, splitGlossary } from '@/constants/glossary';
 import React, { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
@@ -17,7 +18,7 @@ export default function GlossaryText({ text, className, color = '#1565C0' }: { t
         <View>
             <Text className={className}>
                 {parts.map((p, i) => p.entry ? (
-                    <Text key={i} onPress={() => setOpen(open?.term === p.entry!.term ? null : p.entry!)} style={{ color, textDecorationLine: 'underline', fontWeight: p.bold ? '700' : undefined }}>
+                    <Text key={i} onPress={() => { playSound('tap'); setOpen(open?.term === p.entry!.term ? null : p.entry!); }} style={{ color, textDecorationLine: 'underline', fontWeight: p.bold ? '700' : undefined }}>
                         {p.text}<Text style={{ textDecorationLine: 'none' }}> 👆</Text>
                     </Text>
                 ) : (
@@ -25,7 +26,7 @@ export default function GlossaryText({ text, className, color = '#1565C0' }: { t
                 ))}
             </Text>
             {open && (
-                <Pressable onPress={() => setOpen(null)}>
+                <Pressable onPress={() => { playSound('tap'); setOpen(null); }}>
                     <View className='mt-2 rounded-xl px-3 py-2.5 border-2 bg-science-100' style={{ borderColor: color + '55' }}>
                         <Text className='font-fredoka-bold text-sm' style={{ color }}>📖 What is {open.term}?</Text>
                         <Text className='font-nunito text-ink-600 text-[13px] leading-5 mt-0.5'>{open.definition}</Text>

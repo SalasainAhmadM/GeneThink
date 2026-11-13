@@ -1,3 +1,4 @@
+import { playSound } from "@/lib/sound";
 import { cn } from "@/lib/utils";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
@@ -212,6 +213,7 @@ export default function Button({
 
     const handlePress = (e: GestureResponderEvent) => {
         if (disabled) return;
+        playSound("tap");
         if (href) {
             href === 'back' ? router.back() : router.push(href as any);
         } else {

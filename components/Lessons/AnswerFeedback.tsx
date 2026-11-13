@@ -1,8 +1,10 @@
 import { cn } from '@/lib/utils';
-import React from 'react';
+import { playSound } from '@/lib/sound';
+import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 
 export default function AnswerFeedback({ correct }: { correct: boolean; }) {
+    useEffect(() => { playSound(correct ? 'correct' : 'wrong'); }, [correct]);
     return (
         <View className={cn('rounded-xl px-4 py-3 flex-row items-center gap-2 border-2', correct ? 'bg-[#e8f5e9] border-primary-300' : 'bg-[#ffebee] border-danger2')}>
             <Text className='text-xl'>{correct ? '✅' : '❌'}</Text>

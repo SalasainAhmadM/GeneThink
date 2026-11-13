@@ -1,3 +1,4 @@
+import { playSound } from '@/lib/sound';
 import Button from '@/components/ui/Button';
 import { combine, cross, gametes, genes, PEA_TRAITS, sameItems, sameRatio, simplify, TraitDef } from '@/lib/genetics';
 import { cn } from '@/lib/utils';
@@ -52,7 +53,7 @@ export function PunnettGrid({ top, left, cells, cellSize, ringCells, ringEdges, 
                             </View>
                         );
                         return onCellPress
-                            ? <Pressable key={c} onPress={() => onCellPress(i)}>{box}</Pressable>
+                            ? <Pressable key={c} onPress={() => { playSound('tap'); onCellPress(i); }}>{box}</Pressable>
                             : <View key={c}>{box}</View>;
                     })}
                 </View>
@@ -85,7 +86,7 @@ export function FillSquare({ p1, p2, prompt, solved, onSolved }: { p1: string; p
 
     const tap = (i: number) => {
         if (filled >= answer.length) return;
-        if (i !== filled) { setMiss(true); return; }
+        if (i !== filled) { playSound('wrong'); setMiss(true); return; }
         setMiss(false);
         const next = filled + 1;
         setFilled(next);
@@ -155,7 +156,7 @@ function Slot({ value, options, onChange, width = 50, state = 'idle', placeholde
     const border = state === 'ok' ? '#4CAF50' : state === 'bad' ? '#F44336' : value ? '#1565C0' : '#bdbdbd';
     return (
         <>
-            <Pressable onPress={() => setOpen(true)}>
+            <Pressable onPress={() => { playSound('tap'); setOpen(true); }}>
                 <View className='rounded-lg items-center justify-center flex-row gap-0.5' style={{ width, height: 36, borderWidth: 2, borderColor: border, backgroundColor: value ? '#fff' : '#f5f5f5', borderStyle: value ? 'solid' : 'dashed' }}>
                     <Text className='font-fredoka-bold text-sm' style={{ color: value ? '#0d47a1' : '#9e9e9e' }}>{value ?? placeholder}</Text>
                     <Text className='text-ink-100 text-[9px]'>▾</Text>
@@ -167,7 +168,7 @@ function Slot({ value, options, onChange, width = 50, state = 'idle', placeholde
                         <Text className='font-fredoka-bold text-ink-300 text-base text-center'>Choose one</Text>
                         <View className='flex-row flex-wrap justify-center gap-2'>
                             {options.map((o) => (
-                                <Pressable key={o} onPress={() => { onChange(o); setOpen(false); }}>
+                                <Pressable key={o} onPress={() => { playSound('tap'); onChange(o); setOpen(false); }}>
                                     <View className={cn('rounded-xl px-4 py-2.5 border-2', o === value ? 'bg-science-100 border-science-300' : 'bg-white border-[#e8e8e8]')}>
                                         <Text className='font-fredoka-bold text-ink-300 text-base'>{o}</Text>
                                     </View>
@@ -239,6 +240,7 @@ export function PunnettBuilder({ problem, p1, p2, traits, onSolved }: { problem?
         const pOk = sameRatio(pheno.map((x) => x ?? 0), res.phenoCounts);
         setChecked({ g, sq, geno: gOk, pheno: pOk });
         if (g && sq && gOk && pOk) { setSolved(true); onSolved?.(); }
+        else playSound('wrong');
     };
 
     const showAnswer = () => {
@@ -338,7 +340,7 @@ function PunnettGridCells({ n, cells, onPress, enabled }: { n: number; cells: (s
                     {Array.from({ length: n }).map((__, c) => {
                         const i = r * n + c, v = cells[i];
                         return (
-                            <Pressable key={c} onPress={() => onPress(i)}>
+                            <Pressable key={c} onPress={() => { playSound('tap'); onPress(i); }}>
                                 <View className='items-center justify-center rounded-lg border-2' style={{ width: size, height: size, borderColor: v ? genotypeColor(v) + '55' : '#e0e0e0', backgroundColor: v ? '#fff' : enabled ? '#fffde7' : '#fafafa' }}>
                                     <Text className='font-fredoka-bold' style={{ fontSize: n > 2 ? 13 : 20, color: v ? genotypeColor(v) : '#bdbdbd' }}>{v ?? (enabled ? 'tap' : '')}</Text>
                                 </View>

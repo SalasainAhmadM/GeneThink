@@ -1,3 +1,4 @@
+import { playSound } from '@/lib/sound';
 import Button from '@/components/ui/Button';
 import { MissionBlock, TOOLKIT } from '@/constants/missions';
 import { cn } from '@/lib/utils';
@@ -22,7 +23,7 @@ const CheckBlock = ({ block, solved, onSolved }: { block: Extract<MissionBlock, 
     const pick = (id: string) => {
         if (solved) return;
         if (id === block.answer) onSolved();
-        else setWrong((w) => [...w, id]);
+        else { playSound('wrong'); setWrong((w) => [...w, id]); }
     };
     return (
         <View className='gap-2.5'>
@@ -50,6 +51,7 @@ const TapSortBlock = ({ block, solved, onSolved }: { block: Extract<MissionBlock
     const tap = (idx: number) => {
         if (solved || picked.includes(idx)) return;
         if (!block.items[idx].correct) {
+            playSound('wrong');
             setFlash(idx);
             setTimeout(() => setFlash(null), 700);
             return;
@@ -84,6 +86,7 @@ const ClassifyBlock = ({ block, solved, onSolved }: { block: Extract<MissionBloc
         if (solved) return;
         const next = { ...answers, [row]: opt };
         setAnswers(next);
+        if (opt !== block.rows[row].answer) playSound('wrong');
         if (block.rows.every((r, i) => next[i] === r.answer)) onSolved();
     };
     return (
@@ -179,6 +182,7 @@ const FillBlanksBlock = ({ block, solved, onSolved }: { block: Extract<MissionBl
     const place = (i: number) => {
         if (!word || filled.includes(i)) return;
         if (block.rows[i].answer !== word) {
+            playSound('wrong');
             setFlash(i);
             setTimeout(() => setFlash(null), 700);
             return;
@@ -232,7 +236,7 @@ const OrderBlock = ({ block, solved, onSolved }: { block: Extract<MissionBlock, 
     const [flash, setFlash] = useState<string | null>(null);
     const tap = (item: string) => {
         if (solved || placed.includes(item)) return;
-        if (block.items[placed.length] !== item) { setFlash(item); setTimeout(() => setFlash(null), 700); return; }
+        if (block.items[placed.length] !== item) { playSound('wrong'); setFlash(item); setTimeout(() => setFlash(null), 700); return; }
         const next = [...placed, item];
         setPlaced(next);
         if (next.length === block.items.length) onSolved();
