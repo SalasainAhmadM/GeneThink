@@ -1,24 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing, View } from 'react-native';
+import { INK, P } from './kit';
 
-const RUNGS = [
-    { left: "#FF6B6B", bar: "#4ECDC4", right: "#4ECDC4" },
-    { left: "#FFD93D", bar: "#6BCB77", right: "#A29BFE" },
-    { left: "#A29BFE", bar: "#4ECDC4", right: "#FF6B6B" },
-    { left: "#4ECDC4", bar: "#FFD93D", right: "#FFD93D" },
-    { left: "#FF6B6B", bar: "#A29BFE", right: "#6BCB77" },
-    { left: "#6BCB77", bar: "#4ECDC4", right: "#FF6B6B" },
-    { left: "#FFD93D", bar: "#6BCB77", right: "#A29BFE" },
-    { left: "#A29BFE", bar: "#FF6B6B", right: "#4ECDC4" },
-    { left: "#4ECDC4", bar: "#FFD93D", right: "#FFD93D" },
-    { left: "#FF6B6B", bar: "#A29BFE", right: "#6BCB77" },
-    { left: "#6BCB77", bar: "#4ECDC4", right: "#FF6B6B" },
-    { left: "#FFD93D", bar: "#6BCB77", right: "#A29BFE" },
-    { left: "#A29BFE", bar: "#FF6B6B", right: "#4ECDC4" },
-    { left: "#4ECDC4", bar: "#FFD93D", right: "#FFD93D" },
-    { left: "#FF6B6B", bar: "#A29BFE", right: "#6BCB77" },
-    { left: "#6BCB77", bar: "#4ECDC4", right: "#FF6B6B" },
-];
+// Art-kit palette: purple / pink strands, gold & blue bars, all with ink outlines
+const C = [P.purple, P.pink, P.gold, P.blue, P.green, P.teal];
+const RUNGS = Array.from({ length: 16 }, (_, i) => ({ left: C[i % 2], bar: C[2 + (i % 4)], right: C[(i + 1) % 2] }));
 
 const VISIBLE = 13;
 const AMP = 42;
@@ -132,11 +118,12 @@ export default function DNAHelix({ onboarding }: { onboarding?: boolean }) {
                                 position: 'absolute',
                                 left: barLeft,
                                 width: barWidth,
-                                top: NODE / 2 - 1.5,
-                                height: 3,
-                                borderRadius: 2,
+                                top: NODE / 2 - 2.5,
+                                height: 5,
+                                borderRadius: 3,
                                 backgroundColor: rung.bar,
-                                opacity: 0.8,
+                                borderWidth: 1.5,
+                                borderColor: INK,
                             }}
                         />
 
@@ -150,12 +137,9 @@ export default function DNAHelix({ onboarding }: { onboarding?: boolean }) {
                                 height: NODE,
                                 borderRadius: NODE / 2,
                                 backgroundColor: rung.left,
+                                borderWidth: 2.5,
+                                borderColor: INK,
                                 transform: [{ scale: nodeScale }], // native pulse
-                                shadowColor: rung.left,
-                                shadowOffset: { width: 0, height: 0 },
-                                shadowOpacity: 0.9,
-                                shadowRadius: 6,
-                                elevation: 8,
                             }}
                         />
 
@@ -169,12 +153,9 @@ export default function DNAHelix({ onboarding }: { onboarding?: boolean }) {
                                 height: NODE,
                                 borderRadius: NODE / 2,
                                 backgroundColor: rung.right,
+                                borderWidth: 2.5,
+                                borderColor: INK,
                                 transform: [{ scale: nodeScale }], // same scale ref
-                                shadowColor: rung.right,
-                                shadowOffset: { width: 0, height: 0 },
-                                shadowOpacity: 0.9,
-                                shadowRadius: 6,
-                                elevation: 8,
                             }}
                         />
                     </Animated.View>

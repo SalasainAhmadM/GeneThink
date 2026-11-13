@@ -1,16 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <rect x="54" y="6" width="20" height="12" rx="4" fill="#1565C0" stroke="#1a1a2e" stroke-width="5"/>
-  <path d="M98 26l9 9" stroke="#1a1a2e" stroke-width="8" stroke-linecap="round"/>
-  <circle cx="64" cy="70" r="48" fill="#E3F2FD" stroke="#1a1a2e" stroke-width="6"/>
-  <circle cx="64" cy="70" r="38" fill="#ffffff"/>
-  <path d="M64 32a38 38 0 0 1 36 26L64 70z" fill="#FFCDD2"/>
-  <g stroke="#90A4AE" stroke-width="4" stroke-linecap="round">
-    <line x1="64" y1="36" x2="64" y2="42"/>
-    <line x1="64" y1="98" x2="64" y2="104"/>
-    <line x1="30" y1="70" x2="36" y2="70"/>
-    <line x1="92" y1="70" x2="98" y2="70"/>
+  <!-- GeneQuest art kit: ink #2A1066, flat fills, hard shadow bottom-right -->
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <!-- top button and side knob -->
+    <rect x="54" y="6" width="20" height="13" rx="4" fill="#FFC928" stroke="#2A1066" stroke-width="4.5"/>
+    <path d="M97 25l10 10" stroke="#2A1066" stroke-width="13"/>
+    <path d="M97 25l10 10" stroke="#8B3FD9" stroke-width="6"/>
+    <!-- case -->
+    <circle cx="64" cy="70" r="48" fill="#6421B0"/>
+    <circle cx="60" cy="66" r="44" fill="#8B3FD9"/>
+    <circle cx="64" cy="70" r="48" fill="none" stroke="#2A1066" stroke-width="4.5"/>
+    <!-- face -->
+    <circle cx="64" cy="70" r="36" fill="#E7DEFA" stroke="#2A1066" stroke-width="4"/>
+    <circle cx="62" cy="68" r="32" fill="#fff"/>
+    <g stroke="#2A1066" stroke-width="4">
+      <path d="M64 40v6M64 94v6M34 70h6M88 70h6"/>
+    </g>
+    <path d="M64 70V48" stroke="#2A1066" stroke-width="6"/>
+    <path d="M64 70l17 10" stroke="#F04848" stroke-width="5"/>
+    <circle cx="64" cy="70" r="5.5" fill="#FFC928" stroke="#2A1066" stroke-width="3"/>
+    <path d="M26 58a40 40 0 0 1 16-24" fill="none" stroke="#fff" stroke-width="5" opacity="0.7"/>
   </g>
-  <line x1="64" y1="70" x2="64" y2="46" stroke="#1a1a2e" stroke-width="6" stroke-linecap="round"/>
-  <line x1="64" y1="70" x2="82" y2="80" stroke="#E53950" stroke-width="5" stroke-linecap="round"/>
-  <circle cx="64" cy="70" r="6" fill="#1a1a2e"/>
 </svg>

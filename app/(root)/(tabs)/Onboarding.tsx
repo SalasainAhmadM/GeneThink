@@ -45,7 +45,7 @@ const Dots = ({ current }: { current: number; }) => (
                     width: i === current ? 24 : 8,
                     height: 8,
                     borderRadius: 4,
-                    backgroundColor: i === current ? "#4CAF50" : "#4CAF5055",
+                    backgroundColor: i === current ? "#7B2CBF" : "#7B2CBF40",
                 }}
             />
         ))}
@@ -100,7 +100,7 @@ export default function OnboardingScreen() {
     return (
         // Light mint gradient — matches mockup
         <LinearGradient
-            colors={["#e0f2f1", "#e8f5e9", "#f1f8e9"]}
+            colors={["#EDE4FF", "#F4EDFF", "#FBF8FF"]}
             locations={[0, 0.5, 1]}
             className="flex-1"
         >
@@ -141,7 +141,7 @@ export default function OnboardingScreen() {
                                     transform: [{ translateY: slideAnim }],
                                 }}
                             >
-                                <Text className="font-fredoka-bold text-center text-[26px] text-primary-500 mb-3">
+                                <Text className="font-fredoka-bold text-center text-[26px] text-[#2A1066] mb-3">
                                     {SLIDES[step].title}
                                 </Text>
                                 <Text className="font-nunito text-center text-[15px] text-ink-400 leading-6">
@@ -167,7 +167,7 @@ export default function OnboardingScreen() {
                                         returnKeyType="done"
                                         onSubmitEditing={() => handleNext()}
                                         className={cn(
-                                            "font-nunito text-[15px] text-primary-500 bg-bg-card px-[18px] py-3.5 w-full border rounded-xl",
+                                            "font-nunito text-[15px] text-[#2A1066] bg-bg-card px-[18px] py-3.5 w-full border rounded-xl",
                                             nameErr ? "border-2 border-danger2" : "border-ink-500"
                                         )}
                                     />

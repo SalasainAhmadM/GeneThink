@@ -1,9 +1,4 @@
-import BrainStorm from '@/components/art/BrainStorm';
-import DihybridSquare from '@/components/art/DihybridSquare';
-import DNA from '@/components/art/DNA';
-import GeneCharacter from '@/components/art/GeneCharacter';
-import PunnettSquare from '@/components/art/PunnetSquare';
-import Scientist from '@/components/art/Scientist';
+import { ClipboardIcon, DnaIcon, FlowerPairIcon, MagnifierIcon, PunnettBookIcon, SeedQuadIcon } from '@/components/art/QuestIcons';
 import GuideTab from '@/components/Home/GuideTab';
 import LessonTab from '@/components/Home/LessonTab';
 import ProgressTab from '@/components/Home/ProgressTab';
@@ -16,6 +11,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { QUEST } from '@/constants/theme';
 
 type TabType = "lessons" | "progress" | "guide";
 
@@ -28,10 +24,11 @@ const StatChip = ({ value, label }: { value: string | number; label: string; }) 
 
 // ── Custom tab button ─────────────────────────────────────────
 const TabBtn = ({ label, active, onPress }: { label: string; active: boolean; onPress: () => void; }) => (
-    <Pressable onPress={onPress} className={cn('flex-1 items-center py-3 border-b-[3px]', active ? 'border-b-[#4caf50]' : 'border-b-transparent')}><Text className={cn('font-nunito-bold text-sm', active ? 'text-primary-300' : "text-ink-200")}>{label}</Text></Pressable>
+    <Pressable onPress={onPress} className={cn('flex-1 items-center py-3 border-b-[3px]', active ? 'border-b-[#7B2CBF]' : 'border-b-transparent')}><Text className={cn('font-nunito-bold text-sm', active ? 'text-[#7B2CBF]' : "text-ink-200")}>{label}</Text></Pressable>
 );
 
-const ART = [<GeneCharacter size={70} />, <DNA />, <Scientist />, <PunnettSquare />, <DihybridSquare />, <BrainStorm />];
+// Order follows LESSONS: terms, intro, mendel, punnett, dihybrid, quiz
+const ART = [<MagnifierIcon />, <DnaIcon />, <FlowerPairIcon />, <PunnettBookIcon />, <SeedQuadIcon />, <ClipboardIcon />];
 
 export default function HomeScreen() {
     const [activeTab, setActiveTab] = useState<TabType>("lessons");
@@ -79,8 +76,8 @@ export default function HomeScreen() {
     return (
         <View className='flex-1 bg-bg-light'>
             {/* ── Header ──────────────────────────────────────────── */}
-            <LinearGradient colors={["#1a237e", "#283593", "#1b5e20"]}
-                locations={[0, 0.45, 1]}
+            <LinearGradient colors={QUEST.gradient}
+                locations={QUEST.gradientLocations}
                 start={{ x: 0.2, y: 0 }} end={{ x: 0.8, y: 1 }}
             >
                 <SafeAreaView edges={['top']}>
@@ -88,7 +85,7 @@ export default function HomeScreen() {
                         {/* Logo row */}
                         <View className='flex-row items-center justify-between mb-1'>
                             <View>
-                                <Text className='font-fredoka-bold text-white text-3xl'>Gene<Text style={{ color: '#FFD93D' }}>Quest</Text></Text>
+                                <Text className='font-fredoka-bold text-white text-3xl'>Gene<Text style={{ color: QUEST.gold }}>Quest</Text></Text>
 
                                 <Text className='font-nunito-semibold text-white text-[13px] mt-2'>Hello, {playerName}! 👋</Text>
                             </View>

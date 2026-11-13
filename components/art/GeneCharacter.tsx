@@ -1,24 +1,25 @@
 import React from 'react';
 import { View } from 'react-native';
-import Svg, { Circle, Path, Rect } from 'react-native-svg';
+import { Path } from 'react-native-svg';
+import { Ball, Face, Icon, InkLine, P, Shaded } from './kit';
 
+// Gene mascot: a small green pill with antennae, waving (art-kit style)
 export default function GeneCharacter({ size = 90 }: { size?: number; }) {
     return (
         <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}>
-            <Svg width={size} height={size} viewBox="0 0 100 100">
-                {/* Body — small pill */}
-                <Rect x="35" y="25" width="30" height="60" rx="15" fill="#4CAF50" />
-
-                {/* Waving arm */}
-                <Path d="M 65 60 Q 82 55 80 42" stroke="#4CAF50" strokeWidth="8" fill="none" strokeLinecap="round" />
-
-                {/* Face */}
-                <Circle cx="43" cy="42" r="3.6" fill="#fff" />
-                <Circle cx="57" cy="42" r="3.6" fill="#fff" />
-                <Circle cx="43" cy="42" r="1.7" fill="#1a1a2e" />
-                <Circle cx="57" cy="42" r="1.7" fill="#1a1a2e" />
-                <Path d="M 43 52 Q 50 57 57 52" stroke="#1a1a2e" strokeWidth="2" fill="none" strokeLinecap="round" />
-            </Svg>
+            <Icon size={size}>
+                {/* antennae */}
+                <InkLine d='M43 26L38 12' color={P.greenDark} width={2.5} />
+                <InkLine d='M57 26L62 12' color={P.greenDark} width={2.5} />
+                <Ball cx={38} cy={11} r={4.5} base={P.gold} shade={P.goldDark} shine={false} />
+                <Ball cx={62} cy={11} r={4.5} base={P.gold} shade={P.goldDark} shine={false} />
+                {/* arms: one resting, one waving */}
+                <InkLine d='M35 64Q26 68 24 76' color={P.green} width={6} />
+                <InkLine d='M65 60Q80 56 80 42' color={P.green} width={6} />
+                <Shaded d='M35 40a15 15 0 0 1 30 0V74a15 15 0 0 1-30 0Z' base={P.green} shade={P.greenDark} />
+                <Path d='M40 38a10 10 0 0 1 6-8' stroke='#fff' strokeWidth={3.5} fill='none' opacity={0.85} />
+                <Face cx={50} cy={46} gap={12} eye={3} />
+            </Icon>
         </View>
     );
 }

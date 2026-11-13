@@ -2,6 +2,7 @@ import Button from '@/components/ui/Button';
 import { LevelMission } from '@/constants/missions';
 import React, { useRef, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
+import { ClipboardIcon, PunnettTabletIcon, TargetIcon } from '@/components/art/QuestIcons';
 import { ClueHeader } from './Cards';
 import MissionBlockView, { isInteractive } from './MissionBlocks';
 
@@ -21,6 +22,13 @@ export default function MissionReader({ mission, accentColor, onFinish }: { miss
     const visible = firstOpen === -1 ? screen.blocks : screen.blocks.slice(0, firstOpen + 1);
     const canContinue = firstOpen === -1;
     const isCover = screen.blocks[0]?.type === 'cover';
+
+    // Header icon, as in the mockups: tablet for the lab, target for practice, clipboard for quizzes
+    const types = screen.blocks.map((b) => b.type);
+    const headerIcon = types.includes('lab') ? <PunnettTabletIcon size={30} />
+        : types.includes('builder') || /practice/i.test(screen.kicker ?? '') ? <TargetIcon size={30} />
+            : /quiz|check/i.test(`${screen.title} ${screen.kicker ?? ''}`) ? <ClipboardIcon size={30} />
+                : undefined;
 
     const goTo = (i: number) => {
         setIndex(Math.max(0, Math.min(mission.screens.length - 1, i)));
@@ -50,7 +58,7 @@ export default function MissionReader({ mission, accentColor, onFinish }: { miss
                     </View>
                 )}
 
-                {!isCover && <ClueHeader title={screen.title} kicker={screen.kicker} accentColor={accentColor} />}
+                {!isCover && <ClueHeader title={screen.title} kicker={screen.kicker} accentColor={accentColor} icon={headerIcon} />}
 
                 <View className='gap-4'>
                     {visible.map((b, i) => (

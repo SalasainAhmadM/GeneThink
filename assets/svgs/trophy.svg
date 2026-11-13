@@ -1,18 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <defs>
-    <linearGradient id="cup" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#FFE97A"/>
-      <stop offset="1" stop-color="#FFA000"/>
-    </linearGradient>
-  </defs>
-  <path d="M32 26H14c0 22 10 34 26 36M96 26h18c0 22-10 34-26 36" fill="none" stroke="#C77700" stroke-width="7" stroke-linecap="round"/>
-  <path d="M30 14h68v24c0 24-15 40-34 40S30 62 30 38z" fill="url(#cup)" stroke="#8A5200" stroke-width="5" stroke-linejoin="round"/>
-  <rect x="56" y="76" width="16" height="16" fill="#FFB300" stroke="#8A5200" stroke-width="5"/>
-  <rect x="38" y="92" width="52" height="12" rx="4" fill="#42A5F5" stroke="#1a1a2e" stroke-width="5"/>
-  <rect x="30" y="104" width="68" height="14" rx="5" fill="#1565C0" stroke="#1a1a2e" stroke-width="5"/>
-  <path d="M47 30c11 18 23 18 34 0" fill="#7CC95A" stroke="#2E7D32" stroke-width="4" stroke-linejoin="round"/>
-  <circle cx="56" cy="34" r="4.5" fill="#B9F07A" stroke="#2E7D32" stroke-width="2.5"/>
-  <circle cx="64" cy="38" r="4.5" fill="#B9F07A" stroke="#2E7D32" stroke-width="2.5"/>
-  <circle cx="72" cy="34" r="4.5" fill="#B9F07A" stroke="#2E7D32" stroke-width="2.5"/>
-  <path d="M40 22v14" stroke="#FFF6CC" stroke-width="5" stroke-linecap="round"/>
+  <!-- GeneQuest art kit: ink #2A1066, flat fills, hard shadow bottom-right -->
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <!-- handles -->
+    <path d="M34 28H16c0 22 10 34 24 36M94 28h18c0 22-10 34-24 36" fill="none" stroke="#2A1066" stroke-width="13"/>
+    <path d="M34 28H16c0 22 10 34 24 36M94 28h18c0 22-10 34-24 36" fill="none" stroke="#FFC928" stroke-width="6"/>
+    <!-- cup -->
+    <path d="M30 14h68v24c0 24-15 40-34 40S30 62 30 38z" fill="#E59A00"/>
+    <path d="M30 14h62v24c0 22-13 36-30 37C44 74 30 58 30 38z" fill="#FFC928"/>
+    <path d="M30 14h68v24c0 24-15 40-34 40S30 62 30 38z" fill="none" stroke="#2A1066" stroke-width="4.5"/>
+    <path d="M40 22v16c0 6 2 11 5 15" fill="none" stroke="#fff" stroke-width="5" opacity="0.85"/>
+    <!-- star emblem -->
+    <path d="M64 28l5 10 11 1.5-8 7.5 2 11-10-5.5-10 5.5 2-11-8-7.5 11-1.5z" fill="#fff" stroke="#2A1066" stroke-width="3.5"/>
+    <!-- stem and base -->
+    <rect x="55" y="76" width="18" height="16" fill="#E59A00" stroke="#2A1066" stroke-width="4.5"/>
+    <rect x="36" y="92" width="56" height="13" rx="4" fill="#8B3FD9" stroke="#2A1066" stroke-width="4.5"/>
+    <rect x="28" y="105" width="72" height="15" rx="5" fill="#6421B0" stroke="#2A1066" stroke-width="4.5"/>
+    <rect x="50" y="109" width="28" height="7" rx="3" fill="#FFC928" stroke="#2A1066" stroke-width="2.5"/>
+  </g>
 </svg>

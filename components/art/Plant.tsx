@@ -1,142 +1,59 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
-import Svg, { Circle, Line, Polygon, Rect } from 'react-native-svg';
+import { Path } from 'react-native-svg';
+import { FlowerHead, Icon, InkLine, Leaf, P, Shaded } from './kit';
+import { Pod } from '../Mission/MissionVisuals';
 
-// 🌿 Deterministic cluster generator (no randomness)
-function generateCluster(
-    cx: number,
-    cy: number,
-    count: number,
-    variant: number
-) {
-    const colors = ["#FF6B6B", "#4ECDC4", "#FFD93D", "#6BCB77", "#A29BFE"];
-
-    return Array.from({ length: count }).map((_, i) => {
-        const baseAngle = (i / count) * Math.PI * 2;
-
-        const angleOffset =
-            Math.sin(i * (1.6 + variant)) * (0.25 + variant * 0.12);
-
-        const radius =
-            18 + Math.sin(i * (1.3 + variant * 0.4)) * (6 + variant * 2);
-
-        return {
-            cx: cx + Math.cos(baseAngle + angleOffset) * radius,
-            cy: cy + Math.sin(baseAngle + angleOffset) * radius,
-
-            // size variation
-            r: 4 + Math.abs(Math.sin(i * 1.2 + variant)) * 5,
-
-            fill: colors[(i + variant) % colors.length],
-        };
-    });
-}
-
+// Onboarding art: a potted pea plant with purple and white flowers, gently floating (art-kit style)
 export default function PlantAnimated() {
     const float = useRef(new Animated.Value(0)).current;
-
-    // 🌿 Generate clusters once
-    const topCluster = useRef(generateCluster(90, 70, 20, 0)).current;
-    const leftCluster = useRef(generateCluster(50, 110, 20, 1)).current;
-    const rightCluster = useRef(generateCluster(140, 110, 20, 2)).current;
 
     useEffect(() => {
         Animated.loop(
             Animated.sequence([
-                Animated.timing(float, {
-                    toValue: -8,
-                    duration: 2000,
-                    easing: Easing.inOut(Easing.ease),
-                    useNativeDriver: true,
-                }),
-                Animated.timing(float, {
-                    toValue: 0,
-                    duration: 2000,
-                    easing: Easing.inOut(Easing.ease),
-                    useNativeDriver: true,
-                }),
+                Animated.timing(float, { toValue: -8, duration: 2000, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+                Animated.timing(float, { toValue: 0, duration: 2000, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
             ])
         ).start();
     }, []);
 
-    // 🌿 Optional subtle breathing
-    const scale = float.interpolate({
-        inputRange: [-8, 0],
-        outputRange: [1.02, 1],
-    });
-
-    const glow = float.interpolate({
-        inputRange: [-8, 0],
-        outputRange: [0.18, 0.1],
-    });
+    const scale = float.interpolate({ inputRange: [-8, 0], outputRange: [1.02, 1] });
 
     return (
-        <Animated.View
-            style={{
-                transform: [
-                    { translateY: float },
-                    { scale },
-                ],
-            }}
-        >
-            <Svg width={180} height={260} viewBox="0 0 180 260">
+        <Animated.View style={{ transform: [{ translateY: float }, { scale }] }}>
+            <Icon width={180} height={260} viewBox='0 0 180 260'>
+                {/* stems */}
+                <InkLine d='M90 190C90 150 92 110 90 60' color={P.green} width={5} />
+                <InkLine d='M90 160C74 146 62 128 54 108' color={P.green} width={4} />
+                <InkLine d='M91 138C106 126 118 112 126 92' color={P.green} width={4} />
+                {/* tendril */}
+                <Path d='M90 96c10-4 14 4 8 8s-10-2-4-6' stroke={P.greenDark} strokeWidth={3} fill='none' />
 
-                {/* STEM */}
-                <Rect x="88" y="80" width="4" height="110" rx="2" fill="#6BCB77" />
+                {/* leaves */}
+                <Leaf x={90} y={176} len={34} angle={200} />
+                <Leaf x={90} y={168} len={34} angle={-20} />
+                <Leaf x={70} y={138} len={26} angle={190} />
+                <Leaf x={110} y={120} len={26} angle={-15} />
+                <Leaf x={90} y={84} len={24} angle={-35} />
+                <Leaf x={90} y={84} len={24} angle={215} />
 
-                {/* BRANCHES */}
-                <Line x1="90" y1="165" x2="50" y2="110" stroke="#4ECDC4" strokeWidth="3" />
-                <Line x1="90" y1="145" x2="130" y2="110" stroke="#A29BFE" strokeWidth="3" />
+                {/* flowers */}
+                <FlowerHead cx={90} cy={52} r={18} base={P.purple} shade={P.purpleDark} />
+                <FlowerHead cx={52} cy={100} r={14} base={P.paper} shade={P.paperDark} />
+                <FlowerHead cx={128} cy={86} r={14} base={P.purple} shade={P.purpleDark} />
+            </Icon>
 
-                {/* TOP CLUSTER */}
-                {topCluster.map((c, i) => (
-                    <React.Fragment key={`top-${i}`}>
-                        {/* outer glow (very subtle) */}
-                        <Circle
-                            cx={c.cx}
-                            cy={c.cy}
-                            r={c.r * 1.8}
-                            fill={c.fill}
-                            opacity={0.08}
-                        />
-
-                        {/* mid glow */}
-                        <Circle
-                            cx={c.cx}
-                            cy={c.cy}
-                            r={c.r * 1.3}
-                            fill={c.fill}
-                            opacity={0.16}
-                        />
-
-                        {/* core */}
-                        <Circle {...c} />
-                    </React.Fragment>
-                ))}
-
-                {/* LEFT CLUSTER */}
-                {leftCluster.map((c, i) => (
-                    <React.Fragment key={`left-${i}`}>
-                        <Circle cx={c.cx} cy={c.cy} r={c.r * 1.8} fill={c.fill} opacity={0.08} />
-                        <Circle cx={c.cx} cy={c.cy} r={c.r * 1.3} fill={c.fill} opacity={0.16} />
-                        <Circle {...c} />
-                    </React.Fragment>
-                ))}
-
-                {/* RIGHT CLUSTER */}
-                {rightCluster.map((c, i) => (
-                    <React.Fragment key={`right-${i}`}>
-                        <Circle cx={c.cx} cy={c.cy} r={c.r * 1.8} fill={c.fill} opacity={0.08} />
-                        <Circle cx={c.cx} cy={c.cy} r={c.r * 1.3} fill={c.fill} opacity={0.16} />
-                        <Circle {...c} />
-                    </React.Fragment>
-                ))}
-
-                {/* POT */}
-                <Rect x="50" y="180" width="80" height="20" rx="4" fill="#FF6B6B" />
-                <Polygon points="60,200 120,200 110,250 70,250" fill="#FF8E53" />
-
-            </Svg>
+            {/* pod hanging off the right branch, and the pot */}
+            <Animated.View style={{ position: 'absolute', left: 112, top: 118, transform: [{ rotate: '70deg' }] }}>
+                <Pod color={P.green} size={44} />
+            </Animated.View>
+            <Animated.View style={{ position: 'absolute', left: 0, top: 0 }} pointerEvents='none'>
+                <Icon width={180} height={260} viewBox='0 0 180 260'>
+                    <Shaded d='M46 182H134V202H46Z' base='#F07A4A' shade='#C9562C' />
+                    <Shaded d='M56 202H124L114 250H66Z' base='#F49A6C' shade='#D06A3E' nudge={4} />
+                    <Path d='M64 214H116' stroke='#C9562C' strokeWidth={3} />
+                </Icon>
+            </Animated.View>
         </Animated.View>
     );
 }

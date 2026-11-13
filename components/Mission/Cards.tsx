@@ -5,6 +5,8 @@ import ScientistSvg from '../../assets/svgs/scientist.svg';
 import { cn } from '@/lib/utils';
 import React from 'react';
 import { Text, View } from 'react-native';
+import { MagnifierIcon } from '@/components/art/QuestIcons';
+import { QUEST } from '@/constants/theme';
 
 // Shared "Genetics Investigator" card kit — used by missions and comic stories alike.
 
@@ -22,10 +24,10 @@ export const RichText = ({ text, className, boldClassName = 'font-nunito-bold' }
 );
 
 // "🔎 CLUE #1 — TRAIT" header row
-export const ClueHeader = ({ title, kicker, accentColor, icon = '🔎' }: { title: string; kicker?: string; accentColor: string; icon?: string; }) => (
+export const ClueHeader = ({ title, kicker, accentColor, icon }: { title: string; kicker?: string; accentColor: string; icon?: React.ReactNode; }) => (
     <View className='flex-row items-center gap-3 mb-4'>
         <View className='size-11 rounded-full items-center justify-center border-2' style={{ backgroundColor: accentColor + '1f', borderColor: accentColor }}>
-            <Text className='text-lg'>{icon}</Text>
+            {typeof icon === 'string' ? <Text className='text-lg'>{icon}</Text> : icon ?? <MagnifierIcon size={30} />}
         </View>
         <View className='flex-1'>
             {kicker && (
@@ -124,12 +126,13 @@ export const EvidenceCard = ({ terms }: { terms: string[]; }) => {
 // A / B / C / D option row — same states as MCQQuestion
 export type OptionState = 'idle' | 'correct' | 'wrong';
 export const OptionRow = ({ label, text, state }: { label: string; text: string; state: OptionState; }) => {
-    const bg = state === 'correct' ? 'bg-[#e8f5e9] border-2 border-primary-300' : state === 'wrong' ? 'bg-[#ffebee] border-2 border-danger2' : 'bg-white border border-[#e8e8e8]';
-    const badge = state === 'correct' ? 'bg-primary-300' : state === 'wrong' ? 'bg-danger' : 'bg-[#f0f0f0]';
+    const bg = state === 'correct' ? 'bg-[#e8f5e9] border-2 border-primary-300' : state === 'wrong' ? 'bg-[#ffebee] border-2 border-danger2' : 'bg-[#F4EDFF] border border-[#D8C4FF]';
+    const badge = state === 'correct' ? 'bg-primary-300' : state === 'wrong' ? 'bg-danger' : '';
+    const idleColor = QUEST.letters['ABCD'.indexOf(label)] ?? QUEST.purple;
     return (
         <View className={cn('flex-row items-center gap-3 rounded-xl px-4 py-3', bg)}>
-            <View className={cn('size-7 rounded-full items-center justify-center', badge)}>
-                <Text className={cn('font-fredoka-bold text-sm', state === 'idle' ? 'text-ink-200' : 'text-white')}>{label}</Text>
+            <View className={cn('size-7 rounded-full items-center justify-center', badge)} style={state === 'idle' ? { backgroundColor: idleColor } : undefined}>
+                <Text className='font-fredoka-bold text-sm text-white'>{label}</Text>
             </View>
             <Text className='font-nunito-bold text-[15px] flex-1 text-ink-600'>{text}</Text>
         </View>
@@ -139,9 +142,9 @@ export const OptionRow = ({ label, text, state }: { label: string; text: string;
 // ── GeneQuest mission cover (title card) ──────────────────────
 export const CoverCard = ({ mission, title, text, accentColor }: { mission: string; title: string; text: string; accentColor: string; }) => (
     <View className='rounded-2xl overflow-hidden' style={CARD_SHADOW}>
-        <LinearGradient colors={['#1a237e', '#283593', '#1b5e20']} locations={[0, 0.45, 1]} start={{ x: 0.2, y: 0 }} end={{ x: 0.8, y: 1 }}>
+        <LinearGradient colors={QUEST.gradient} locations={QUEST.gradientLocations} start={{ x: 0.2, y: 0 }} end={{ x: 0.8, y: 1 }}>
             <View className='items-center px-4 pt-5 pb-4 gap-2'>
-                <Text className='font-fredoka-bold text-white text-[34px] leading-[40px]'>Gene<Text style={{ color: '#FFD93D' }}>Quest</Text></Text>
+                <Text className='font-fredoka-bold text-white text-[34px] leading-[40px]'>Gene<Text style={{ color: QUEST.gold }}>Quest</Text></Text>
                 <View className='rounded-pill px-4 py-1 bg-glass-white2 border border-white/30'>
                     <Text className='font-nunito-extrabold text-white text-xs uppercase tracking-wide'>{mission}</Text>
                 </View>

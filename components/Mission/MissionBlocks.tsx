@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import React, { useMemo, useState } from 'react';
 import { Text, View } from 'react-native';
 import TrophySvg from '../../assets/svgs/trophy.svg';
+import { MagnifierIcon } from '@/components/art/QuestIcons';
 import GlossaryText from '@/components/ui/GlossaryText';
 import { CARD_SHADOW, CoverCard, DefinitionCard, EvidenceCard, FoundCard, NoteCard, OptionRow, OptionState, PromptCard, RichText, SpeechBubble, StepsCard, TableCard, VisualCard } from './Cards';
 import MissionVisualView from './MissionVisuals';
@@ -299,7 +300,7 @@ const CompleteCard = ({ title, text, accentColor, learned }: { title: string; te
     </View>
 ) : (
     <View className='rounded-2xl p-4 gap-3 items-center border-2 border-gold bg-[#fffde7]'>
-        <Text className='text-[40px]'>🏆</Text>
+        <TrophySvg width={64} height={64} />
         <Text className='font-fredoka-bold text-xl uppercase' style={{ color: accentColor }}>{title}</Text>
         <Text className='font-nunito text-ink-600 text-sm leading-5 text-center'>{text}</Text>
         <Text className='font-nunito-extrabold text-ink-200 text-xs uppercase tracking-wide mt-1'>Your toolkit</Text>
@@ -327,7 +328,7 @@ export default function MissionBlockView({ block, accentColor, solved, onSolved 
             return (
                 <View className='rounded-2xl p-4 gap-2 border-2' style={{ backgroundColor: accentColor + '12', borderColor: accentColor + '40' }}>
                     <View className='flex-row items-center gap-2'>
-                        <Text className='text-xl'>🔍</Text>
+                        <MagnifierIcon size={28} />
                         <Text className='font-fredoka-bold text-base uppercase' style={{ color: accentColor }}>{block.title}</Text>
                     </View>
                     <Text className='font-nunito text-ink-600 text-sm leading-5'>{block.text}</Text>

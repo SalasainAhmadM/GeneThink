@@ -1,15 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#FFE97A"/>
-      <stop offset="1" stop-color="#FFB300"/>
-    </linearGradient>
-  </defs>
-  <path d="M64 10l15.5 32.4 35.5 4.6-26 24.6 6.6 35.2L64 99.6 32.4 116.8 39 81.6 13 57l35.5-4.6z" fill="url(#g)" stroke="#C77700" stroke-width="6" stroke-linejoin="round"/>
-  <path d="M64 30l9 19 20.5 2.7" fill="none" stroke="#FFF6CC" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="52" cy="66" r="5" fill="#5B3A00"/>
-  <circle cx="76" cy="66" r="5" fill="#5B3A00"/>
-  <path d="M55 80c5 5 13 5 18 0" fill="none" stroke="#5B3A00" stroke-width="4.5" stroke-linecap="round"/>
-  <circle cx="44" cy="76" r="5" fill="#FF8A65" opacity="0.6"/>
-  <circle cx="84" cy="76" r="5" fill="#FF8A65" opacity="0.6"/>
+  <!-- GeneQuest art kit: ink #2A1066, flat fills, hard shadow bottom-right -->
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path d="M64 10l15.5 32.4 35.5 4.6-26 24.6 6.6 35.2L64 99.6 32.4 116.8 39 81.6 13 57l35.5-4.6z" fill="#E59A00"/>
+    <path d="M60 8l15.5 32.4 35.5 4.6-26 24.6 6.6 35.2L60 97.6 28.4 114.8 35 79.6 9 55l35.5-4.6z" fill="#FFC928"/>
+    <path d="M64 10l15.5 32.4 35.5 4.6-26 24.6 6.6 35.2L64 99.6 32.4 116.8 39 81.6 13 57l35.5-4.6z" fill="none" stroke="#2A1066" stroke-width="5"/>
+    <path d="M58 30l-6 13-13 2" fill="none" stroke="#fff" stroke-width="5" opacity="0.85"/>
+    <ellipse cx="53" cy="66" rx="4.2" ry="5" fill="#2A1066"/>
+    <ellipse cx="75" cy="66" rx="4.2" ry="5" fill="#2A1066"/>
+    <circle cx="54.5" cy="64" r="1.6" fill="#fff"/>
+    <circle cx="76.5" cy="64" r="1.6" fill="#fff"/>
+    <path d="M56 78c5 5 11 5 16 0" fill="none" stroke="#2A1066" stroke-width="4"/>
+    <ellipse cx="44" cy="75" rx="5" ry="3" fill="#F0559B" opacity="0.5"/>
+    <ellipse cx="84" cy="75" rx="5" ry="3" fill="#F0559B" opacity="0.5"/>
+  </g>
 </svg>

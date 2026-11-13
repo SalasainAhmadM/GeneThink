@@ -1,25 +1,29 @@
 import React from 'react';
 import { View } from 'react-native';
-import Svg, { Circle, Path, Polygon, Rect } from 'react-native-svg';
+import { Circle, G, Path } from 'react-native-svg';
+import { Face, Icon, INK, P, Shaded, SW } from './kit';
+
+// Chromosome hero: an X-shaped body with a red cape (art-kit style)
+const ARM = 'M42 10a8 8 0 0 1 16 0V90a8 8 0 0 1-16 0Z';
 
 export default function ChromosomeCharacter({ size = 90 }: { size?: number; }) {
     return (
         <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}>
-            <Svg width={size} height={size} viewBox="0 0 100 100">
-                {/* Cape */}
-                <Polygon points="35,45 65,45 78,85 22,85" fill="#F44336" opacity={0.85} />
-
-                {/* X-shaped body */}
-                <Rect x="42" y="8" width="16" height="84" rx="8" fill="#7C4DFF" transform="rotate(45 50 50)" />
-                <Rect x="42" y="8" width="16" height="84" rx="8" fill="#7C4DFF" transform="rotate(-45 50 50)" />
-
-                {/* Face */}
-                <Circle cx="43" cy="46" r="5" fill="#fff" />
-                <Circle cx="57" cy="46" r="5" fill="#fff" />
-                <Circle cx="43" cy="46" r="2.3" fill="#1a1a2e" />
-                <Circle cx="57" cy="46" r="2.3" fill="#1a1a2e" />
-                <Path d="M 42 57 Q 50 63 58 57" stroke="#1a1a2e" strokeWidth="2.2" fill="none" strokeLinecap="round" />
-            </Svg>
+            <Icon size={size}>
+                {/* cape */}
+                <Shaded d='M36 46H64L76 90Q50 82 24 90Z' base={P.red} shade={P.redDark} />
+                {/* X body */}
+                {[22, -22].map((deg) => (
+                    <G key={deg} transform={`rotate(${deg} 50 50)`}>
+                        <Shaded d={ARM} base={P.purple} shade={P.purpleDark} nudge={2.5} />
+                        {/* gene bands */}
+                        {[20, 30, 70, 80].map((y) => <Path key={y} d={`M44 ${y}H56`} stroke={y % 20 ? P.gold : P.pink} strokeWidth={3.5} />)}
+                    </G>
+                ))}
+                {/* centromere */}
+                <Circle cx={50} cy={50} r={11} fill={P.purpleLight} stroke={INK} strokeWidth={SW} />
+                <Face cx={50} cy={48} gap={9} eye={2.6} />
+            </Icon>
         </View>
     );
 }

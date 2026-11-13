@@ -1,83 +1,43 @@
 import React from 'react';
 import { View } from 'react-native';
-import Svg, { Line, Rect, Text as SvgText, TSpan } from 'react-native-svg';
+import { Rect, Text as SvgText } from 'react-native-svg';
+import { Icon, INK, P, SW } from './kit';
 
-// 🎨 allele color helper
-const alleleColor = (char: string) => {
-    return char === char.toUpperCase()
-        ? '#1565C0' // uppercase → blue
-        : '#FF5722'; // lowercase → orange
-};
-
-// 🎨 render genotype with per-letter color
-const GenotypeText = ({ x, y, value }: { x: number; y: number; value: string; }) => {
-    return (
-        <SvgText x={x} y={y} fontSize="9" textAnchor="middle">
-            <TSpan fill={alleleColor(value[0])}>{value[0]}</TSpan>
-            <TSpan fill={alleleColor(value[1])}>{value[1]}</TSpan>
-        </SvgText>
-    );
-};
+// Tt × Tt Punnett square tile (art-kit style): gold parent cells, coloured offspring cells
+const CELLS = [
+    { g: 'TT', fill: '#FFD9D9' },
+    { g: 'Tt', fill: '#DCE8FF' },
+    { g: 'Tt', fill: '#DCE8FF' },
+    { g: 'tt', fill: '#DDF7E1' },
+];
 
 export default function PunnettSquare() {
-    const size = 80;
-
+    const c = 26, x0 = 22, y0 = 22;
     return (
-        <View
-            style={{
-                width: size,
-                height: size,
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
-        >
-            <Svg width={size} height={size} viewBox="0 0 70 70">
-
-                {/* 🌿 Rounded Grid */}
-                <Rect
-                    x="15"
-                    y="15"
-                    width="40"
-                    height="40"
-                    rx="6" // 👈 rounded corners
-                    fill="none"
-                    stroke="#4ECDC4"
-                    strokeWidth="2"
-                />
-
-                {/* Inner lines */}
-                <Line x1="35" y1="15" x2="35" y2="55" stroke="#4ECDC4" strokeWidth="2" />
-                <Line x1="15" y1="35" x2="55" y2="35" stroke="#4ECDC4" strokeWidth="2" />
-
-                {/* Top labels */}
-                <SvgText x="25" y="10" fontSize="10" textAnchor="middle">
-                    <TSpan fill="#1565C0">T</TSpan>
-                </SvgText>
-                <SvgText x="45" y="10" fontSize="10" textAnchor="middle">
-                    <TSpan fill="#FF5722">t</TSpan>
-                </SvgText>
-
-                {/* Left labels */}
-                <SvgText x="8" y="30" fontSize="10" textAnchor="middle">
-                    <TSpan fill="#1565C0">T</TSpan>
-                </SvgText>
-                <SvgText x="8" y="50" fontSize="10" textAnchor="middle">
-                    <TSpan fill="#FF5722">t</TSpan>
-                </SvgText>
-
-                {/* Cells (rounded + softer) */}
-                <Rect x="15" y="15" width="20" height="20" rx="4" fill="#4ECDC420" />
-                <Rect x="35" y="15" width="20" height="20" rx="4" fill="#FFD93D20" />
-                <Rect x="15" y="35" width="20" height="20" rx="4" fill="#FFD93D20" />
-                <Rect x="35" y="35" width="20" height="20" rx="4" fill="#FF6B6B20" />
-
-                {/* Genotypes (colored letters) */}
-                <GenotypeText x={25} y={28} value="TT" />
-                <GenotypeText x={45} y={28} value="Tt" />
-                <GenotypeText x={25} y={48} value="Tt" />
-                <GenotypeText x={45} y={48} value="tt" />
-
-            </Svg>
+        <View style={{ width: 80, height: 80, justifyContent: 'center', alignItems: 'center' }}>
+            <Icon size={80}>
+                {/* parent allele tabs */}
+                {['T', 't'].map((a, i) => (
+                    <React.Fragment key={a}>
+                        <Rect x={x0 + i * c + 4} y={4} width={c - 8} height={15} rx={4} fill={P.gold} stroke={INK} strokeWidth={2.5} />
+                        <SvgText x={x0 + i * c + c / 2} y={15.5} fontSize={11} fontWeight='bold' fill={INK} textAnchor='middle'>{a}</SvgText>
+                        <Rect x={4} y={y0 + i * c + 4} width={15} height={c - 8} rx={4} fill={P.gold} stroke={INK} strokeWidth={2.5} />
+                        <SvgText x={11.5} y={y0 + i * c + c / 2 + 4} fontSize={11} fontWeight='bold' fill={INK} textAnchor='middle'>{a}</SvgText>
+                    </React.Fragment>
+                ))}
+                {/* shadow + grid */}
+                <Rect x={x0 + 3} y={y0 + 3} width={c * 2} height={c * 2} rx={5} fill={P.purpleDark} />
+                {CELLS.map((cell, i) => {
+                    const x = x0 + (i % 2) * c, y = y0 + Math.floor(i / 2) * c;
+                    return (
+                        <React.Fragment key={i}>
+                            <Rect x={x} y={y} width={c} height={c} fill={cell.fill} stroke={INK} strokeWidth={SW * 0.8} />
+                            <SvgText x={x + c / 2} y={y + c / 2 + 4.5} fontSize={12} fontWeight='bold' fill={INK} textAnchor='middle'>{cell.g}</SvgText>
+                        </React.Fragment>
+                    );
+                })}
+                <Rect x={x0} y={y0} width={c * 2} height={c * 2} rx={5} fill='none' stroke={INK} strokeWidth={SW} />
+            </Icon>
         </View>
     );
 }

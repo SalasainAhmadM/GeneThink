@@ -1,9 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <path d="M58 30C50 18 38 14 28 16 12 19 4 34 8 50c5 20 26 38 46 56l6-28-10-14 12-14z" fill="#FF6B81" stroke="#9C1C3A" stroke-width="5" stroke-linejoin="round"/>
-  <path d="M74 34c8-12 20-16 30-14 16 3 24 18 20 34-5 20-26 36-46 54l4-28-10-14 12-14z" fill="#FF8FA0" stroke="#9C1C3A" stroke-width="5" stroke-linejoin="round"/>
-  <ellipse cx="26" cy="36" rx="6" ry="9" fill="#ffffff" opacity="0.6" transform="rotate(30 26 36)"/>
-  <circle cx="30" cy="60" r="4" fill="#5B0E21"/>
-  <circle cx="100" cy="62" r="4" fill="#5B0E21"/>
-  <path d="M25 76c3-4 8-4 10 0M95 78c3-4 8-4 10 0" fill="none" stroke="#5B0E21" stroke-width="3.5" stroke-linecap="round"/>
-  <path d="M110 74c-3 6-3 10 0 12 3-2 3-6 0-12z" fill="#4FC3F7"/>
+  <!-- GeneQuest art kit: ink #2A1066, flat fills, hard shadow bottom-right -->
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <!-- left half -->
+    <path d="M58 30C50 18 38 14 28 16 12 19 4 34 8 50c5 20 26 38 46 56l6-28-10-14 12-14z" fill="#C7307A"/>
+    <path d="M55 28C47 17 36 13 26 15 11 18 3 32 6 47c5 19 24 36 44 53l6-26-10-13 11-14z" fill="#F0559B"/>
+    <path d="M58 30C50 18 38 14 28 16 12 19 4 34 8 50c5 20 26 38 46 56l6-28-10-14 12-14z" fill="none" stroke="#2A1066" stroke-width="4.5"/>
+    <!-- right half, tilted away -->
+    <path d="M74 34c8-12 20-16 30-14 16 3 24 18 20 34-5 20-26 36-46 54l4-28-10-14 12-14z" fill="#C7307A"/>
+    <path d="M71 32c8-11 19-15 29-13 15 3 23 17 19 32-5 19-25 34-44 51l4-27-10-13 11-14z" fill="#F0559B"/>
+    <path d="M74 34c8-12 20-16 30-14 16 3 24 18 20 34-5 20-26 36-46 54l4-28-10-14 12-14z" fill="none" stroke="#2A1066" stroke-width="4.5"/>
+    <path d="M18 34a14 14 0 0 1 10-9" fill="none" stroke="#fff" stroke-width="5" opacity="0.85"/>
+    <!-- sad faces -->
+    <ellipse cx="28" cy="58" rx="3.6" ry="4.3" fill="#2A1066"/>
+    <ellipse cx="44" cy="58" rx="3.6" ry="4.3" fill="#2A1066"/>
+    <path d="M30 72c3-4 9-4 12 0" fill="none" stroke="#2A1066" stroke-width="3.5"/>
+    <ellipse cx="92" cy="60" rx="3.6" ry="4.3" fill="#2A1066"/>
+    <ellipse cx="108" cy="60" rx="3.6" ry="4.3" fill="#2A1066"/>
+    <path d="M94 74c3-4 9-4 12 0" fill="none" stroke="#2A1066" stroke-width="3.5"/>
+    <path d="M111 68c-3 6-3 10 0 12 3-2 3-6 0-12z" fill="#4C8DF6" stroke="#2A1066" stroke-width="2.5"/>
+  </g>
 </svg>

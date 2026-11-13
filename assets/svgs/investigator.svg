@@ -1,19 +1,38 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <!-- Lahi, the young genetics investigator -->
-  <path d="M30 58c-6 24-4 46 6 60h56c10-14 12-36 6-60z" fill="#6D4C41" stroke="#3E2A1A" stroke-width="4" stroke-linejoin="round"/>
-  <path d="M22 128c4-22 20-34 42-34s38 12 42 34z" fill="#C9A86A" stroke="#3E2A1A" stroke-width="4" stroke-linejoin="round"/>
-  <path d="M52 96l12 12 12-12" fill="none" stroke="#3E2A1A" stroke-width="4" stroke-linejoin="round"/>
-  <rect x="80" y="106" width="16" height="12" rx="3" fill="#8D6E63" stroke="#3E2A1A" stroke-width="3"/>
-  <circle cx="64" cy="60" r="30" fill="#FFD8B5" stroke="#3E2A1A" stroke-width="4"/>
-  <path d="M34 58c0-22 14-34 30-34s30 12 30 34c-6-10-16-16-24-16-4 6-14 10-22 10-6 0-10 2-14 6z" fill="#6D4C41" stroke="#3E2A1A" stroke-width="4" stroke-linejoin="round"/>
-  <path d="M36 44c8-12 18-16 28-16s20 4 28 16" fill="none" stroke="#FFC93C" stroke-width="5" stroke-linecap="round"/>
-  <ellipse cx="53" cy="64" rx="5" ry="6.5" fill="#3E2A1A"/>
-  <ellipse cx="75" cy="64" rx="5" ry="6.5" fill="#3E2A1A"/>
-  <circle cx="55" cy="62" r="1.8" fill="#ffffff"/>
-  <circle cx="77" cy="62" r="1.8" fill="#ffffff"/>
-  <path d="M55 76c5 6 13 6 18 0" fill="#E57373" stroke="#3E2A1A" stroke-width="3.5" stroke-linejoin="round"/>
-  <circle cx="44" cy="74" r="4.5" fill="#FF8A65" opacity="0.5"/>
-  <circle cx="84" cy="74" r="4.5" fill="#FF8A65" opacity="0.5"/>
-  <circle cx="100" cy="30" r="12" fill="#E3F7FF" stroke="#1a1a2e" stroke-width="4"/>
-  <line x1="108" y1="38" x2="118" y2="48" stroke="#1a1a2e" stroke-width="6" stroke-linecap="round"/>
+  <!-- The young Gene Investigator. GeneQuest art kit: ink #2A1066, flat fills, hard shadow bottom-right -->
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <!-- ponytail -->
+    <path d="M86 44c18 4 24 22 16 40-4-10-10-16-18-18z" fill="#4A2914"/>
+    <path d="M84 42c16 4 22 20 15 37-4-9-9-15-16-17z" fill="#6B3F22"/>
+    <path d="M86 44c18 4 24 22 16 40-4-10-10-16-18-18z" fill="none" stroke="#2A1066" stroke-width="4.5"/>
+    <!-- khaki shirt -->
+    <path d="M20 128c3-22 20-34 44-34s41 12 44 34z" fill="#B88A3E"/>
+    <path d="M20 128c3-21 19-31 41-31s38 10 41 31z" fill="#D9AE5F"/>
+    <path d="M20 128c3-22 20-34 44-34s41 12 44 34z" fill="none" stroke="#2A1066" stroke-width="4.5"/>
+    <path d="M50 96l14 14 14-14" fill="#fff" stroke="#2A1066" stroke-width="4"/>
+    <rect x="78" y="110" width="16" height="12" rx="3" fill="#B88A3E" stroke="#2A1066" stroke-width="3.5"/>
+    <!-- neck + head -->
+    <rect x="56" y="82" width="16" height="14" fill="#F0B48A" stroke="#2A1066" stroke-width="4"/>
+    <circle cx="64" cy="58" r="30" fill="#F0B48A"/>
+    <circle cx="61" cy="55" r="26" fill="#FFD3AE"/>
+    <circle cx="64" cy="58" r="30" fill="none" stroke="#2A1066" stroke-width="4.5"/>
+    <!-- hair + gold headband -->
+    <path d="M34 56c0-22 14-34 30-34s30 12 30 34c-8-10-18-15-28-15-6 6-16 9-24 9-4 0-6 2-8 6z" fill="#6B3F22" stroke="#2A1066" stroke-width="4.5"/>
+    <path d="M37 42c8-11 17-15 27-15s20 4 27 15" fill="none" stroke="#2A1066" stroke-width="10"/>
+    <path d="M37 42c8-11 17-15 27-15s20 4 27 15" fill="none" stroke="#FFC928" stroke-width="5"/>
+    <!-- face -->
+    <ellipse cx="53" cy="62" rx="4.5" ry="5.5" fill="#2A1066"/>
+    <ellipse cx="75" cy="62" rx="4.5" ry="5.5" fill="#2A1066"/>
+    <circle cx="54.8" cy="60" r="1.8" fill="#fff"/>
+    <circle cx="76.8" cy="60" r="1.8" fill="#fff"/>
+    <path d="M56 73c5 6 11 6 16 0z" fill="#F04848" stroke="#2A1066" stroke-width="3.5"/>
+    <ellipse cx="44" cy="71" rx="5" ry="3" fill="#F0559B" opacity="0.45"/>
+    <ellipse cx="84" cy="71" rx="5" ry="3" fill="#F0559B" opacity="0.45"/>
+    <!-- magnifier -->
+    <path d="M107 37l12 12" stroke="#2A1066" stroke-width="12"/>
+    <path d="M107 37l12 12" stroke="#8B3FD9" stroke-width="6"/>
+    <circle cx="99" cy="28" r="12" fill="#D3EBFF" stroke="#2A1066" stroke-width="9"/>
+    <circle cx="99" cy="28" r="12" fill="none" stroke="#FFC928" stroke-width="4"/>
+    <path d="M93 26a7 7 0 0 1 4-5" fill="none" stroke="#fff" stroke-width="3"/>
+  </g>
 </svg>

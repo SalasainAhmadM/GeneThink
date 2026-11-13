@@ -68,7 +68,7 @@ module.exports = {
           dark: "#0d1b2a",
           green: "#1a3a1a",
           blue: "#0d2b4e",
-          light: "#f5f9f5",
+          light: "#f7f3ff",
           card: "#ffffff",
         },
       },

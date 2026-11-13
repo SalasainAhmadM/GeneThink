@@ -6,6 +6,7 @@ import Button from '../ui/Button';
 import GlossaryText from '../ui/GlossaryText';
 import AnswerFeedback from './AnswerFeedback';
 import QuestionFigure from './QuestionFigure';
+import { QUEST } from '@/constants/theme';
 
 const FEEDBACK_DELAY = 1000;
 
@@ -66,18 +67,18 @@ export default function MCQQuestion({ quizNumberLabel, showHint, question, onAns
                 {question.choices?.map((choice, i) => {
                     const isSelected = selected === choice.id;
 
-                    const bg = feedback !== null && isSelected ? (feedback ? "bg-[#e8f5e9]" : "bg-[#ffebee]") : isSelected ? "bg-[#e3f2fd]" : "bg-white";
-                    const border = feedback !== null && isSelected ? (feedback ? "border-2 border-primary-300" : "border-2 border-danger2") : isSelected ? "border-2 border-science-300" : "border border-[#e8e8e8]";
-                    const badgeBg = feedback !== null && isSelected ? (feedback ? "bg-primary-300" : "bg-danger") : isSelected ? "bg-science-300" : "bg-[#f0f0f0]";
-                    const badgeText = isSelected ? "text-white" : "text-ink-200";
-                    const textColor = isSelected ? 'text-science-500' : 'text-ink-600';
+                    const bg = feedback !== null && isSelected ? (feedback ? "bg-[#e8f5e9]" : "bg-[#ffebee]") : isSelected ? "bg-[#EDE4FF]" : "bg-[#F8F4FF]";
+                    const border = feedback !== null && isSelected ? (feedback ? "border-2 border-primary-300" : "border-2 border-danger2") : isSelected ? "border-2 border-[#7B2CBF]" : "border border-[#D8C4FF]";
+                    const badgeBg = feedback !== null && isSelected ? (feedback ? "bg-primary-300" : "bg-danger") : isSelected ? "bg-[#7B2CBF]" : "";
+                    const badgeText = "text-white";
+                    const textColor = isSelected ? 'text-[#3B1A9E]' : 'text-ink-600';
 
                     return (
                         <Button key={choice.id} btnType='container' onPress={() => pick(choice.id)}
                             disabled={submitting} className='rounded-xl'
                         >
                             <View className={cn("flex-row items-center gap-3 rounded-xl px-4 py-3.5", bg, border)}>
-                                <View className={cn('size-8 rounded-full items-center justify-center', badgeBg)}>
+                                <View className={cn('size-8 rounded-full items-center justify-center', badgeBg)} style={!isSelected ? { backgroundColor: QUEST.letters[i] } : undefined}>
                                     <Text className={cn('font-fredoka-bold text-sm', badgeText)} >{LABELS[i]}</Text>
                                 </View>
 

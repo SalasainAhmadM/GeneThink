@@ -5,6 +5,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Easing, Text, View } from "react-native";
+import { QUEST } from '@/constants/theme';
 
 const TIPS = [
   "🧬  DNA contains billions of base pairs...",
@@ -121,15 +122,15 @@ export default function LoadingScreen() {
   }, []);
 
   return (
-    <LinearGradient colors={["#1a237e", "#283593", "#1b5e20"]} locations={[0, 0.40, 1]} start={{ x: 0.2, y: 0.4 }} end={{ x: 1, y: .8 }} className="flex-1 items-center justify-center">
+    <LinearGradient colors={QUEST.gradient} locations={QUEST.gradientLocations} start={{ x: 0.2, y: 0.4 }} end={{ x: 1, y: .8 }} className="flex-1 items-center justify-center">
       {/* ── Decorative blobs ─────────────────────────────── */}
       <View
         className="absolute rounded-full -top-16 -right-20"
-        style={{ width: 280, height: 280, backgroundColor: "#1565c033" }}
+        style={{ width: 280, height: 280, backgroundColor: "#C026D333" }}
       />
       <View
         className="absolute rounded-full -bottom-10 -left-16"
-        style={{ width: 220, height: 220, backgroundColor: "#2e7d322b" }}
+        style={{ width: 220, height: 220, backgroundColor: "#7B2FF72b" }}
       />
 
       {/* ── Main content ─────────────────────────────────── */}
@@ -143,7 +144,7 @@ export default function LoadingScreen() {
         <Animated.View className="items-center mt-5"
           style={{ opacity: logoFade, transform: [{ translateY: logoSlide }] }}
         >
-          <Text className="font-fredoka-bold text-white text-6xl tracking-wide">Gene<Text style={{ color: '#FFD93D' }}>Quest</Text></Text>
+          <Text className="font-fredoka-bold text-white text-6xl tracking-wide">Gene<Text style={{ color: QUEST.gold }}>Quest</Text></Text>
           <Text className="font-nunito-semibold text-white/60 text-sm">by Charelle</Text>
 
           <View className="mt-3 bg-glass-white rounded-pill px-5 py-1.5 border border-white/20">
@@ -168,7 +169,7 @@ export default function LoadingScreen() {
                   outputRange: ["0%", "100%"]
                 })
               }}>
-              <LinearGradient colors={["#4CAF50", "#8BC34A", "#FFD93D"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} className="flex-1 rounded-pill" />
+              <LinearGradient colors={["#C026D3", "#7B2FF7", "#FFC928"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} className="flex-1 rounded-pill" />
             </Animated.View>
           </View>
 

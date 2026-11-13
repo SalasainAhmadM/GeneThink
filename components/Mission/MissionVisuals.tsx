@@ -2,77 +2,69 @@ import Cell from '@/components/art/Cell';
 import ChromosomeCharacter from '@/components/art/ChromosomeCharacter';
 import DnaCharacter from '@/components/art/DnaCharacter';
 import GeneCharacter from '@/components/art/GeneCharacter';
+import { Ball, FlowerHead, Icon, INK, InkLine, Leaf, P, Shaded, shadeOf, SW, WrinkledPea } from '@/components/art/kit';
+import { Portrait, PortraitLook } from '@/components/art/People';
 import { MissionVisual } from '@/constants/missions';
 import React from 'react';
 import { Text, View } from 'react-native';
 import { cn } from '@/lib/utils';
-import Svg, { Circle, Ellipse, G, Path } from 'react-native-svg';
+import { Path } from 'react-native-svg';
 
 const Arrow = () => <Text className='text-ink-100 text-base'>→</Text>;
 
-// Five-petal flower drawn with SVG
+// Near-white fills get a lavender shadow instead of grey
+const shadowFor = (color: string) => (parseInt(color.replace('#', '').slice(0, 2), 16) > 0xEE ? P.paperDark : shadeOf(color));
+
+// Five-petal flower (shared art-kit style)
 export const Flower = ({ color, size = 56 }: { color: string; size?: number; }) => (
-    <Svg width={size} height={size} viewBox='0 0 100 100'>
-        {[0, 72, 144, 216, 288].map((deg) => {
-            const rad = (deg - 90) * Math.PI / 180;
-            return <Circle key={deg} cx={50 + Math.cos(rad) * 24} cy={50 + Math.sin(rad) * 24} r={22} fill={color} stroke='#00000018' strokeWidth={1.5} />;
-        })}
-        <Circle cx={50} cy={50} r={12} fill='#FFD54F' />
-    </Svg>
+    <Icon size={size}>
+        <FlowerHead cx={50} cy={50} r={27} base={color} shade={shadowFor(color)} />
+    </Icon>
 );
 
+// Pea seed — round and shiny, or wrinkled
 export const Seed = ({ color, wrinkled = false, size = 44 }: { color: string; wrinkled?: boolean; size?: number; }) => (
-    <Svg width={size} height={size} viewBox='0 0 100 100'>
-        {wrinkled ? (
-            <>
-                {[[34, 36], [58, 30], [72, 52], [62, 72], [38, 72], [26, 54], [50, 52]].map(([x, y], i) => (
-                    <Circle key={i} cx={x} cy={y} r={i === 6 ? 24 : 18} fill={color} stroke='#00000026' strokeWidth={2} />
-                ))}
-                <Path d='M40 46c6 4 14 4 20 0M44 62c4 3 10 3 14 0' stroke='#00000030' strokeWidth={3} fill='none' strokeLinecap='round' />
-            </>
-        ) : (
-            <>
-                <Ellipse cx={50} cy={52} rx={40} ry={38} fill={color} stroke='#00000020' strokeWidth={2} />
-                <Ellipse cx={36} cy={38} rx={10} ry={7} fill='#ffffff66' />
-            </>
-        )}
-    </Svg>
+    <Icon size={size}>
+        {wrinkled
+            ? <WrinkledPea cx={50} cy={50} r={36} base={color} shade={shadeOf(color)} />
+            : <Ball cx={50} cy={50} r={40} base={color} shade={shadeOf(color)} />}
+    </Icon>
 );
 
 // Pea pod — inflated (smooth) or constricted (pinched between peas)
 export const Pod = ({ color, constricted = false, size = 56 }: { color: string; constricted?: boolean; size?: number; }) => (
-    <Svg width={size} height={size * 0.6} viewBox='0 0 100 60'>
-        {constricted ? (
-            <Path d='M6 34c6-14 14-14 20-8 6-10 16-10 22-2 6-10 16-10 22-2 6-8 16-8 24 4-8 14-20 18-30 12-8 8-18 8-24 0-8 8-18 8-24 0-6 6-8 2-10-4z' fill={color} stroke='#00000033' strokeWidth={2} />
-        ) : (
-            <Path d='M4 34C20 8 72 6 96 26 84 50 30 56 4 34z' fill={color} stroke='#00000033' strokeWidth={2} />
-        )}
-        <Path d='M14 30C34 22 64 20 86 26' stroke='#ffffff55' strokeWidth={3} fill='none' strokeLinecap='round' />
-    </Svg>
+    <Icon width={size} height={size * 0.6} viewBox='0 0 100 60'>
+        <InkLine d='M8 30L3 20' color={P.greenDark} width={3} />
+        {constricted
+            ? <Shaded d='M8 32C14 18 22 18 28 26C34 16 44 16 50 24C56 14 66 14 72 24C78 16 88 18 94 30C86 44 76 46 70 38C64 46 54 46 48 38C42 46 32 46 26 38C20 44 12 42 8 32Z' base={color} shade={shadeOf(color)} nudge={2.5} />
+            : <Shaded d='M8 32C22 8 72 6 94 24C84 48 30 54 8 32Z' base={color} shade={shadeOf(color)} nudge={2.5} />}
+        <Path d={constricted ? 'M16 31C30 28 70 26 86 29' : 'M18 30C38 22 66 20 84 25'} stroke={shadeOf(color, 0.35)} strokeWidth={2.2} fill='none' />
+        <Path d={constricted ? 'M17 26c3-3 6-3 8-1' : 'M20 24C32 16 48 13 60 14'} stroke='#fff' strokeWidth={3} fill='none' opacity={0.8} />
+    </Icon>
 );
 
-// Simple pea plant: tall or short, flowers along the stem (axial) or at the top (terminal)
+// Pea plant: tall or short, flowers along the stem (axial) or at the top (terminal)
 export const Plant = ({ tall = true, flower, terminal = false, size = 60 }: { tall?: boolean; flower?: string; terminal?: boolean; size?: number; }) => {
-    const top = tall ? 10 : 46;
+    const top = tall ? 12 : 50;
+    const leaves = tall ? [30, 50, 70] : [64, 80];
     return (
-        <Svg width={size * 0.7} height={size} viewBox='0 0 70 100'>
-            <Path d={`M35 98V${top}`} stroke='#2E7D32' strokeWidth={4} strokeLinecap='round' />
-            {(tall ? [30, 52, 74] : [62, 80]).map((y, i) => (
-                <G key={y}>
-                    <Ellipse cx={i % 2 ? 22 : 48} cy={y} rx={12} ry={6} fill='#66BB6A' transform={`rotate(${i % 2 ? 25 : -25} ${i % 2 ? 22 : 48} ${y})`} />
-                    {flower && !terminal && <Circle cx={i % 2 ? 48 : 22} cy={y - 4} r={5} fill={flower} stroke='#00000030' />}
-                </G>
+        <Icon width={size * 0.7} height={size} viewBox='0 0 70 100'>
+            <InkLine d={`M35 97V${top}`} color={P.green} width={3.5} />
+            {leaves.map((y, i) => <Leaf key={y} x={35} y={y} len={20} angle={i % 2 ? 200 : -20} />)}
+            {flower && !terminal && leaves.map((y, i) => (
+                <FlowerHead key={`f${y}`} cx={i % 2 ? 50 : 20} cy={y - 7} r={5.5} base={flower} shade={shadowFor(flower)} />
             ))}
-            {flower && terminal && <Circle cx={35} cy={top} r={8} fill={flower} stroke='#00000030' />}
-            {!flower && <Ellipse cx={35} cy={top} rx={7} ry={4} fill='#81C784' />}
-        </Svg>
+            {flower && terminal && <FlowerHead cx={35} cy={top} r={9} base={flower} shade={shadowFor(flower)} />}
+            {!flower && <Ball cx={35} cy={top} r={5} base={P.greenLight} shade={P.green} shine={false} />}
+            <Path d='M20 97H50' stroke={INK} strokeWidth={SW} />
+        </Icon>
     );
 };
 
 // Labelled tile with an icon on top
 const Tile = ({ children, label, sub, width = 92 }: { children: React.ReactNode; label: string; sub?: string; width?: number; }) => (
     <View className='items-center gap-1' style={{ width }}>
-        <View className='rounded-2xl bg-[#f5f9f5] border border-[#e8e8e8] items-center justify-center' style={{ width: width - 8, height: width - 16 }}>
+        <View className='rounded-2xl bg-[#f7f3ff] border border-[#e6dcfa] items-center justify-center' style={{ width: width - 8, height: width - 16 }}>
             {children}
         </View>
         <Text className='font-nunito-bold text-ink-300 text-xs text-center'>{label}</Text>
@@ -80,10 +72,10 @@ const Tile = ({ children, label, sub, width = 92 }: { children: React.ReactNode;
     </View>
 );
 
-const Person = ({ emoji, name, sub }: { emoji: string; name: string; sub: string; }) => (
+const Person = ({ look, name, sub }: { look: PortraitLook; name: string; sub: string; }) => (
     <View className='items-center gap-1' style={{ width: 84 }}>
-        <View className='size-16 rounded-full bg-[#fff3e0] border-2 border-amber items-center justify-center'>
-            <Text className='text-[32px]'>{emoji}</Text>
+        <View className='size-16 rounded-full bg-[#fff3e0] border-2 border-amber items-center justify-center overflow-hidden'>
+            <Portrait look={look} size={62} />
         </View>
         <Text className='font-fredoka-bold text-ink-300 text-sm'>{name}</Text>
         <Text className='font-nunito text-ink-200 text-[11px]'>{sub}</Text>
@@ -107,16 +99,16 @@ export default function MissionVisualView({ visual }: { visual: MissionVisual; }
         case 'family':
             return (
                 <View className='flex-row items-start justify-center'>
-                    <Person emoji='👵' name='Lola Lita' sub='curly hair' />
-                    <Person emoji='👩' name='Pilar' sub='straight hair' />
-                    <Person emoji='👧' name='Ana' sub='curly hair' />
+                    <Person look='lola' name='Lola Lita' sub='curly hair' />
+                    <Person look='pilar' name='Pilar' sub='straight hair' />
+                    <Person look='ana' name='Ana' sub='curly hair' />
                 </View>
             );
         case 'traitGallery':
             return (
                 <View className='flex-row flex-wrap justify-center gap-2'>
-                    <Tile label='Curly hair'><Text className='text-[38px]'>👩‍🦱</Text></Tile>
-                    <Tile label='Straight hair'><Text className='text-[38px]'>👩</Text></Tile>
+                    <Tile label='Curly hair'><Portrait look='curly' size={64} /></Tile>
+                    <Tile label='Straight hair'><Portrait look='straight' size={64} /></Tile>
                     <Tile label='Purple flower'><Flower color='#9C27B0' /></Tile>
                     <Tile label='White flower'><Flower color='#fafafa' /></Tile>
                     <Tile label='Seed shape'>
@@ -127,11 +119,11 @@ export default function MissionVisualView({ visual }: { visual: MissionVisual; }
         case 'heredityLine':
             return (
                 <View className='flex-row items-center justify-center'>
-                    <Person emoji='👵' name='Lola Lita' sub='curly' />
+                    <Person look='lola' name='Lola Lita' sub='curly' />
                     <Arrow />
-                    <Person emoji='👩' name='Pilar' sub='straight' />
+                    <Person look='pilar' name='Pilar' sub='straight' />
                     <Arrow />
-                    <Person emoji='👧' name='Ana' sub='curly' />
+                    <Person look='ana' name='Ana' sub='curly' />
                 </View>
             );
         case 'cellToGene':

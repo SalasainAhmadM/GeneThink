@@ -86,8 +86,8 @@ const SIZE_GAP: Record<BtnSize, string> = {
 // ── Gradient configs ──────────────────────────────────────────
 
 const GRADIENTS: Partial<Record<BtnType, [string, string]>> = {
-    primary: ["#FFB300", "#FF6F00"],
-    secondary: ["#4CAF50", "#2E7D32"],
+    primary: ["#FFD84D", "#FFB300"],
+    secondary: ["#8B5CF6", "#6D28D9"],
 };
 
 // ── Solid bg classNames ───────────────────────────────────────
@@ -107,7 +107,7 @@ const BORDER_CLASS: Partial<Record<BtnType, string>> = {
 };
 
 const LABEL_COLOR: Record<BtnType, string> = {
-    primary: "text-white",
+    primary: "text-[#2A1066]",
     secondary: "text-white",
     glass: "text-white",
     danger: "text-white",
@@ -119,7 +119,7 @@ const LABEL_COLOR: Record<BtnType, string> = {
 };
 
 const LABEL_COLOR_BORDER: Record<BtnType, string> = {
-    primary: "text-white",
+    primary: "text-[#2A1066]",
     secondary: "text-white",
     glass: "text-white",
     danger: "text-danger",
@@ -134,10 +134,10 @@ const LABEL_COLOR_BORDER: Record<BtnType, string> = {
 
 const SHADOWS: Partial<Record<BtnType, object>> = {
     primary: {
-        shadowColor: "#FF6F00"
+        shadowColor: "#B45309"
     },
     secondary: {
-        shadowColor: "#2E7D32"
+        shadowColor: "#4C1D95"
     },
     danger: {
         shadowColor: "#F44336"
