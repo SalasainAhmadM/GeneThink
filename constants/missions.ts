@@ -9,7 +9,7 @@ import { QUEST_MISSIONS } from './questMissions';
 export type MissionVisual =
     | 'family' | 'traitGallery' | 'heredityLine' | 'cellToGene' | 'seedAlleles'
     | 'genotypeTiles' | 'flowerPhenotype' | 'domRec' | 'zygosityChips' | 'flowerCase' | 'seedCase'
-    // GeneQuest missions 1B–4
+    // GeneThink missions 1B–4
     | 'peaTraits' | 'domRecFlowers' | 'pollination' | 'firstCross' | 'secondGen' | 'threeLaws'
     | 'segregation' | 'meiosis' | 'twoGenes' | 'tallCross' | 'dihybridParents';
 
@@ -53,8 +53,8 @@ export type MissionBlock =
     | { type: 'evidence'; terms: string[]; }                     // ToolkitTerm keys
     | { type: 'toolkit'; }
     | { type: 'complete'; title: string; text: string; learned?: string[]; }
-    // ── GeneQuest blocks ──
-    | { type: 'cover'; mission: string; title: string; text: string; }        // GeneQuest mission title card
+    // ── GeneThink blocks ──
+    | { type: 'cover'; mission: string; title: string; text: string; }        // GeneThink mission title card
     | { type: 'speech'; text: string; who?: 'investigator' | 'mendel'; }       // character speech bubble
     | { type: 'table'; headers: string[]; rows: string[][]; title?: string; }
     | { type: 'steps'; title?: string; steps: { label: string; text: string; }[]; }

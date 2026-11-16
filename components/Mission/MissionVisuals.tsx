@@ -224,7 +224,7 @@ export default function MissionVisualView({ visual }: { visual: MissionVisual; }
                     </View>
                 </View>
             );
-        // ── GeneQuest visuals ──
+        // ── GeneThink visuals ──
         case 'peaTraits':
             return (
                 <View className='w-full'>

@@ -6,6 +6,7 @@ import { ScrollView, Text, View } from 'react-native';
 import { ClipboardIcon, PunnettTabletIcon, TargetIcon } from '@/components/art/QuestIcons';
 import { ClueHeader } from './Cards';
 import MissionBlockView, { isInteractive } from './MissionBlocks';
+import { QUEST } from '@/constants/theme';
 
 // Screen-by-screen mission player. Blocks after an unsolved interactive block stay hidden,
 // and Next unlocks once every interactive block on the screen is solved.
@@ -42,13 +43,15 @@ export default function MissionReader({ mission, accentColor, onFinish }: { miss
             <View className='items-center gap-1.5 py-3'>
                 <View className='flex-row justify-center gap-1.5'>
                     {mission.screens.map((s, i) => (
-                        <View key={s.id} className='h-1.5 rounded-pill' style={{ width: i === index ? 18 : 6, backgroundColor: i <= index ? accentColor : '#e0e0e0' }} />
+                        <View key={s.id} className='h-1.5 rounded-pill' style={{ width: i === index ? 18 : 6, backgroundColor: i <= index ? QUEST.gold : 'rgba(255,255,255,0.3)' }} />
                     ))}
                 </View>
-                <Text className='font-nunito-bold text-ink-100 text-[11px]'>Screen {index + 1} of {mission.screens.length}</Text>
+                <Text className='font-nunito-bold text-white/70 text-[11px]'>Screen {index + 1} of {mission.screens.length}</Text>
             </View>
 
-            <ScrollView ref={scrollRef} className='flex-1' contentContainerClassName='px-5 pt-1 pb-6' showsVerticalScrollIndicator={false}>
+            <ScrollView ref={scrollRef} className='flex-1' contentContainerClassName='px-4 pt-1 pb-6' showsVerticalScrollIndicator={false}>
+                {/* Cover screens sit straight on the lab scene; every other screen gets the lavender panel */}
+                <View className={isCover ? '' : 'rounded-3xl px-4 pt-4 pb-5 border-2'} style={isCover ? undefined : { backgroundColor: QUEST.lavender + 'f2', borderColor: QUEST.lavenderBorder }}>
                 {/* Mission banner on the first screen */}
                 {index === 0 && !isCover && (
                     <View className='items-center mb-4'>
@@ -65,6 +68,7 @@ export default function MissionReader({ mission, accentColor, onFinish }: { miss
                     {visible.map((b, i) => (
                         <MissionBlockView key={`${screen.id}-${i}`} block={b} accentColor={accentColor} solved={!!solved[key(i)]} onSolved={() => { if (!solved[key(i)]) playSound('correct'); setSolved((s) => ({ ...s, [key(i)]: true })); }} />
                     ))}
+                </View>
                 </View>
             </ScrollView>
 

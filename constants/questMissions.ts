@@ -1,4 +1,4 @@
-// ── GeneQuest missions 1B → 4, adapted from the "suggestions as of Nov 9" worksheet ──
+// ── GeneThink missions 1B → 4, adapted from the "suggestions as of Nov 9" worksheet ──
 // Each mission plays before its level's quiz (see app/(root)/lessons/[id]/[levelId]/story.tsx).
 
 import { PEA_TRAITS, TraitDef } from '@/lib/genetics';
@@ -23,7 +23,7 @@ export const QUEST_MISSIONS: LevelMission[] = [
     // ══════════════════════════════════════════════════════════
     {
         lessonId: 'terms', levelId: 2,
-        title: 'GeneQuest', mission: 'Mission 1 · Part B', tagline: 'Dominant & Recessive Traits',
+        title: 'GeneThink', mission: 'Mission 1 · Part B', tagline: 'Dominant & Recessive Traits',
         screens: [
             {
                 id: 'm1b-cover', title: 'Dominant and Recessive Traits',
@@ -126,7 +126,7 @@ export const QUEST_MISSIONS: LevelMission[] = [
     // ══════════════════════════════════════════════════════════
     {
         lessonId: 'mendel', levelId: 1,
-        title: 'GeneQuest', mission: 'Mission 2 · Part A', tagline: 'The Monk Who Counted Peas',
+        title: 'GeneThink', mission: 'Mission 2 · Part A', tagline: 'The Monk Who Counted Peas',
         screens: [
             {
                 id: 'm2a-cover', kicker: 'Case File 002', title: 'The Mystery of the Pea Garden',
@@ -253,7 +253,7 @@ export const QUEST_MISSIONS: LevelMission[] = [
     // ══════════════════════════════════════════════════════════
     {
         lessonId: 'mendel', levelId: 2,
-        title: 'GeneQuest', mission: 'Mission 2 · Part B', tagline: 'The Three Laws of Mendel',
+        title: 'GeneThink', mission: 'Mission 2 · Part B', tagline: 'The Three Laws of Mendel',
         screens: [
             {
                 id: 'm2b-cover', title: 'The Three Laws of Mendel',
@@ -321,7 +321,7 @@ export const QUEST_MISSIONS: LevelMission[] = [
     // ══════════════════════════════════════════════════════════
     {
         lessonId: 'punnett', levelId: 1,
-        title: 'GeneQuest', mission: 'Mission 3', tagline: 'Punnett Square Lab',
+        title: 'GeneThink', mission: 'Mission 3', tagline: 'Punnett Square Lab',
         screens: [
             {
                 id: 'm3-cover', title: 'Punnett Square Lab',
@@ -425,7 +425,7 @@ export const QUEST_MISSIONS: LevelMission[] = [
     // ══════════════════════════════════════════════════════════
     {
         lessonId: 'punnett', levelId: 2,
-        title: 'GeneQuest', mission: 'Mission 3', tagline: 'Punnett Square Lab — Let’s Practice',
+        title: 'GeneThink', mission: 'Mission 3', tagline: 'Punnett Square Lab — Let’s Practice',
         screens: [
             {
                 id: 'm3lab-how', title: "Let's Practice!",
@@ -450,7 +450,7 @@ export const QUEST_MISSIONS: LevelMission[] = [
     // ══════════════════════════════════════════════════════════
     {
         lessonId: 'dihybrid', levelId: 1,
-        title: 'GeneQuest', mission: 'Mission 4', tagline: 'Monohybrid Cross',
+        title: 'GeneThink', mission: 'Mission 4', tagline: 'Monohybrid Cross',
         screens: [
             {
                 id: 'm4m-cover', title: 'Monohybrid Cross',
@@ -520,7 +520,7 @@ export const QUEST_MISSIONS: LevelMission[] = [
     // ══════════════════════════════════════════════════════════
     {
         lessonId: 'dihybrid', levelId: 2,
-        title: 'GeneQuest', mission: 'Mission 4', tagline: 'Dihybrid Cross',
+        title: 'GeneThink', mission: 'Mission 4', tagline: 'Dihybrid Cross',
         screens: [
             {
                 id: 'm4d-cover', title: 'Dihybrid Cross',
@@ -617,7 +617,7 @@ export const QUEST_MISSIONS: LevelMission[] = [
     // ══════════════════════════════════════════════════════════
     {
         lessonId: 'dihybrid', levelId: 3,
-        title: 'GeneQuest', mission: 'Mission 4', tagline: 'Checking of Understanding',
+        title: 'GeneThink', mission: 'Mission 4', tagline: 'Checking of Understanding',
         screens: [
             {
                 id: 'm4c-chicken', kicker: 'Check your understanding', title: 'The Crested Chickens',
@@ -640,7 +640,7 @@ export const QUEST_MISSIONS: LevelMission[] = [
                     chk('A pea plant with genotype **PpTt** (purple flowers, tall) can produce which set of gametes?', ['PT and pt only', 'Pp and Tt only', 'PT, Pt, pT, and pt', 'P, p, T, and t'], 'c', 'FOIL gives PT, Pt, pT, pt.'),
                     chk('In a dihybrid cross of PpTt × PpTt, what is the expected phenotypic ratio of the offspring?', ['1 : 2 : 1', '3 : 1', '1 : 1 : 1 : 1', '9 : 3 : 3 : 1'], 'd', '9 purple tall : 3 purple short : 3 white tall : 1 white short.'),
                     chk('In a dihybrid cross of PpTt × PpTt, what is the probability of an offspring that is white-flowered and short (pptt)?', ['50% (1/2)', '25% (1/4)', '12.5% (1/8)', '6.25% (1/16)'], 'd', 'Only 1 of the 16 boxes is pptt.'),
-                    { type: 'complete', title: 'Mission 4 complete!', text: 'You have finished every GeneQuest mission. Try the Checking of Understanding test in Test Your Knowledge!', learned: ['Monohybrid crosses', 'Dihybrid crosses', 'FOIL method', 'Genotypic and phenotypic ratios'] },
+                    { type: 'complete', title: 'Mission 4 complete!', text: 'You have finished every GeneThink mission. Try the Checking of Understanding test in Test Your Knowledge!', learned: ['Monohybrid crosses', 'Dihybrid crosses', 'FOIL method', 'Genotypic and phenotypic ratios'] },
                 ],
             },
         ],

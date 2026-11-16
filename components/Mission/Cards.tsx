@@ -1,5 +1,4 @@
 import { getTerm } from '@/constants/missions';
-import { LinearGradient } from 'expo-linear-gradient';
 import InvestigatorSvg from '../../assets/svgs/investigator.svg';
 import ScientistSvg from '../../assets/svgs/scientist.svg';
 import { cn } from '@/lib/utils';
@@ -7,6 +6,8 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { MagnifierIcon } from '@/components/art/QuestIcons';
 import { QUEST } from '@/constants/theme';
+import LabBackdrop from '@/components/art/LabBackdrop';
+import { Student, Teacher } from '@/components/art/LabCharacters';
 
 // Shared "Genetics Investigator" card kit — used by missions and comic stories alike.
 
@@ -139,20 +140,26 @@ export const OptionRow = ({ label, text, state }: { label: string; text: string;
     );
 };
 
-// ── GeneQuest mission cover (title card) ──────────────────────
+// ── GeneThink mission cover (title card) ──────────────────────
 export const CoverCard = ({ mission, title, text, accentColor }: { mission: string; title: string; text: string; accentColor: string; }) => (
     <View className='rounded-2xl overflow-hidden' style={CARD_SHADOW}>
-        <LinearGradient colors={QUEST.gradient} locations={QUEST.gradientLocations} start={{ x: 0.2, y: 0 }} end={{ x: 0.8, y: 1 }}>
-            <View className='items-center px-4 pt-5 pb-4 gap-2'>
-                <Text className='font-fredoka-bold text-white text-[34px] leading-[40px]'>Gene<Text style={{ color: QUEST.gold }}>Quest</Text></Text>
+        <View className='relative overflow-hidden'>
+            <LabBackdrop leaves={false} />
+            <View className='items-center px-4 pt-5 gap-2'>
+                <Text className='font-fredoka-bold text-white text-[34px] leading-[40px]'>Gene<Text style={{ color: QUEST.gold }}>Think</Text></Text>
                 <View className='rounded-pill px-4 py-1 bg-glass-white2 border border-white/30'>
                     <Text className='font-nunito-extrabold text-white text-xs uppercase tracking-wide'>{mission}</Text>
                 </View>
                 <View className='rounded-xl px-4 py-2 mt-1 bg-[#fff8e1] border-2 border-gold'>
                     <Text className='font-fredoka-bold text-ink-300 text-lg uppercase text-center'>{title}</Text>
                 </View>
+                {/* Teacher & Student, as on the mockup covers */}
+                <View className='flex-row items-end justify-between self-stretch -mb-1 mt-1'>
+                    <Teacher size={104} />
+                    <Student size={104} />
+                </View>
             </View>
-        </LinearGradient>
+        </View>
         <View className='bg-white px-4 py-3'>
             <SpeechBubble text={text} accentColor={accentColor} />
         </View>

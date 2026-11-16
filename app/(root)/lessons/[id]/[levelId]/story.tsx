@@ -1,3 +1,4 @@
+import LabBackdrop from '@/components/art/LabBackdrop';
 import { BackArrow } from '@/components/icons/Arrowicon';
 import MissionReader from '@/components/Mission/MissionReader';
 import StoryReader from '@/components/Story/StoryReader';
@@ -46,10 +47,14 @@ export default function StoryScreen() {
         );
     }
 
+    const inMission = phase === 'mission' && !!mission;
+
     return (
-        <View className='flex-1 bg-bg-light'>
+        <View className='flex-1 bg-bg-light relative overflow-hidden'>
+            {inMission && <LabBackdrop />}
+
             {/* ── Header ─────────────────────────────────────────── */}
-            <LinearGradient colors={[lesson.accentColor + 'cc', lesson.accentColor]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
+            <LinearGradient colors={inMission ? ['transparent', 'transparent'] : [lesson.accentColor + 'cc', lesson.accentColor]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
                 <SafeAreaView edges={['top']}>
                     <View className='p-4 flex-row items-center gap-3'>
                         <Button btnType='glass' size='sm' icon={<BackArrow color='#fff' size={14} />} label='Back' href='back' />
@@ -58,8 +63,8 @@ export default function StoryScreen() {
                 </SafeAreaView>
             </LinearGradient>
 
-            {phase === 'mission' && mission
-                ? <MissionReader mission={mission} accentColor={lesson.accentColor} onFinish={markReadAndStart} />
+            {inMission
+                ? <MissionReader mission={mission!} accentColor={lesson.accentColor} onFinish={markReadAndStart} />
                 : <StoryReader story={story!} accentColor={lesson.accentColor} onFinish={mission ? () => setPhase('mission') : markReadAndStart} finishLabel={mission ? 'Start Mission →' : undefined} />}
         </View>
     );

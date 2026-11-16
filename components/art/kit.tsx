@@ -1,7 +1,7 @@
 import React from 'react';
 import Svg, { Circle, Ellipse, G, Path } from 'react-native-svg';
 
-// GeneQuest art kit — the one drawing style every icon, character and lesson
+// GeneThink art kit — the one drawing style every icon, character and lesson
 // visual in the app uses, so the whole set reads as one illustrator's work:
 //   • one ink colour and one outline weight (INK / SW), round joins
 //   • flat fills only — no gradients, no glows

@@ -2,7 +2,7 @@ import React from 'react';
 import { Circle, G, Line, Path, Rect } from 'react-native-svg';
 import { Ball, FlowerHead, Icon, INK, InkLine, P, SW, WrinkledPea } from './kit';
 
-// GeneQuest icon set — drawn with the shared art kit (see ./kit.tsx for the style rules).
+// GeneThink icon set — drawn with the shared art kit (see ./kit.tsx for the style rules).
 
 type IconProps = { size?: number; };
 

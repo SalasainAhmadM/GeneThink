@@ -1,4 +1,4 @@
-// ── GeneQuest palette — matches the purple "Punnett Square Lab" mockups ──
+// ── GeneThink palette — matches the purple "Punnett Square Lab" mockups ──
 // (deep indigo → violet backgrounds, gold call-to-action buttons, lavender cards)
 
 export const QUEST = {

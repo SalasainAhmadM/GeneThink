@@ -1,4 +1,4 @@
-# GeneQuest
+# GeneThink
 Grade 8 Biology genetics learning app.
 
 ## Development

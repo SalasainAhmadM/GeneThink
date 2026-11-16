@@ -8,7 +8,7 @@ import { ScrollView, Text, View } from 'react-native';
 import ProgressBar from '../ProgressBar';
 import Button from '../ui/Button';
 
-// Home is split into the GeneQuest mission path and optional extra practice.
+// Home is split into the GeneThink mission path and optional extra practice.
 const MISSION_IDS = ['terms', 'mendel', 'punnett', 'dihybrid'];
 const EXTRA_TAGS: Record<string, string> = {
     intro: 'Warm-up · review the basics',
@@ -26,7 +26,7 @@ const MissionCard = ({ lesson, num, art, progress }: { lesson: Lesson; num: numb
     const done = getLevelsDone(progress, lesson.id);
     const total = lesson.levels.length;
     const pct = Math.round((done / total) * 100);
-    const tagline = lesson.subtitle.replace(/^GeneQuest · Mission \d+( · )?/, '');
+    const tagline = lesson.subtitle.replace(/^GeneThink · Mission \d+( · )?/, '');
 
     return (
         <Button btnType='container' href={`/lessons/${lesson.id}`} className='rounded-2xl'>
@@ -88,7 +88,7 @@ export default function LessonTab({ progress, art }: { progress: Progress; art: 
     return (
         <ScrollView className='flex-1 p-4' showsVerticalScrollIndicator={false}>
             <View className='gap-3'>
-                <SectionTitle title='GeneQuest Missions' sub='Follow the missions in order, from 1 to 4.' />
+                <SectionTitle title='GeneThink Missions' sub='Follow the missions in order, from 1 to 4.' />
                 {missions.map((lesson, i) => (
                     <MissionCard key={lesson.id} lesson={lesson} num={i + 1} art={artFor(lesson)} progress={progress} />
                 ))}

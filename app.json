@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "GeneQuest",
+    "name": "GeneThink",
     "slug": "genethink",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "mendeliangenequest",
+    "scheme": "mendeliangenethink",
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true
@@ -22,8 +22,8 @@
     "web": {
       "output": "static",
       "favicon": "./assets/images/icon.png",
-      "name": "GeneQuest",
-      "shortName": "GeneQuest"
+      "name": "GeneThink",
+      "shortName": "GeneThink"
     },
     "plugins": [
       "expo-router",

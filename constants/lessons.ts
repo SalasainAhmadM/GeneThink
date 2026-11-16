@@ -75,7 +75,7 @@ export const LESSONS: Lesson[] = [
     //  LESSON 0 — Genetic Terms (Genetics Investigator · Mission 1)
     // ══════════════════════════════════════════════════════════
     {
-        id: 'terms', title: 'Genetic Terms', subtitle: 'GeneQuest · Mission 1',
+        id: 'terms', title: 'Genetic Terms', subtitle: 'GeneThink · Mission 1',
         color: '#e0e7ff', accentColor: '#4338CA',
         levels: [
             {
@@ -579,7 +579,7 @@ export const LESSONS: Lesson[] = [
     //  LESSON 2 — Mendel's Laws
     // ══════════════════════════════════════════════════════════
     {
-        id: 'mendel', title: "Mendel's Laws", subtitle: 'GeneQuest · Mission 2',
+        id: 'mendel', title: "Mendel's Laws", subtitle: 'GeneThink · Mission 2',
         color: '#f3e8ff', accentColor: '#8E24AA',
         levels: [
             // ── Level 1: Mendel's Experiments ────────────────────
@@ -1000,7 +1000,7 @@ export const LESSONS: Lesson[] = [
     //  LESSON 3 — Punnett Squares
     // ══════════════════════════════════════════════════════════
     {
-        id: 'punnett', title: 'Punnett Squares', subtitle: 'GeneQuest · Mission 3 · Punnett Square Lab',
+        id: 'punnett', title: 'Punnett Squares', subtitle: 'GeneThink · Mission 3 · Punnett Square Lab',
         color: '#ede4ff', accentColor: '#6D28D9',
         levels: [
             // ── Level 1: Reading the Grid ─────────────────────────
@@ -1309,7 +1309,7 @@ export const LESSONS: Lesson[] = [
     //  LESSON 4 — Monohybrid & Dihybrid Cross
     // ══════════════════════════════════════════════════════════
     {
-        id: 'dihybrid', title: 'Monohybrid & Dihybrid Cross', subtitle: 'GeneQuest · Mission 4',
+        id: 'dihybrid', title: 'Monohybrid & Dihybrid Cross', subtitle: 'GeneThink · Mission 4',
         color: '#fce7f3', accentColor: '#C026D3',
         levels: [
             // ── Level 1: Monohybrid Crosses ───────────────────────

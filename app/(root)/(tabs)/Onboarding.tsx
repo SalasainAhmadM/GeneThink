@@ -6,7 +6,9 @@ import Button from '@/components/ui/Button';
 import { STORAGE_KEYS } from '@/constants/settings';
 import { cn } from '@/lib/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { LinearGradient } from 'expo-linear-gradient';
+import LabBackdrop from '@/components/art/LabBackdrop';
+import { Student, Teacher } from '@/components/art/LabCharacters';
+import { QUEST } from '@/constants/theme';
 import { router } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import {
@@ -20,7 +22,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const SLIDES = [
     {
         key: "welcome",
-        title: "Welcome to GeneQuest!",
+        title: "Welcome to GeneThink!",
         body: "The ultimate Grade 8 Genetics adventure. Learn Mendel's Laws, Punnett Squares, and become a genetics expert!",
     },
     {
@@ -45,7 +47,7 @@ const Dots = ({ current }: { current: number; }) => (
                     width: i === current ? 24 : 8,
                     height: 8,
                     borderRadius: 4,
-                    backgroundColor: i === current ? "#7B2CBF" : "#7B2CBF40",
+                    backgroundColor: i === current ? QUEST.gold : "rgba(255,255,255,0.35)",
                 }}
             />
         ))}
@@ -98,12 +100,9 @@ export default function OnboardingScreen() {
     };
 
     return (
-        // Light mint gradient — matches mockup
-        <LinearGradient
-            colors={["#EDE4FF", "#F4EDFF", "#FBF8FF"]}
-            locations={[0, 0.5, 1]}
-            className="flex-1"
-        >
+        // Purple lab scene — matches the mission mockups
+        <View className="flex-1 relative overflow-hidden">
+            <LabBackdrop />
             <SafeAreaView className="flex-1">
                 <KeyboardAvoidingView
                     behavior="padding"
@@ -115,31 +114,39 @@ export default function OnboardingScreen() {
                         keyboardShouldPersistTaps="handled"
                         showsVerticalScrollIndicator={false}
                     >
-                        <View className="flex-1 items-center px-6 pt-28 pb-2" style={{ minHeight: 600 }}>
+                        <View className="flex-1 items-center px-6 pt-16 pb-6" style={{ minHeight: 600 }}>
 
                             {/* Dots */}
                             <View className="mb-8">
                                 <Dots current={step} />
                             </View>
 
-                            {/* Art area */}
+                            {/* Art area, with the Teacher and Student on either side */}
+                            <View className="flex-row items-end justify-between self-stretch mb-[-6px]">
+                                <Teacher size={76} />
+                                <Animated.View
+                                    className="items-center justify-center h-[170]"
+                                    style={{
+                                        opacity: fadeAnim,
+                                        transform: [{ translateY: slideAnim }],
+                                    }}
+                                >
+                                    {ART[step]}
+                                </Animated.View>
+                                <Student size={76} />
+                            </View>
+
+                            {/* Title + body on a lavender panel, like the mission screens */}
                             <Animated.View
-                                className="items-center justify-center mb-8 h-[170]"
+                                className="self-stretch"
                                 style={{
                                     opacity: fadeAnim,
                                     transform: [{ translateY: slideAnim }],
                                 }}
                             >
-                                {ART[step]}
-                            </Animated.View>
-
-                            {/* Title + body */}
-                            <Animated.View
-                                className="items-center"
-                                style={{
-                                    opacity: fadeAnim,
-                                    transform: [{ translateY: slideAnim }],
-                                }}
+                            <View
+                                className="items-center rounded-3xl px-5 pt-5 pb-6 border-2"
+                                style={{ backgroundColor: QUEST.lavender + 'f2', borderColor: QUEST.lavenderBorder }}
                             >
                                 <Text className="font-fredoka-bold text-center text-[26px] text-[#2A1066] mb-3">
                                     {SLIDES[step].title}
@@ -147,14 +154,10 @@ export default function OnboardingScreen() {
                                 <Text className="font-nunito text-center text-[15px] text-ink-400 leading-6">
                                     {SLIDES[step].body}
                                 </Text>
-                            </Animated.View>
 
                             {/* Name input — last slide only */}
                             {isLastStep && (
-                                <Animated.View
-                                    className="w-full mt-6"
-                                    style={{ opacity: fadeAnim }}
-                                >
+                                <Animated.View style={{ opacity: fadeAnim, width: '100%', marginTop: 20 }}>
                                     <Text className="font-nunito-semibold text-sm text-ink-400 mb-2">
                                         What's your name, scientist?
                                     </Text>
@@ -179,6 +182,8 @@ export default function OnboardingScreen() {
                                     )}
                                 </Animated.View>
                             )}
+                            </View>
+                            </Animated.View>
 
                             {/* Pushes buttons to bottom */}
                             <View className="flex-1" />
@@ -200,7 +205,7 @@ export default function OnboardingScreen() {
                                         btnType="ghost"
                                         width="full"
                                         onPress={() => handleNext(true)}
-                                        labelClassName="text-ink-100"
+                                        labelClassName="text-ink-200"
                                         size='lg'
                                     />
                                 )}
@@ -210,6 +215,6 @@ export default function OnboardingScreen() {
                     </ScrollView>
                 </KeyboardAvoidingView>
             </SafeAreaView>
-        </LinearGradient>
+        </View>
     );
 }

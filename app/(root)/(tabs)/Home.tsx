@@ -8,7 +8,8 @@ import { getTotalDone, getTotalLevels, Progress } from '@/constants/prorgess';
 import { DEFAULT_EXPLORED, STORAGE_KEYS } from '@/constants/settings';
 import { cn } from '@/lib/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { LinearGradient } from 'expo-linear-gradient';
+import LabBackdrop from '@/components/art/LabBackdrop';
+import { Student, Teacher } from '@/components/art/LabCharacters';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -77,21 +78,23 @@ export default function HomeScreen() {
     return (
         <View className='flex-1 bg-bg-light'>
             {/* ── Header ──────────────────────────────────────────── */}
-            <LinearGradient colors={QUEST.gradient}
-                locations={QUEST.gradientLocations}
-                start={{ x: 0.2, y: 0 }} end={{ x: 0.8, y: 1 }}
-            >
+            <View className='relative overflow-hidden'>
+                <LabBackdrop leaves={false} dim />
                 <SafeAreaView edges={['top']}>
                     <View className='px-5 pt-3 pb-4'>
                         {/* Logo row */}
                         <View className='flex-row items-center justify-between mb-1'>
                             <View>
-                                <Text className='font-fredoka-bold text-white text-3xl'>Gene<Text style={{ color: QUEST.gold }}>Quest</Text></Text>
+                                <Text className='font-fredoka-bold text-white text-3xl'>Gene<Text style={{ color: QUEST.gold }}>Think</Text></Text>
 
                                 <Text className='font-nunito-semibold text-white text-[13px] mt-2'>Hello, {playerName}! 👋</Text>
                             </View>
 
-                            {/* Settings button */}
+                            {/* Teacher & Student + settings button */}
+                            <View className='flex-row items-end gap-1 -mb-2'>
+                                <Teacher size={52} />
+                                <Student size={52} />
+                            </View>
                             <Button label="⚙️" size="lg" btnType='glass' className='size-[38px] py-[0px] px-[0px] rounded-[10px]' href='/(root)/(tabs)/Settings' />
                         </View>
 
@@ -103,7 +106,7 @@ export default function HomeScreen() {
                         </View>
                     </View>
                 </SafeAreaView>
-            </LinearGradient>
+            </View>
 
             {/* ── Tab bar ─────────────────────────────────────────── */}
             <View className='flex-row bg-bg-card border-b border-[#e8e8e8]'
