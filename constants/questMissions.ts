@@ -540,6 +540,8 @@ export const QUEST_MISSIONS: LevelMission[] = [
                 id: 'm4d-what', title: 'What Is a Dihybrid Cross?',
                 blocks: [
                     { type: 'definition', term: 'Dihybrid cross', text: 'A cross that studies **TWO traits** at the same time. It uses a **4 × 4** Punnett square to predict the possible genotypes and phenotypes of the offspring.' },
+                    { type: 'visual', visual: 'parentalCross' },
+                    { type: 'punnett', p1: 'RrYy', p2: 'RrYy', caption: 'F₂ generation: RrYy × RrYy → 9 round yellow : 3 round green : 3 wrinkled yellow : 1 wrinkled green' },
                     chk('Which of the following is an example of a dihybrid cross?', ['Plant height (Tt) × Plant height (Tt)', 'Seed shape (Rr) × Seed shape (Rr)', 'Seed shape and pod color (RrGg) × (RrGg)', 'Flower color (Pp) × Flower color (Pp)'], 'c', 'Two traits — seed shape and pod color — are studied together.'),
                 ],
             },

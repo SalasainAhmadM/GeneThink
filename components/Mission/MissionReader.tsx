@@ -10,8 +10,9 @@ import { QUEST } from '@/constants/theme';
 
 // Screen-by-screen mission player. Blocks after an unsolved interactive block stay hidden,
 // and Next unlocks once every interactive block on the screen is solved.
-export default function MissionReader({ mission, accentColor, onFinish }: { mission: LevelMission; accentColor: string; onFinish: () => void; }) {
-    const [index, setIndex] = useState(0);
+export default function MissionReader({ mission, accentColor, onFinish, startAt }: { mission: LevelMission; accentColor: string; onFinish: () => void; startAt?: string; }) {
+    // `startAt` opens the mission on a given screen id (used by the Mission 3 hub cards)
+    const [index, setIndex] = useState(() => Math.max(0, mission.screens.findIndex((s) => s.id === startAt)));
     const [solved, setSolved] = useState<Record<string, true>>({});
     const scrollRef = useRef<ScrollView>(null);
 

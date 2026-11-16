@@ -6,6 +6,7 @@ import React, { useMemo, useState } from 'react';
 import { Modal, Pressable, Text, View } from 'react-native';
 import { CARD_SHADOW, FoundCard, RichText } from './Cards';
 import { Flower, Pod, Seed } from './MissionVisuals';
+import { isPea, PhenoArt, phenoTone } from './PhenoArt';
 
 // ── Colours (app palette) ─────────────────────────────────────
 // Homozygous dominant → science blue, mixed → green, homozygous recessive → amber
@@ -16,7 +17,37 @@ export function genotypeColor(g: string): string {
     return '#2E7D32';
 }
 
-const EDGE_BG = '#e3f2fd';
+// ── Pieces shared by every Punnett square ─────────────────────
+// Gametes sit in round allele chips (like the textbook squares); each box shows the
+// offspring's genotype plus its phenotype picture, tinted to match (see PhenoArt).
+
+const AlleleBubble = ({ text, w, h, hl, ring }: { text: string | null; w: number; h: number; hl?: boolean; ring?: boolean; }) => {
+    const d = Math.min(w, h) * 0.86;
+    return (
+        <View className='items-center justify-center' style={{ width: w, height: h }}>
+            <View className='items-center justify-center rounded-full' style={{ width: d, height: d, backgroundColor: hl ? '#FFD93D' : '#F4EDFF', borderWidth: 2.5, borderColor: ring ? '#F44336' : '#7C5CFF', borderStyle: ring ? 'dashed' : 'solid' }}>
+                <Text className='font-fredoka-bold' style={{ color: '#2A1066', fontSize: text && text.length > 1 ? d * 0.34 : d * 0.5 }}>{text ?? '?'}</Text>
+            </View>
+        </View>
+    );
+};
+
+export function GenoBox({ value, size, small, highlight, dashed, empty, emptyBg }: { value: string | null; size: number; small?: boolean; highlight?: boolean; dashed?: boolean; empty?: string; emptyBg?: string; }) {
+    const tone = value ? phenoTone(value) : null;
+    const textColor = value ? tone?.text ?? genotypeColor(value) : '#bdbdbd';
+    const art = value && isPea(value);
+    return (
+        <View className='items-center justify-center rounded-lg border-2' style={{
+            width: size, height: size,
+            backgroundColor: value ? tone?.bg ?? '#fff' : emptyBg ?? '#fafafa',
+            borderColor: highlight ? '#FF9800' : value ? tone?.border ?? genotypeColor(value) + '55' : '#e0e0e0',
+            borderStyle: dashed ? 'dashed' : 'solid',
+        }}>
+            {art && <PhenoArt genotype={value!} size={size * (small ? 0.42 : 0.5)} />}
+            <Text className='font-fredoka-bold' style={{ fontSize: art ? (small ? 11 : 15) : small ? 13 : 20, lineHeight: art ? (small ? 13 : 18) : undefined, color: textColor }}>{value ?? empty ?? ''}</Text>
+        </View>
+    );
+}
 
 // ── Static Punnett square ─────────────────────────────────────
 export function PunnettGrid({ top, left, cells, cellSize, ringCells, ringEdges, highlight, onCellPress, emptyLabel }: {
@@ -26,14 +57,9 @@ export function PunnettGrid({ top, left, cells, cellSize, ringCells, ringEdges, 
 }) {
     const n = top.length;
     const size = cellSize ?? (n > 2 ? 58 : 70);
-    const font = n > 2 ? 13 : 20;
     const edge = (txt: string | null, key: string, isTop: boolean) => {
         const hl = highlight != null && (isTop ? Number(key) === highlight % n : Number(key) === Math.floor(highlight / n));
-        return (
-            <View key={key} className='items-center justify-center rounded-lg' style={{ width: isTop ? size : size * 0.75, height: isTop ? size * 0.75 : size, backgroundColor: hl ? '#FFD93D' : EDGE_BG, borderWidth: ringEdges ? 2 : 0, borderColor: '#F44336', borderStyle: 'dashed' }}>
-                <Text className='font-fredoka-bold text-science-400' style={{ fontSize: font + 2 }}>{txt ?? '?'}</Text>
-            </View>
-        );
+        return <AlleleBubble key={key} text={txt} w={isTop ? size : size * 0.75} h={isTop ? size * 0.75 : size} hl={hl} ring={ringEdges} />;
     };
     return (
         <View className='items-center gap-1'>
@@ -46,12 +72,7 @@ export function PunnettGrid({ top, left, cells, cellSize, ringCells, ringEdges, 
                     {edge(l, String(r), false)}
                     {top.map((_, c) => {
                         const i = r * n + c;
-                        const v = cells[i];
-                        const box = (
-                            <View className={cn('items-center justify-center rounded-lg border-2', v ? 'bg-white' : 'bg-[#fafafa]')} style={{ width: size, height: size, borderColor: highlight === i ? '#FF9800' : v ? genotypeColor(v) + '55' : '#e0e0e0', borderStyle: ringCells ? 'dashed' : 'solid' }}>
-                                <Text className='font-fredoka-bold' style={{ fontSize: font, color: v ? genotypeColor(v) : '#bdbdbd' }}>{v ?? emptyLabel ?? ''}</Text>
-                            </View>
-                        );
+                        const box = <GenoBox value={cells[i]} size={size} small={n > 2} highlight={highlight === i} dashed={ringCells} empty={emptyLabel} />;
                         return onCellPress
                             ? <Pressable key={c} onPress={() => { playSound('tap'); onCellPress(i); }}>{box}</Pressable>
                             : <View key={c}>{box}</View>;
@@ -68,7 +89,7 @@ export function PunnettCard({ p1, p2, caption, ringCells, ringEdges }: { p1: str
     const cells = left.flatMap((l) => top.map((t) => combine(t, l)));
     return (
         <View className='bg-white rounded-2xl px-3 py-4 items-center gap-3' style={CARD_SHADOW}>
-            <Text className='font-nunito-extrabold text-ink-200 text-xs uppercase tracking-wide'>{p1} × {p2}</Text>
+            <Text className='font-fredoka-bold text-ink-200 text-sm tracking-wide'>{p1} × {p2}</Text>
             <PunnettGrid top={top} left={left} cells={cells} ringCells={ringCells} ringEdges={ringEdges} />
             {caption && <Text className='font-nunito text-ink-400 text-xs text-center leading-4'>{caption}</Text>}
         </View>
@@ -198,6 +219,8 @@ const Mark = ({ ok }: { ok: boolean | null; }) => ok === null ? null : (
 // ── Interactive Punnett builder (monohybrid 2×2 or dihybrid 4×4) ──
 export function PunnettBuilder({ problem, p1, p2, traits, onSolved }: { problem?: string; p1: string; p2: string; traits: TraitDef[]; onSolved?: () => void; }) {
     const res = useMemo(() => cross(p1, p2, traits), [p1, p2, traits]);
+    // one pure-breeding genotype per phenotype class (same order as res.phenoClasses), for the pictures
+    const phenoReps = useMemo(() => traits.reduce<string[]>((acc, t) => acc.flatMap((a) => [a + t.letter + t.letter, a + t.letter.toLowerCase().repeat(2)]), ['']), [traits]);
     const n = res.top.length;
     const di = traits.length > 1;
 
@@ -302,7 +325,7 @@ export function PunnettBuilder({ problem, p1, p2, traits, onSolved }: { problem?
                     {res.genoClasses.map((gc, i) => (
                         <View key={gc} className='items-center gap-0.5'>
                             <Slot value={geno[i] == null ? null : String(geno[i])} options={numOpts} onChange={(v) => set(geno, setGeno, i, Number(v))} width={46} state={st(checked?.geno)} />
-                            <Text className='font-fredoka-bold text-[10px]' style={{ color: genotypeColor(gc) }}>{gc}</Text>
+                            <Text className='font-fredoka-bold text-[10px]' style={{ color: phenoTone(gc)?.text ?? genotypeColor(gc) }}>{gc}</Text>
                         </View>
                     ))}
                 </View>
@@ -311,6 +334,7 @@ export function PunnettBuilder({ problem, p1, p2, traits, onSolved }: { problem?
                 <View className='flex-row flex-wrap gap-2'>
                     {res.phenoClasses.map((pc, i) => (
                         <View key={pc} className='items-center gap-0.5' style={{ width: di ? 74 : 90 }}>
+                            {isPea(phenoReps[i]) && <PhenoArt genotype={phenoReps[i]} size={di ? 26 : 30} />}
                             <Slot value={pheno[i] == null ? null : String(pheno[i])} options={numOpts} onChange={(v) => set(pheno, setPheno, i, Number(v))} width={46} state={st(checked?.pheno)} />
                             <Text className='font-nunito-bold text-ink-400 text-[10px] text-center'>{pc}</Text>
                         </View>
@@ -341,9 +365,7 @@ function PunnettGridCells({ n, cells, onPress, enabled }: { n: number; cells: (s
                         const i = r * n + c, v = cells[i];
                         return (
                             <Pressable key={c} onPress={() => { playSound('tap'); onPress(i); }}>
-                                <View className='items-center justify-center rounded-lg border-2' style={{ width: size, height: size, borderColor: v ? genotypeColor(v) + '55' : '#e0e0e0', backgroundColor: v ? '#fff' : enabled ? '#fffde7' : '#fafafa' }}>
-                                    <Text className='font-fredoka-bold' style={{ fontSize: n > 2 ? 13 : 20, color: v ? genotypeColor(v) : '#bdbdbd' }}>{v ?? (enabled ? 'tap' : '')}</Text>
-                                </View>
+                                <GenoBox value={v} size={size} small={n > 2} empty={enabled ? 'tap' : ''} emptyBg={enabled ? '#fffde7' : '#fafafa'} />
                             </Pressable>
                         );
                     })}

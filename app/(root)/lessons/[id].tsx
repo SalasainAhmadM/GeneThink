@@ -1,4 +1,5 @@
 import { BackArrow } from '@/components/icons/Arrowicon';
+import Mission3Hub from '@/components/Mission/Mission3Hub';
 import Button from '@/components/ui/Button';
 import { HEARTS_PER_LEVEL, LESSONS } from '@/constants/lessons';
 import { isLevelPassed, isLevelUnlocked, isStoryRead, Progress, StarsMap, StoriesRead } from '@/constants/prorgess';
@@ -107,6 +108,11 @@ export default function LessonSelectScreen() {
         return (
             <View className='flex-1 items-center justify-center bg-bg-light'><Text className='font-nunito text-ink-100'>Lesson not found.</Text></View>
         );
+    }
+
+    // Mission 3 gets its own lab-themed landing page (What is it? / Steps / Lab)
+    if (lesson.id === 'punnett') {
+        return <Mission3Hub lesson={lesson} progress={progress} starsMap={starsMap} storiesRead={storiesRead} />;
     }
 
     return (

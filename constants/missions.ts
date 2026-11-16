@@ -11,7 +11,7 @@ export type MissionVisual =
     | 'genotypeTiles' | 'flowerPhenotype' | 'domRec' | 'zygosityChips' | 'flowerCase' | 'seedCase'
     // GeneThink missions 1B–4
     | 'peaTraits' | 'domRecFlowers' | 'pollination' | 'firstCross' | 'secondGen' | 'threeLaws'
-    | 'segregation' | 'meiosis' | 'twoGenes' | 'tallCross' | 'dihybridParents';
+    | 'segregation' | 'meiosis' | 'twoGenes' | 'tallCross' | 'dihybridParents' | 'parentalCross';
 
 // Small icon/colour per genetics term — reused by the Toolkit, evidence cards and the Guide tab.
 export interface ToolkitTerm {

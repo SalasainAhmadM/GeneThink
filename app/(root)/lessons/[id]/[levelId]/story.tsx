@@ -16,14 +16,14 @@ import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function StoryScreen() {
-    const { id, levelId } = useLocalSearchParams<{ id: string; levelId: string; }>();
+    const { id, levelId, start } = useLocalSearchParams<{ id: string; levelId: string; start?: string; }>();
 
     const lesson = LESSONS.find((l) => l.id === id);
     const levelIndex = lesson?.levels.findIndex((l) => String(l.id) === levelId) ?? -1;
     const level = lesson?.levels[levelIndex];
     const story = lesson ? getStory(lesson.id, Number(levelId)) : undefined;
     const mission = lesson ? getMission(lesson.id, Number(levelId)) : undefined;
-    const [phase, setPhase] = useState<'story' | 'mission'>(story ? 'story' : 'mission');
+    const [phase, setPhase] = useState<'story' | 'mission'>(story && !(start && mission) ? 'story' : 'mission');
 
     const markReadAndStart = async () => {
         try {
@@ -64,7 +64,7 @@ export default function StoryScreen() {
             </LinearGradient>
 
             {inMission
-                ? <MissionReader mission={mission!} accentColor={lesson.accentColor} onFinish={markReadAndStart} />
+                ? <MissionReader mission={mission!} accentColor={lesson.accentColor} onFinish={markReadAndStart} startAt={start} />
                 : <StoryReader story={story!} accentColor={lesson.accentColor} onFinish={mission ? () => setPhase('mission') : markReadAndStart} finishLabel={mission ? 'Start Mission →' : undefined} />}
         </View>
     );

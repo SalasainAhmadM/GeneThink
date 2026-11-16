@@ -8,7 +8,7 @@ import { MissionVisual } from '@/constants/missions';
 import React from 'react';
 import { Text, View } from 'react-native';
 import { cn } from '@/lib/utils';
-import { Path } from 'react-native-svg';
+import { Ellipse, Path } from 'react-native-svg';
 
 const Arrow = () => <Text className='text-ink-100 text-base'>→</Text>;
 
@@ -60,6 +60,34 @@ export const Plant = ({ tall = true, flower, terminal = false, size = 60 }: { ta
         </Icon>
     );
 };
+
+// Pea plant holding an open pod of seeds — for "Parental generation" crosses
+export const PeaPodPlant = ({ seed, wrinkled = false, pod = '#66BB6A', size = 84 }: { seed: string; wrinkled?: boolean; pod?: string; size?: number; }) => (
+    <Icon width={size} height={size * 1.2} viewBox='0 0 100 120'>
+        <Ellipse cx={50} cy={113} rx={28} ry={5} fill='#8D6E63' opacity={0.55} />
+        <InkLine d='M50 112C47 90 54 60 50 22' color={P.green} width={4} />
+        {/* tendril */}
+        <Path d='M50 22C52 10 64 6 66 14C68 21 59 22 59 16' stroke={P.greenDark} strokeWidth={2.5} fill='none' strokeLinecap='round' />
+        <Leaf x={50} y={36} len={20} angle={200} />
+        <Leaf x={50} y={48} len={20} angle={-20} />
+        <Leaf x={51} y={62} len={18} angle={200} />
+        {/* open pod across the stem */}
+        <Shaded d='M10 84C28 66 72 66 90 84C72 102 28 102 10 84Z' base={pod} shade={shadeOf(pod)} nudge={2.5} />
+        <Path d='M19 84C34 74 66 74 81 84C66 93 34 93 19 84Z' fill='#F1F8E9' stroke={INK} strokeWidth={2} />
+        {[31, 43.5, 56, 68.5].map((x) => wrinkled
+            ? <WrinkledPea key={x} cx={x} cy={84} r={5.6} base={seed} shade={shadeOf(seed)} />
+            : <Ball key={x} cx={x} cy={84} r={6} base={seed} shade={shadeOf(seed)} />)}
+    </Icon>
+);
+
+const ParentPlant = ({ title, sub, geno, children }: { title: string; sub: string; geno: string; children: React.ReactNode; }) => (
+    <View className='items-center flex-1'>
+        {children}
+        <Text className='font-fredoka-bold text-ink-300 text-sm'>{title}</Text>
+        <Text className='font-nunito text-ink-400 text-[10px] text-center leading-3'>{sub}</Text>
+        <Text className='font-fredoka-bold text-[15px]' style={{ color: '#2E7D32' }}>{geno}</Text>
+    </View>
+);
 
 // Labelled tile with an icon on top
 const Tile = ({ children, label, sub, width = 92 }: { children: React.ReactNode; label: string; sub?: string; width?: number; }) => (
@@ -394,16 +422,28 @@ export default function MissionVisualView({ visual }: { visual: MissionVisual; }
             );
         case 'dihybridParents':
             return (
-                <View className='items-center gap-2'>
-                    <View className='flex-row items-center gap-3'>
-                        <View className='items-center'><Pod color='#66BB6A' size={60} /><Text className='font-fredoka-bold text-science-300 text-sm'>RrGg</Text></View>
-                        <Text className='font-fredoka-bold text-ink-300 text-xl'>×</Text>
-                        <View className='items-center'><Pod color='#66BB6A' size={60} /><Text className='font-fredoka-bold text-science-300 text-sm'>RrGg</Text></View>
+                <View className='w-full items-center gap-1'>
+                    <Text className='font-fredoka-bold text-[15px]' style={{ color: '#2E7D32' }}>Parental generation (P)</Text>
+                    <View className='flex-row items-end w-full'>
+                        <ParentPlant title='Parent 1' sub='round seeds, green pod' geno='RrGg'><PeaPodPlant seed='#FDD835' size={78} /></ParentPlant>
+                        <Text className='font-fredoka-bold text-ink-100 text-2xl mb-12'>×</Text>
+                        <ParentPlant title='Parent 2' sub='round seeds, green pod' geno='RrGg'><PeaPodPlant seed='#FDD835' size={78} /></ParentPlant>
                     </View>
-                    <View className='flex-row gap-3'>
-                        <Text className='font-nunito-bold text-ink-400 text-[11px]'>Seed shape: R round · r wrinkled</Text>
+                    <Text className='font-nunito text-ink-400 text-[11px] text-center'>R = round, r = wrinkled; G = green pod, g = yellow pod</Text>
+                </View>
+            );
+        case 'parentalCross':
+            return (
+                <View className='w-full items-center gap-1'>
+                    <Text className='font-fredoka-bold text-[15px]' style={{ color: '#2E7D32' }}>Parental generation (P)</Text>
+                    <View className='flex-row items-end w-full'>
+                        <ParentPlant title='Parent 1' sub='round, yellow seeds' geno='RRYY'><PeaPodPlant seed='#FDD835' size={72} /></ParentPlant>
+                        <Text className='font-fredoka-bold text-ink-100 text-2xl mb-12'>×</Text>
+                        <ParentPlant title='Parent 2' sub='wrinkled, green seeds' geno='rryy'><PeaPodPlant seed='#7CB342' wrinkled size={72} /></ParentPlant>
                     </View>
-                    <Text className='font-nunito-bold text-ink-400 text-[11px]'>Pod color: G green · g yellow</Text>
+                    <Text className='font-fredoka-bold text-ink-100 text-xl'>↓</Text>
+                    <ParentPlant title='F₁ generation' sub='all round, yellow seeds' geno='RrYy'><PeaPodPlant seed='#FDD835' size={72} /></ParentPlant>
+                    <Text className='font-nunito text-ink-400 text-[11px] text-center mt-1'>R = round, r = wrinkled; Y = yellow, y = green</Text>
                 </View>
             );
         default: return null;
