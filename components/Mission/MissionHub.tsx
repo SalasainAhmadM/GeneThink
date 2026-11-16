@@ -1,6 +1,6 @@
 import LabBackdrop from '@/components/art/LabBackdrop';
 import { Student, Teacher } from '@/components/art/LabCharacters';
-import { ClipboardIcon, DnaIcon, FlowerPairIcon, MagnifierIcon, PunnettBookIcon, PunnettTabletIcon, SeedQuadIcon } from '@/components/art/QuestIcons';
+import { ClipboardIcon, FlowerPairIcon, MagnifierIcon, PunnettBookIcon, PunnettTabletIcon, SeedQuadIcon } from '@/components/art/QuestIcons';
 import { BackArrow } from '@/components/icons/Arrowicon';
 import Chevron from '@/components/icons/Chevron';
 import Button from '@/components/ui/Button';
@@ -184,11 +184,9 @@ export default function MissionHub({ hub, lesson, progress, starsMap, storiesRea
 
                     {/* ── Logo + mission banners ───────────────── */}
                     <View className='items-center -mt-2'>
-                        <View className='flex-row items-center'>
-                            <Text className='font-fredoka-bold text-white text-[44px] leading-[48px] uppercase' style={LOGO_SHADOW}>Gene</Text>
-                            <View className='-ml-1 -mt-3'><DnaIcon size={40} /></View>
-                        </View>
-                        <Text className='font-fredoka-bold text-[48px] leading-[50px] uppercase -mt-1' style={[LOGO_SHADOW, { color: QUEST.gold }]}>Think</Text>
+                        <Text className='font-fredoka-bold text-white text-[48px] leading-[56px] tracking-wide mt-2' style={LOGO_SHADOW}>
+                            Gene<Text style={{ color: QUEST.gold }}>Think</Text>
+                        </Text>
 
                         <LinearGradient colors={['#E879F9', '#A21CAF', '#7E22CE']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
                             className='px-6 py-1 mt-1' style={{ borderRadius: 999, borderWidth: 2, borderColor: '#F5D0FE' }}>
